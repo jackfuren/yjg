@@ -150,7 +150,7 @@
   }
 
   .fz {
-    width: 0.67rem;
+	  padding: 0 0.1rem 0 0.1rem;
     height: 0.35rem;
     border-radius: 10px;
     line-height: 0.3rem;

@@ -25,6 +25,7 @@
       
       <div class="masg" style="width:100%;">
         <div class="masgDiv" v-for="(item, index) in msag" :key="index">
+          <p class="time">{{item.add_time}}</p>
           <!-- 自己 -->
           <div v-if="item.uid == uid" class="">
             <van-row>
@@ -115,6 +116,7 @@
 import Vue from "vue"
 import { Toast } from "vant"
 const appData = require("../../utils/emojis.json")
+import {getNowTime} from "../../utils/getNowTime"
 import request from "../../utils/request"
 export default {
   data() {
@@ -136,7 +138,7 @@ export default {
       infooUid: "shop" + this.$route.query.sid,
       show: false, // 小表情显示区域显示与隐藏
       faceList: [], // json返回数据，即为表情区域展示小表情
-      count: 10, // 页面初次展示聊天条数
+      num: 10, // 页面初次展示聊天条数
       isLoading: false // 下拉刷新
     }
   },
@@ -184,7 +186,7 @@ export default {
             // Toast('连接失败，请联系管理员')
           }
         })
-        this.msglog()
+        this.msglog(this.num)
       }
       if (data.type == "message") {
         var qq = {
@@ -196,11 +198,13 @@ export default {
       }
     },
     // 获取历史就聊天记录
-    msglog () {
+    msglog (num) {
       request({
         url: "api/char/msglog", //历史记录
         method: "post",
         data: {
+          num: num,
+          page: 1,
           infouid: "shop" + this.infoUid,
           uid: "user" + this.$store.state.username.id
         }
@@ -214,13 +218,20 @@ export default {
             if (res.data.data[i].type === 1) {
               res.data.data[i].content = 'http://svn.yanjiegou.com' + res.data.data[i].content
             }
+            // 时间的修改
+            if (res.data.data[i].add_time.split(' ')[0] === getNowTime().split(' ')[0]){
+              res.data.data[i].add_time = res.data.data[i].add_time.split(' ')[1]
+              // console.log(res.data.data[i].add_time.split(' ')[1])
+              // if (res.data.data[i].add_time.split(' ')[1] === res.data.data[i+1].add_time.split(' ')[1]) {
+              //   res.data.data[i].add_time = ' '
+              // }
+            }
           }
-          // 聊天记录截取最后十次，后续会有下拉刷新加载多次记录，等待后台修改代码
-          this.msag = res.data.data.slice(-10)
+          this.msag = res.data.data
+          console.log(this.msag)
           // 屏幕滚动
           var chattingWord = document.getElementById("chattingWord")
           document.documentElement.scrollTop = chattingWord.scrollHeight
-          // console.log(this.msag)
         }
         // for (var i in this.msag) {
         //   var qq = {
@@ -253,8 +264,6 @@ export default {
           duration: 800 // 显示毫秒值
         });
       } else {
-        // this.mag.push(qq)
-        // console.log("发送信息暂时注释")
         this.sendmsg(this.utf16toEntities(this.text), 0)
       }
       this.text = ""
@@ -272,19 +281,19 @@ export default {
         }
       }).then(res => {
         this.socket.send(this.text)
-        this.msglog()
+        this.msglog(this.num)
       })
     },
     // 下拉刷新，数据待修改
     onRefresh() {
       setTimeout(() => {
-        this.isLoading = false;
-        this.count++;
-      }, 500);
+        this.isLoading = false
+        this.num += 10
+        this.msglog(this.num)
+      }, 1000)
     },
     // 上传图片之前检测图片格式,大小及类型
     beforeRead(file) {
-      // console.log(file)
       if (file.size/1024 >= 5000) {
         Toast('上传图片应小于3M')
       } else {
@@ -375,11 +384,11 @@ export default {
       return result
     },
     song() {
-      // console.log(window.location.href)
+      console.log(getNowTime())
       this.mag.push()
     },
     close: function() {
-      console.log("socket已经关闭");
+      console.log("socket已经关闭")
     }
   },
   destroyed() {
@@ -448,14 +457,14 @@ export default {
   background: #fff;
 }
 .commodity dt {
-  flex: 1;
+  flex: 2;
   margin: 0.2rem;
 }
 .commodity dt img {
   width: 100%;
 }
 .commodity dd {
-  flex: 3;
+  flex: 5;
   margin: 0.2rem;
 }
 .commodity dd .ti {

@@ -498,18 +498,25 @@ Vue.use(Toast);
 			  // 将配置注入通用方法
 			  wxapi.ShareAppMessage(option)
 			},
-	kefu(){
-		console.log(this.dataList)
-		this.$router.push({
-			name:'kf',
-			query:{
-				title:this.dataList.title,
-				name:this.dataList.name,
-				sid:this.dataList.sid,
-				money:this.dataList.price,
-				img:this.dataList.headimg[0]
-			}
-		})
+	kefu() {
+	  if (this.$store.state.username == null) {
+	    this.$router.push({
+	      name: "regi"
+	    })
+	  } else {
+	    // console.log(this.goods_id)
+	    this.$router.push({
+	      name: "kf",
+	      query: {
+	        // goods_id: this.goods_id,
+	        title: this.dataList.title,
+	        name: this.dataList.name,
+	        sid: this.dataList.sid,
+	        money: this.dataList.price,
+	        img: this.dataList.headimg[0]
+	      }
+	    });
+	  }
 	},
       sypj() {
 				console.log(this.dataList)

@@ -42,7 +42,7 @@
           <p>售后</p>
         </div>
       </div>
-      <div class="nav-wl">
+      <div class="nav-wl" v-show="shou.length>0 ? true : false">
         <p>最近物流</p>
         <div class="nav-qs" @click="wuliu()">
           <div class="nav-qsp" v-for="(imet,index) in shou">
@@ -121,7 +121,6 @@
         stor:0,//店铺长度
         coupon:0,//优惠券
         ddd:[],
-
       }
     },
     methods: {
@@ -414,10 +413,11 @@
 
   .dingdan {
     width: 6.9rem;
-    height: 4rem;
+    /* height: 4rem; */
     background: #FFFFFF;
     margin: 0 auto;
     border-radius: 5px;
+	padding-bottom: 0.1rem;
   }
 
   .nav-dd {

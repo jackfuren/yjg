@@ -52,7 +52,6 @@
   </div>
 </template>
 <script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
-<!-- <script src="https://webapi.amap.com/maps?v=1.4.15&key=e785b2d68f5c945dd0b7f293c6db3d3b&callback=init"></script> -->
 <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=e785b2d68f5c945dd0b7f293c6db3d3b&plugin=AMap.Geocoder&callback=init"></script>
 <script>
   import areaList from '../../../config/area';
