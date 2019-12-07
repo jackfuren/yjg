@@ -9,7 +9,7 @@
 
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <!-- 下拉刷新 -->
-    <div id="chattingWord" style="text-align: left;padding-top: 0.9rem;background: #F7F7F7;">
+    <div v-if="token=90?false:true" id="chattingWord" style="text-align: left;padding-top: 0.9rem;background: #F7F7F7;">
 
         <p class="time">今天 10:59</p>
         <div class="commodity">
@@ -132,6 +132,7 @@ export default {
       money: this.$route.query.money,
       img: this.$route.query.img,
       msag: "",
+			token:'',
       maag: [], //商家会的消息
       uid: "user" + this.$store.state.username.id,
       infoUid: this.$route.query.sid,
@@ -144,6 +145,7 @@ export default {
   },
   mounted() {
     this.init()
+		this.token =this.$route.query.token
   },
   methods: {
     fh() {
@@ -194,7 +196,8 @@ export default {
           ud: ""
         };
         qq.ct = data.msg
-        (qq.ud = "shop" + this.infoUid), this.mag.push(qq)
+        qq.ud = "shop" + this.infoUid
+				this.mag.push(qq)
       }
     },
     // 获取历史就聊天记录
