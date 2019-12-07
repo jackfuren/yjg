@@ -1,6 +1,5 @@
 <template>
   <div class="box">
-
     <div class="nav">
       <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem" />
       <p class="name">{{name}}</p>
@@ -8,79 +7,81 @@
     </div>
 
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <!-- 下拉刷新 -->
-    <div id="chattingWord" style="text-align: left;padding-top: 0.9rem;background: #F7F7F7;">
-
-        <p class="time">今天 10:59</p>
-        <div class="commodity">
-          <dt>
-            <img :src="img" alt />
-          </dt>
-          <dd>
-            <p class="ti">{{title}}</p>
-            <p class="money">￥{{money}}</p>
-            <p class="send" @click="song()">发给商家</p>
-          </dd>
-        </div>
-      
-      <div class="masg" style="width:100%;">
-        <div class="masgDiv" v-for="(item, index) in msag" :key="index">
-          <!-- 自己 -->
-          <div v-if="item.uid == uid" class="">
-            <van-row>
-              <van-col span="4">
-                &nbsp;
-              </van-col>
-              <van-col span="16">
-                <div v-if="item.type === 0" class="masgContent masgContentMy">
-                  {{item.content}}
-                </div>
-                <div v-if="item.type === 1" class="masgContent masgContentMyImg">
-                  <img :src="item.content" alt="">
-                </div>
-              </van-col>
-              <van-col span="4">
-                <div class="touXiang">
-                  <img :src="tou" alt />
-                </div>
-              </van-col>
-            </van-row>
-          </div>
-          <!-- 对方 -->
-          <div v-else class="">
-            <van-row>
-              <van-col span="4">
-                <div class="touXiang">
-                  <img src="../../../assets/gggggg.png" alt />
-                </div>
-              </van-col>
-              <van-col span="16">
-                <div v-if="item.type===0" class="masgContent masgContentYou">
-                  {{item.content}}
-                </div>
-                <div v-if="item.type===1" class="masgContent masgContentYouImg">
-                  <img :src="item.content" alt="">
-                </div>
-              </van-col>
-              <van-col span="4">
-                &nbsp;
-              </van-col>
-            </van-row>
+      <!-- 下拉刷新 -->
+      <div id="chattingWord" style="text-align: left;padding-top: 0.9rem;background: #F7F7F7;">
+        <!--  商品信息->发送给客服  -->
+        <div v-if="productShow==true">
+          <p class="time">今天 {{enterTime}}</p>
+          <div class="commodity">
+            <dt>
+              <img :src="img" alt />
+            </dt>
+            <dd>
+              <p class="ti">{{title}}</p>
+              <p class="money">￥{{money}}</p>
+              <p class="send" @click="song()">发给商家</p>
+            </dd>
           </div>
         </div>
+        <section id="content">
+          <div class="masg" style="width:100%;">
+            <div class="masgDiv" v-for="(item, index) in msag" :key="index">
+              <p class="time" v-if="item.showTime==true">{{item.add_time}}</p>
+              <!-- 自己 -->
+              <div v-if="item.uid == uid" class>
+                <van-row>
+                  <van-col span="4">&nbsp;</van-col>
+                  <van-col span="16">
+                    <div
+                      v-if="item.type === 0 && item.content!=infooUid"
+                      class="masgContent masgContentMy"
+                    >{{item.content}}</div>
+                    <div v-if="item.type === 1" class="masgContent masgContentMyImg">
+                      <img :src="item.content" alt />
+                    </div>
+                    <div v-if="item.content===infooUid" @click="link">
+                      <img :src="img" alt />
+                      <p class="linkTit">{{title}}</p>
+                      <p class="money">￥{{money}}</p>
+                    </div>
+                  </van-col>
+                  <van-col span="4">
+                    <div class="touXiang">
+                      <img :src="tou" alt />
+                    </div>
+                  </van-col>
+                </van-row>
+              </div>
+              <!-- 对方 -->
+              <div v-else class>
+                <van-row>
+                  <van-col span="4">
+                    <div class="touXiang">
+                      <img src="../../../assets/gggggg.png" alt />
+                    </div>
+                  </van-col>
+                  <van-col span="16">
+                    <div v-if="item.type===0" class="masgContent masgContentYou">{{item.content}}</div>
+                    <div v-if="item.type===1" class="masgContent masgContentYouImg">
+                      <img :src="item.content" alt />
+                    </div>
+                  </van-col>
+                  <van-col span="4">&nbsp;</van-col>
+                </van-row>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-    </div>
     </van-pull-refresh>
 
     <div class="tabBar">
       <van-row class="shu" type="flex" justify="center">
         <!-- 此处如果需要左侧语音输入按钮，将此处注释解开，把输入框中18改为15，换掉中间图标 -->
-        <van-col span="1" class="flexBox">
-          &nbsp;
-        </van-col>
+        <van-col span="1" class="flexBox">&nbsp;</van-col>
         <!-- <van-col span="3" class="flexBox">
           <img src="../../../assets/biaoq.png" alt="">
-        </van-col> -->
+        </van-col>-->
         <van-col v-if="text === ''" span="20" class="inputTxt">
           <input type="text" v-model="text" />
           <img src="../../../assets/biaoq.png" @click="faceContent()" alt />
@@ -103,7 +104,13 @@
     </div>
 
     <!-- 小表情弹出层 -->
-    <van-popup class="browBox" v-model="show" @click-overlay="overLay" position="bottom" :style="{ height: '30%' }">
+    <van-popup
+      class="browBox"
+      v-model="show"
+      @click-overlay="overLay"
+      position="bottom"
+      :style="{ height: '30%' }"
+    >
       <ul>
         <li v-for="(item,index) in faceList" :key="index" @click="getBrow(index)">{{item}}</li>
       </ul>
@@ -112,10 +119,11 @@
 </template>
 
 <script>
-import Vue from "vue"
-import { Toast } from "vant"
-const appData = require("../../utils/emojis.json")
-import request from "../../utils/request"
+import Vue from "vue";
+import { Toast } from "vant";
+const appData = require("../../utils/emojis.json");
+import { getNowTime } from "../../utils/getNowTime";
+import request from "../../utils/request";
 export default {
   data() {
     return {
@@ -136,39 +144,53 @@ export default {
       infooUid: "shop" + this.$route.query.sid,
       show: false, // 小表情显示区域显示与隐藏
       faceList: [], // json返回数据，即为表情区域展示小表情
-      count: 10, // 页面初次展示聊天条数
-      isLoading: false // 下拉刷新
-    }
+      num: 10, // 页面初次展示聊天条数
+      isLoading: false, // 下拉刷新,
+      goods_id: this.$route.query.goods_id,
+      productShow: true,
+      enterTime: ""
+    };
   },
   mounted() {
-    this.init()
+    this.init();
+    // 进入客服页面的时间
+    this.enterTime = getNowTime()
+      .split(" ")[2]
+      .substring(0, 5);
+    // 为了获取完整的聊天列表显示,延迟执行
+    setTimeout(
+      function() {
+        this.againInto();
+      }.bind(this),
+      800
+    );
   },
   methods: {
     fh() {
-      this.$router.go(-1)
+      this.$router.go(-1);
     },
     init: function() {
       if (typeof WebSocket === "undefined") {
-        alert("您的浏览器不支持socket")
+        alert("您的浏览器不支持socket");
       } else {
         // 实例化socket
-        this.socket = new WebSocket(this.path)
+        this.socket = new WebSocket(this.path);
         // 监听socket连接
-        this.socket.onopen = this.open
+        this.socket.onopen = this.open;
         // 监听socket错误信息
-        this.socket.onerror = this.error
+        this.socket.onerror = this.error;
         // 监听socket消息
-        this.socket.onmessage = this.getMessage
+        this.socket.onmessage = this.getMessage;
       }
     },
     open: function() {
-      console.log("socket连接成功")
+      console.log("socket连接成功");
     },
     error: function() {
-      console.log("连接错误")
+      console.log("连接错误");
     },
     getMessage: function(msg) {
-      var data = eval("(" + msg.data + ")")
+      var data = eval("(" + msg.data + ")");
       if (data.type == "init") {
         request({
           url: "api/char/bind", //绑定成功
@@ -179,48 +201,128 @@ export default {
           }
         }).then(res => {
           if (res.status === 200) {
-            // console.log(res.status)
+            console.log(res);
           } else {
-            // Toast('连接失败，请联系管理员')
+            Toast("连接失败，请联系管理员");
           }
-        })
-        this.msglog()
+        });
+        this.msglog(this.num);
       }
       if (data.type == "message") {
         var qq = {
           ct: "",
           ud: ""
         };
-        qq.ct = data.msg
-        (qq.ud = "shop" + this.infoUid), this.mag.push(qq)
+        (qq.ct = data.msg((qq.ud = "shop" + this.infoUid))), this.mag.push(qq);
       }
     },
     // 获取历史就聊天记录
-    msglog () {
+    msglog(num) {
       request({
         url: "api/char/msglog", //历史记录
         method: "post",
         data: {
+          num: num,
+          page: 1,
           infouid: "shop" + this.infoUid,
           uid: "user" + this.$store.state.username.id
         }
       }).then(res => {
         // uid  我得id infouid  对方id
         if (res.status === 200) {
-          for (var i in res.data.data){
+          for (var i in res.data.data) {
             // 聊天小表情解码
-            res.data.data[i].content = this.uncodeUtf16(res.data.data[i].content)
+            res.data.data[i].content = this.uncodeUtf16(
+              res.data.data[i].content
+            );
             // 聊天图片拼接地址
             if (res.data.data[i].type === 1) {
-              res.data.data[i].content = 'http://svn.yanjiegou.com' + res.data.data[i].content
+              res.data.data[i].content =
+                "http://svn.yanjiegou.com" + res.data.data[i].content;
+            }
+            // 时间的修改
+            if (
+              res.data.data[i].add_time.split(" ")[0] ===
+              getNowTime().split(" ")[0]
+            ) {
+              res.data.data[i].add_time = res.data.data[i].add_time.split(
+                " "
+              )[1];
+              // console.log(res.data.data[i].add_time.split(' ')[1])
+              // if (res.data.data[i].add_time.split(' ')[1] === res.data.data[i+1].add_time.split(' ')[1]) {
+              //   res.data.data[i].add_time = ' '
+              // }
             }
           }
-          // 聊天记录截取最后十次，后续会有下拉刷新加载多次记录，等待后台修改代码
-          this.msag = res.data.data.slice(-10)
+
+          this.msag = res.data.data;
+          console.log(this.msag);
+
+          // 时间判断 超过30分钟 时间出现
+          this.msag[0].showTime = true;
+          for (var i = 0; i < this.msag.length - 1; i++) {
+            var qian = this.msag[i].add_time;
+            var hou = this.msag[i + 1].add_time;
+            var Qtime = {};
+            var Htime = {};
+            if (qian.split(" ").length > 1) {
+              Qtime = {
+                day: qian.split(" ")[0],
+                hour: qian.split(" ")[1]
+              };
+            } else {
+              Qtime = {
+                day: "jin",
+                hour: qian.split(" ")[0]
+              };
+            }
+            if (hou.split(" ").length > 1) {
+              Htime = {
+                day: hou.split(" ")[0],
+                hour: hou.split(" ")[1]
+              };
+            } else {
+              Htime = {
+                day: "jin",
+                hour: hou.split(" ")[0]
+              };
+            }
+
+            if (Qtime.day == Htime.day) {
+              //日期相同
+              if (
+                Qtime.hour.split(":")[0] * 1 ===  //小时相同
+                Htime.hour.split(":")[0] * 1
+              ) {
+                if (
+                  Htime.hour.split(":")[1] * 1 - Qtime.hour.split(":")[1] * 1 >=
+                  30
+                ) {
+                  this.msag[i + 1].showTime = true;
+                }
+              } else if (
+                Htime.hour.split(":")[0] * 1 - Qtime.hour.split(":")[0] * 1 <=
+                1
+              ) {
+                if (
+                  Htime.hour.split(":")[0] * 1 +
+                    60 -
+                    Qtime.hour.split(":")[0] * 1 >=
+                  30
+                ) {
+                  this.msag[i + 1].showTime = true;
+                }
+              } else {
+                this.msag[i + 1].showTime = true;
+              }
+            } else {
+              this.msag[i + 1].showTime = true;
+            }
+          }
+          console.log(this.msag);
           // 屏幕滚动
-          var chattingWord = document.getElementById("chattingWord")
-          document.documentElement.scrollTop = chattingWord.scrollHeight
-          // console.log(this.msag)
+          var chattingWord = document.getElementById("chattingWord");
+          document.documentElement.scrollTop = chattingWord.scrollHeight;
         }
         // for (var i in this.msag) {
         //   var qq = {
@@ -238,7 +340,7 @@ export default {
         //   }
         //   console.log(this.mag)
         // }
-      })
+      });
     },
     send: function() {
       // var qq = {
@@ -253,11 +355,9 @@ export default {
           duration: 800 // 显示毫秒值
         });
       } else {
-        // this.mag.push(qq)
-        // console.log("发送信息暂时注释")
-        this.sendmsg(this.utf16toEntities(this.text), 0)
+        this.sendmsg(this.utf16toEntities(this.text), 0);
       }
-      this.text = ""
+      this.text = "";
     },
     // 发送消息
     sendmsg(msg, type) {
@@ -271,40 +371,40 @@ export default {
           uid: "user" + this.$store.state.username.id
         }
       }).then(res => {
-        this.socket.send(this.text)
-        this.msglog()
-      })
+        this.socket.send(this.text);
+        this.msglog(this.num);
+      });
     },
     // 下拉刷新，数据待修改
     onRefresh() {
       setTimeout(() => {
         this.isLoading = false;
-        this.count++;
-      }, 500);
+        this.num += 10;
+        this.msglog(this.num);
+      }, 1000);
     },
     // 上传图片之前检测图片格式,大小及类型
     beforeRead(file) {
-      // console.log(file)
-      if (file.size/1024 >= 5000) {
-        Toast('上传图片应小于3M')
+      if (file.size / 1024 >= 5000) {
+        Toast("上传图片应小于3M");
       } else {
-        var image = ['image/jpeg','image/jpg','image/png','image/gif']
-        var flag = false
-        for(var i = 0; i<image.length; i++){
-          if(file.type == image[i]){
-            flag = true
+        var image = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
+        var flag = false;
+        for (var i = 0; i < image.length; i++) {
+          if (file.type == image[i]) {
+            flag = true;
           }
         }
-        if(flag){
-          return flag
-        }else{
-          Toast('请上传 jpeg/jpg/png/gif 格式图片')
-          return flag
+        if (flag) {
+          return flag;
+        } else {
+          Toast("请上传 jpeg/jpg/png/gif 格式图片");
+          return flag;
         }
       }
     },
     // 上传图片到图片服务器
-    onRead (file) {
+    onRead(file) {
       // console.log(file)
       request({
         url: "api/base/base64imgupload",
@@ -315,15 +415,15 @@ export default {
       }).then(res => {
         if (res.data.code == 200) {
           // 拿到图片路径，将图片路径当成消息发送出去，添加类型
-          this.sendmsg(res.data.data.filepath, 1)
+          this.sendmsg(res.data.data.filepath, 1);
         } else {
-          Toast('图片上传失败')
+          Toast("图片上传失败");
         }
-      })
+      });
     },
     // 表情
     faceContent() {
-      this.show = true
+      this.show = true;
       for (let i in appData) {
         this.faceList.push(appData[i].char);
       }
@@ -335,12 +435,12 @@ export default {
           this.text += this.faceList[i];
         }
       }
-      this.show = false
-      this.faceList = []
+      this.show = false;
+      this.faceList = [];
     },
     // 点击遮罩层关闭弹窗
-    overLay(){
-      this.faceList = []
+    overLay() {
+      this.faceList = [];
     },
     // 转码
     utf16toEntities(str) {
@@ -369,24 +469,54 @@ export default {
           L = ((code - 0x10000) % 0x400) + 0xdc00;
           return unescape("%u" + H.toString(16) + "%u" + L.toString(16));
         } else {
-          return char
+          return char;
         }
-      })
-      return result
+      });
+      return result;
     },
-    song() {
-      // console.log(window.location.href)
-      this.mag.push()
+    // 发送商品链接给客服
+    song: function() {
+      // console.log(getNowTime());
+      // this.mag.push();
+      // console.log(this.msag);
+      this.productShow = false;
+      this.sendmsg(this.utf16toEntities(this.infooUid), 0);
     },
     close: function() {
       console.log("socket已经关闭");
+    },
+    // 链接跳转
+    link: function() {
+      this.$router.push({
+        name: "wpxq",
+        query: {
+          goods_id: this.goods_id,
+          token: 33
+        }
+      });
+    },
+
+    againInto: function() {
+      var content = document.getElementById("content");
+      console.log(content.scrollHeight);
+      document.documentElement.scrollTop = content.clientHeight;
+      console.log(content.scrollTop);
+      // 第二次进入判断聊天记录中是否存在商品链接
+      for (var i in this.msag) {
+        if (
+          this.msag[i].uid == this.uid &&
+          this.msag[i].content === this.infooUid
+        ) {
+          this.productShow = false;
+        }
+      }
     }
   },
   destroyed() {
     // 销毁监听
     this.socket.onclose = this.close;
   }
-}
+};
 </script>
 
 <style scoped>
@@ -419,14 +549,18 @@ export default {
 }
 .pu {
   display: inline-block;
-  font-size: 0.2rem;
-  background: #fc6b58;
+  font-size: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    rgba(252, 107, 88, 1),
+    rgba(253, 67, 63, 1)
+  );
   color: #ffffff;
   position: absolute;
   right: 0.2rem;
   top: 0.2rem;
   border-radius: 0.3rem;
-  padding: 0.15rem 0.2rem 0.15rem 0.2rem;
+  padding: 0.12rem 0.2rem 0.12rem 0.2rem;
 }
 .time {
   background: #cccccc;
@@ -446,16 +580,18 @@ export default {
   text-align: left;
   font-size: 0.3rem;
   background: #fff;
+  border-radius: 0.2rem;
 }
 .commodity dt {
-  flex: 1;
+  flex: 2;
   margin: 0.2rem;
 }
 .commodity dt img {
   width: 100%;
+  border-radius: 0.15rem;
 }
 .commodity dd {
-  flex: 3;
+  flex: 5;
   margin: 0.2rem;
 }
 .commodity dd .ti {
@@ -471,13 +607,18 @@ export default {
   margin: 0.1rem 0 0.1rem 0;
 }
 .send {
-  background: #fd433f;
+  background: linear-gradient(
+    90deg,
+    rgba(252, 107, 88, 1),
+    rgba(253, 67, 63, 1)
+  );
   color: #ffffff;
   width: auto;
-  padding: 0.15rem;
+  padding: 0.08rem 0.17rem;
   border-radius: 0.3rem;
   position: absolute;
-  right: 0.5rem;
+  right: 0.46rem;
+  font-size: 0.28rem;
 }
 /* 小表情部分样式 */
 .browBox {
@@ -486,19 +627,19 @@ export default {
   background: #e6e6e6;
   overflow: scroll;
 }
-.browBox ul{
+.browBox ul {
   display: flex;
   flex-wrap: wrap;
   padding: 0.1rem;
 }
-.browBox > ul li{
+.browBox > ul li {
   width: 14%;
   font-size: 26px;
   list-style: none;
   text-align: center;
 }
 /* 发送消息部分样式 */
-.tabBar{
+.tabBar {
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -539,7 +680,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.flexBoxImg{
+.flexBoxImg {
   width: auto;
   height: 0.5rem;
   margin: 0.05rem 0.1rem 0 0.1rem;
@@ -553,23 +694,23 @@ export default {
 /* .masg{
   
 } */
-.masgDiv{
+.masgDiv {
   width: 94%;
   font-size: 0.3rem;
   margin: 0.12rem auto 0.53rem auto;
 }
-.masg img{
+.masg img {
   display: block;
   width: 100%;
 }
-.touXiang{
+.touXiang {
   width: 1rem;
   height: 1rem;
   margin: 0 auto;
   overflow: hidden;
   border-radius: 0.5rem;
 }
-.masgContent{
+.masgContent {
   margin: 0 auto;
   width: auto;
   height: 100%;
@@ -577,27 +718,35 @@ export default {
   margin-top: 0.04rem;
   display: inline-block;
 }
-.masgContentMy{
+.masgContentMy {
   background-color: #fc6957;
   padding: 0.2rem;
   border-radius: 0.4rem 0 0.4rem 0.4rem;
-  color: #FEE7E5;
+  color: #fee7e5;
   float: right;
   margin-right: 0.1rem;
 }
-.masgContentMyImg{
+.masgContentMyImg {
   float: right;
   margin-right: 0.1rem;
 }
-.masgContentYou{
+.masgContentYou {
   background-color: #fff;
   padding: 0.2rem;
   border-radius: 0 0.4rem 0.4rem 0.4rem;
   color: #000;
   margin-left: 0.1rem;
 }
-.masgContentYouImg{
+.masgContentYouImg {
   margin-left: 0.1rem;
+}
+.linkTit {
+  font-size: 0.3rem;
+  width: 5rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 /* .oo {
   display: flex;
