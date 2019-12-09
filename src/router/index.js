@@ -256,6 +256,11 @@ const news = resolve=>{
     resolve(require('@/components/my/news'));
   })
 }
+const xiaoxi = resolve=>{
+  require.ensure(['@/components/my/xitongxiaoxi'],()=>{
+    resolve(require('@/components/my/xitongxiaoxi'));
+  })
+}
 const shangpin= resolve=>{
   require.ensure(['@/components/my/wodegongju/shangpin'],()=>{
     resolve(require('@/components/my/wodegongju/shangpin'));
@@ -640,7 +645,13 @@ const router =new Router({
       path: '/news',
       name: 'news',
       component: news
-    }, {
+    }, 
+		{
+		  path: '/xiaoxi',
+		  name: 'xiaoxi',
+		  component: xiaoxi
+		},
+		{
       path: '/shangpin',
       name: 'shangpin',
       component: shangpin,

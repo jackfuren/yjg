@@ -6,24 +6,26 @@
       <p class="pu">店铺</p>
     </div>
 
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh" id="content">
       <!-- 下拉刷新 -->
       <div id="chattingWord" style="text-align: left;padding-top: 0.9rem;background: #F7F7F7;">
         <!--  商品信息->发送给客服  -->
-        <div v-if="productShow==true">
-          <p class="time">今天 {{enterTime}}</p>
-          <div class="commodity">
-            <dt>
-              <img :src="img" alt />
-            </dt>
-            <dd>
-              <p class="ti">{{title}}</p>
-              <p class="money">￥{{money}}</p>
-              <p class="send" @click="song()">发给商家</p>
-            </dd>
+        <section v-if="token=90?false:true">
+          <div v-if="productShow==true">
+            <p class="time">今天 {{enterTime}}</p>
+            <div class="commodity">
+              <dt>
+                <img :src="img" alt />
+              </dt>
+              <dd>
+                <p class="ti">{{title}}</p>
+                <p class="money">￥{{money}}</p>
+                <p class="send" @click="song()">发给商家</p>
+              </dd>
+            </div>
           </div>
-        </div>
-        <section id="content">
+        </section>
+        <section>
           <div class="masg" style="width:100%;">
             <div class="masgDiv" v-for="(item, index) in msag" :key="index">
               <p class="time" v-if="item.showTime==true">{{item.add_time}}</p>
@@ -138,6 +140,7 @@ export default {
       money: this.$route.query.money,
       img: this.$route.query.img,
       msag: "",
+      token: "",
       maag: [], //商家会的消息
       uid: "user" + this.$store.state.username.id,
       infoUid: this.$route.query.sid,
@@ -153,14 +156,15 @@ export default {
   },
   mounted() {
     this.init();
+    this.token = this.$route.query.token;
     // 进入客服页面的时间
     this.enterTime = getNowTime()
       .split(" ")[2]
       .substring(0, 5);
-    // 为了获取完整的聊天列表显示,延迟执行
+    // 进入时滚动到底部
     setTimeout(
       function() {
-        this.againInto();
+        this.scrollBottom();
       }.bind(this),
       800
     );
@@ -213,7 +217,9 @@ export default {
           ct: "",
           ud: ""
         };
-        (qq.ct = data.msg((qq.ud = "shop" + this.infoUid))), this.mag.push(qq);
+        qq.ct = data.msg;
+        qq.ud = "shop" + this.infoUid;
+        this.mag.push(qq);
       }
     },
     // 获取历史就聊天记录
@@ -256,10 +262,22 @@ export default {
           }
 
           this.msag = res.data.data;
-          console.log(this.msag);
-
-          // 时间判断 超过30分钟 时间出现
-          this.msag[0].showTime = true;
+          //判断聊天记录中是否存在商品链接
+          for (var i in this.msag) {
+            if (
+              this.msag[i].uid == this.uid &&
+              this.msag[i].content === this.infooUid
+            ) {
+              this.productShow = false;
+            }
+          }
+          // 屏幕滚动
+          this.scrollBottom();
+          // 时间戳判断 超过5分钟 时间戳出现
+          if (this.msag.length > 1) {
+            //无记录时
+            this.msag[0].showTime = true;
+          }
           for (var i = 0; i < this.msag.length - 1; i++) {
             var qian = this.msag[i].add_time;
             var hou = this.msag[i + 1].add_time;
@@ -291,12 +309,13 @@ export default {
             if (Qtime.day == Htime.day) {
               //日期相同
               if (
-                Qtime.hour.split(":")[0] * 1 ===  //小时相同
+                Qtime.hour.split(":")[0] * 1 ===
                 Htime.hour.split(":")[0] * 1
               ) {
+                //小时相同
                 if (
                   Htime.hour.split(":")[1] * 1 - Qtime.hour.split(":")[1] * 1 >=
-                  30
+                  5
                 ) {
                   this.msag[i + 1].showTime = true;
                 }
@@ -304,26 +323,28 @@ export default {
                 Htime.hour.split(":")[0] * 1 - Qtime.hour.split(":")[0] * 1 <=
                 1
               ) {
+                // 小时差小于1小时
                 if (
-                  Htime.hour.split(":")[0] * 1 +
+                  Htime.hour.split(":")[1] * 1 +
                     60 -
-                    Qtime.hour.split(":")[0] * 1 >=
-                  30
+                    Qtime.hour.split(":")[1] * 1 >=
+                  5
                 ) {
+                  // 时间差小于1小时大于5分钟
                   this.msag[i + 1].showTime = true;
                 }
               } else {
+                // 小时差大于1小时
                 this.msag[i + 1].showTime = true;
               }
             } else {
+              // 日期不同
               this.msag[i + 1].showTime = true;
             }
           }
           console.log(this.msag);
-          // 屏幕滚动
-          var chattingWord = document.getElementById("chattingWord");
-          document.documentElement.scrollTop = chattingWord.scrollHeight;
         }
+
         // for (var i in this.msag) {
         //   var qq = {
         //     ct: "",
@@ -476,9 +497,6 @@ export default {
     },
     // 发送商品链接给客服
     song: function() {
-      // console.log(getNowTime());
-      // this.mag.push();
-      // console.log(this.msag);
       this.productShow = false;
       this.sendmsg(this.utf16toEntities(this.infooUid), 0);
     },
@@ -491,25 +509,14 @@ export default {
         name: "wpxq",
         query: {
           goods_id: this.goods_id,
-          token: 33
+          token: 45
         }
       });
     },
-
-    againInto: function() {
+    // 进入时滚动到底部
+    scrollBottom: function() {
       var content = document.getElementById("content");
-      console.log(content.scrollHeight);
-      document.documentElement.scrollTop = content.clientHeight;
-      console.log(content.scrollTop);
-      // 第二次进入判断聊天记录中是否存在商品链接
-      for (var i in this.msag) {
-        if (
-          this.msag[i].uid == this.uid &&
-          this.msag[i].content === this.infooUid
-        ) {
-          this.productShow = false;
-        }
-      }
+      content.scrollIntoView({ block: "end" });
     }
   },
   destroyed() {
@@ -582,6 +589,7 @@ export default {
   background: #fff;
   border-radius: 0.2rem;
 }
+
 .commodity dt {
   flex: 2;
   margin: 0.2rem;
@@ -688,7 +696,7 @@ export default {
 /* 聊天框部分样式 */
 #chattingWord {
   width: 100%;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.75rem;
   overflow: auto;
 }
 /* .masg{

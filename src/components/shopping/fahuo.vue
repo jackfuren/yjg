@@ -49,6 +49,7 @@
                 v-clipboard:success="onCopy">复制
         </button>
       </p>
+	  <p>支付方式 <span v-if="listData.pay_type==2? true:false">微信支付</span><span v-if="listData.pay_type==1? true:false">支付宝支付</span></p>
       <p>下单时间 <span>{{listData.add_time}}</span></p>
       <p>成交时间 <span>{{listData.paytime}}</span></p>
 			<div class="liann">
@@ -506,25 +507,7 @@
     text-indent: 0.2rem;
   }
 
-  .xin p:nth-child(2) {
-    height: 0.5rem;
-    line-height: 0.5rem;
-    font-size: 0.24rem;
-    text-align: left;
-    text-indent: 0.2rem;
-    color: #777777;
-  }
-
-  .xin p:nth-child(3) {
-    height: 0.5rem;
-    line-height: 0.5rem;
-    font-size: 0.24rem;
-    text-align: left;
-    text-indent: 0.2rem;
-    color: #777777;
-  }
-
-  .xin p:nth-child(4) {
+  .xin p {
     height: 0.5rem;
     line-height: 0.5rem;
     font-size: 0.24rem;
@@ -540,8 +523,9 @@
   }
 
   .fz {
-    width: 0.67rem;
+    /* width: 0.67rem; */
     height: 0.3rem;
+	padding: 0 0.1rem 0 0.1rem;
     border-radius: 10px;
     line-height: 0.3rem;
     background: #EF0600;
