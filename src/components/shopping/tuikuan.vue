@@ -5,6 +5,10 @@
         <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/>
         <p>退款/售后</p>
       </div>
+			<div class="concat-there" v-if="listData.length == 0 ? true : false">
+			  <img src="../../assets/shoucangshangpu.png" alt="">
+			  <p>当前暂无退款商品</p>
+			</div>
       <div class="concat" v-for="(item ,index) in listData " :key="index">
         <div class="concat-div">
           <img src="../../assets/gouwuche_icon.png" alt="">
@@ -75,7 +79,20 @@
     height: 100%;
     background: #F7F7F7;
   }
+.concat-there {
+    position:absolute;
+      top:50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    font-size: 0.28rem;
+    color: #333333;
+  }
 
+  .concat-there img {
+    width: 3.4rem;
+    height: 2.2rem;
+  }
   .box .box-container {
     position: relative;
     height: 100vh;

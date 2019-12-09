@@ -285,8 +285,8 @@
   }
 
   #concat-p{
-    width: 0.98rem;
-    height: 0.4rem;
+    /* width: 0.98rem;
+    height: 0.4rem; */
     background: white;
     border:1px solid rgba(240,16,11,1);
     border-radius:20px;

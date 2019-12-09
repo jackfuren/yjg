@@ -58,7 +58,7 @@ Vue.use(Toast);
     methods: {
       fh() {
         this.$router.push({
-          name: 'Help',
+          name: 'My',
 
         })
       },
@@ -112,7 +112,7 @@ Vue.use(Toast);
               
               Toast('反馈成功')
 				this.$router.push({
-					name: 'Help',
+					name: 'My',
 				})
             }
 

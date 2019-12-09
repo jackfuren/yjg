@@ -167,9 +167,10 @@ Vue.use(Toast);
             }
           }).then(res => {
             if (res.data.code ==200){
+				Toast('注册成功')
               this.$store.dispatch('UserName',res.data.data)
               this.$router.push({
-                name:"My"
+                name:"regi"
               })
             }
           })

@@ -424,7 +424,7 @@
     height: 1.9rem;
   }
 
-  .xiala-p {
+  .nav>.xiala>.xiala-p {
     position: absolute;
     top: 0.2rem;
     left: 0.3rem;
@@ -441,7 +441,7 @@
     margin-right: 0.2rem;
   }
 
-  .xiala-pp {
+  .nav>.xiala>.xiala-pp {
     position: absolute;
     top: 0.8rem;
     left: 0.3rem;

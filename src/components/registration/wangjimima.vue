@@ -139,6 +139,7 @@
               code:this.code
             }
           }).then(res => {
+			Toast("修改成功，请重新登录")
             if (res.data.code == 200){
               this.$router.push({
                 name:"regi"
@@ -296,8 +297,6 @@
   }
 
   #concat-p{
-    width: 0.98rem;
-    height: 0.4rem;
     background: white;
     border:1px solid rgba(240,16,11,1);
     border-radius:20px;

@@ -12,6 +12,10 @@
       </div>
 
       <div v-show="show == 1 ? true : false" class="footer">
+		  <div class="concat-there" v-if="commodity.length == 0 ? true : false">
+		    <img src="../../../assets/shoucangshangpin.png" alt="">
+		    <p>当前暂无收藏商品</p>
+		  </div>
         <div class="footer-div" v-for="(item,index) in commodity" :key="index">
           <div>
             <van-checkbox-group v-show="checkbox" v-model="result">
@@ -33,6 +37,10 @@
 
 
       <div v-show="show == 2 ? true : false" class="footer">
+		  <div class="concat-there" v-if="commodity.length == 0 ? true : false">
+		    <img src="../../../assets/shoucangshangpu.png" alt="">
+		    <p>当前暂无收藏商铺</p>
+		  </div>
         <div class="footer-right" v-for="(item ,index) in storee" :key="index">
           <van-checkbox-group class="a" v-show="checkboxx" v-model="store">
             <van-checkbox
@@ -190,7 +198,20 @@ import request from "../../utils/request"
     margin: 0;
     padding: 0;
   }
+ .concat-there {
+    position:absolute;
+      top:50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    font-size: 0.28rem;
+    color: #333333;
+  }
 
+  .concat-there img {
+    width: 3.4rem;
+    height: 2.2rem;
+  }
   .box {
     position: relative;
     width: 100%;

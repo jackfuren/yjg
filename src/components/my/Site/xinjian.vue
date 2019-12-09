@@ -77,7 +77,7 @@
               this.$router.push({
                 name: "sho"
               })
-            },2000);
+            },1000);
           }
         })
 
