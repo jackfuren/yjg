@@ -508,6 +508,7 @@ Vue.use(Toast);
 	    this.$router.push({
 	      name: "kf",
 	      query: {
+          token:36,
 	        goods_id: this.goods_id,
 	        title: this.dataList.title,
 	        name: this.dataList.name,
@@ -650,7 +651,6 @@ Vue.use(Toast);
              }).catch(err => {
                Toast('网络连接中断');
              })
-
            }
            if (this.shou == 0) {
              request({

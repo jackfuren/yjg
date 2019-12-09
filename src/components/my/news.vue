@@ -83,11 +83,10 @@
 		  }
       },
       mounted() {
-
         request({
-          url: "api/information/index",//系统消息的接口
-          data:{
-            user_id:this.$store.state.username.id
+          url: "api/information/index", //系统消息的接口 
+          data:{ 
+            user_id:this.$store.state.username.id 
           },
           method: "post"
         }).then(res => {
@@ -136,7 +135,6 @@
 		    this.resList = res.data.data
 		  }
 		})
-
         this.token =this.$route.query.token
         this.id =this.$route.query.id
       }

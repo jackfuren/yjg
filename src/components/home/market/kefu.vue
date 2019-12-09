@@ -10,7 +10,7 @@
       <!-- 下拉刷新 -->
       <div id="chattingWord" style="text-align: left;padding-top: 0.9rem;background: #F7F7F7;">
         <!--  商品信息->发送给客服  -->
-        <section v-if="token=90?false:true">
+        <section v-if="token==90 ? false : true ">
           <div v-if="productShow==true">
             <p class="time">今天 {{enterTime}}</p>
             <div class="commodity">
@@ -81,8 +81,8 @@
       <van-row class="shu" type="flex" justify="center">
         <!-- 此处如果需要左侧语音输入按钮，将此处注释解开，把输入框中18改为15，换掉中间图标 -->
         <van-col span="1" class="flexBox">&nbsp;</van-col>
-        <!-- <van-col span="3" class="flexBox">
-          <img src="../../../assets/biaoq.png" alt="">
+        <!-- <van-col span="3" class="flexBox" id="yuyin">
+          <img src="../../../assets/biaoq.png" alt />
         </van-col>-->
         <van-col v-if="text === ''" span="20" class="inputTxt">
           <input type="text" v-model="text" />
@@ -140,7 +140,7 @@ export default {
       money: this.$route.query.money,
       img: this.$route.query.img,
       msag: "",
-      token: "",
+      token: this.$route.query.token,
       maag: [], //商家会的消息
       uid: "user" + this.$store.state.username.id,
       infoUid: this.$route.query.sid,
@@ -269,10 +269,16 @@ export default {
               this.msag[i].content === this.infooUid
             ) {
               this.productShow = false;
+            } else {
+              this.productShow = true;
             }
           }
+          console.log(this.productShow);
           // 屏幕滚动
           this.scrollBottom();
+
+          var chattingWord = document.getElementById("chattingWord");
+          document.documentElement.scrollTop = chattingWord.scrollHeight;
           // 时间戳判断 超过5分钟 时间戳出现
           if (this.msag.length > 1) {
             //无记录时
@@ -406,22 +412,19 @@ export default {
     },
     // 上传图片之前检测图片格式,大小及类型
     beforeRead(file) {
-      if (file.size / 1024 >= 5000) {
-        Toast("上传图片应小于3M");
+      connsole.log(file.size);
+      var image = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
+      var flag = false;
+      for (var i = 0; i < image.length; i++) {
+        if (file.type == image[i]) {
+          flag = true;
+        }
+      }
+      if (flag) {
+        return flag;
       } else {
-        var image = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
-        var flag = false;
-        for (var i = 0; i < image.length; i++) {
-          if (file.type == image[i]) {
-            flag = true;
-          }
-        }
-        if (flag) {
-          return flag;
-        } else {
-          Toast("请上传 jpeg/jpg/png/gif 格式图片");
-          return flag;
-        }
+        Toast("请上传 jpeg/jpg/png/gif 格式图片");
+        return flag;
       }
     },
     // 上传图片到图片服务器
