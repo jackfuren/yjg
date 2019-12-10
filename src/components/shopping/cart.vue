@@ -485,8 +485,8 @@ export default {
     xiaoxi() {
       this.$router.push({
         name: "news",
-        query: {
-          token: 4
+        query:{
+          token:3
         }
       });
     }

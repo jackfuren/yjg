@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     fh() {
-      console.log(this.token)
+      console.log(this.token);
       if (this.token == 1) {
         this.$router.push({
           name: "mar"
@@ -101,6 +101,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$router.query);
     request({
       url: "api/information/index", //系统消息的接口
       data: {
