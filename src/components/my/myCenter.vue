@@ -172,7 +172,7 @@ export default {
     },
     help() {
       this.$router.push({
-        name: "iss"
+        name: "Help"
       });
     },
     she() {

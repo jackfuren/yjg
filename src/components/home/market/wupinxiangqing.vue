@@ -82,7 +82,7 @@
       </div>
       <div class="concat-footer">
         <div class="concat-footer-div" @click="dianpu()">
-          <img alt="" :src="dataList.shoplogo">
+          <p><img alt="" :src="dataList.shoplogo"></p>
           <div class="concat-footer-div-div" >
             <p>{{dataList.name}}</p>
             <van-rate :size="15" allow-half color="#EF0600" readonly
@@ -95,9 +95,9 @@
 
         </div>
         <div class="concat-footer-two">
-          <div>描述相符 <span>{{dataList.description}}</span></div>
-          <div>质量满意<span>{{dataList.quality}}</span></div>
-          <div>服务周到<span>{{dataList.service}}</span></div>
+          <div v-if="dataList.description==''?false:true">描述相符 <span>{{dataList.description}}</span></div>
+          <div v-if="dataList.quality==''?false:true">质量满意<span>{{dataList.quality}}</span></div>
+          <div v-if="dataList.service==''?false:true">服务周到<span>{{dataList.service}}</span></div>
         </div>
       </div>
        <div id="3"></div>
@@ -183,7 +183,7 @@
 
         </div>
         <div>
-          <van-icon class="top-rightt" color="#777777" name="wap-nav" size="0.5rem"/>
+          <van-icon @click="rapid =! rapid" class="top-rightt" color="#777777" name="wap-nav" size="0.5rem"/>
         </div>
 
       </div>
@@ -1066,7 +1066,7 @@ Vue.use(Toast);
     height: 4.11rem;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    position: absolute;
+    position: fixed;
     right: 0.5rem;
     z-index: 888;
     top: 0.8rem;
@@ -1260,7 +1260,7 @@ Vue.use(Toast);
   /*内容*/
   .concat {
     width: 7.5rem;
-    min-height: 2.36rem;
+    // min-height: 2.36rem;
     background: #FFFFFF;
     text-align: left;
     padding: 0.3rem;
@@ -1427,7 +1427,7 @@ Vue.use(Toast);
 
   .concat-footer {
     width: 6.9rem;
-    min-height: 1.4rem;
+    // min-height: 1.4rem;
     padding: 0.3rem;
     background: white;
     margin: 0.2rem 0 0.1rem 0;
@@ -1440,12 +1440,17 @@ Vue.use(Toast);
     position: relative;
 
   }
-
-  .concat-footer-div img {
-    width: 0.75rem;
-    height: 0.75rem;
+.concat-footer-div>p:first-child{
+	flex: 1;
+	margin-right:0.2rem;
+}
+  .concat-footer-div>p:first-child img {
+    width: 100%;
   }
-
+.concat-footer-div-div{
+	flex: 5;
+	text-align: left;
+}
   .concat-footer-div-div p {
     font-size: 0.3rem;
     color: #333333;
@@ -1454,8 +1459,9 @@ Vue.use(Toast);
 
   .concat-footer-two {
     display: flex;
-    height: 0.65rem;
-    line-height: 0.85rem;
+    // height: 0.65rem;
+    // line-height: 0.85rem;
+	margin-top: 0.2rem;
     font-size: 0.24rem;
     justify-content: space-between;
   }

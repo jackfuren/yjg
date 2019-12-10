@@ -73,7 +73,8 @@
         name: "shops",
       data(){
           return{
-            value: 5
+            value: 5,
+						token:''
           }
       },
       components:{
@@ -82,11 +83,16 @@
       methods:{
           fh(){
             this.$router.push({
-              name:"dpxq"
+              name:"dpxq",
+			  query: {
+				  token:this.token,
+				}
             })
           }
-      }
-
+      },
+mounted() {
+	this.token =this.$route.query.token
+}
 
 
     }

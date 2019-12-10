@@ -81,11 +81,18 @@
             <span>< 500m</span>
           </p>
           <div class="nav-bottom-div">
-
-
-            <div v-if="top.quality==''?false:true">商品评价：<span>{{top.quality}}</span></div>
-            <div v-if="top.service==''?false:true">服务评价：<span>{{top.service}}</span></div>
-            <div v-if="top.description==''?false:true">物流评价：<span>{{top.description}}</span></div>
+            <div v-if="top.quality==''?false:true">
+              商品评价：
+              <span>{{top.quality}}</span>
+            </div>
+            <div v-if="top.service==''?false:true">
+              服务评价：
+              <span>{{top.service}}</span>
+            </div>
+            <div v-if="top.description==''?false:true">
+              物流评价：
+              <span>{{top.description}}</span>
+            </div>
           </div>
           <div class="nav-bottom-two">
             <div v-if="shou == 1 ? true : false" @click=" collect()">
@@ -143,7 +150,7 @@
                   style="position: relative;top:0.03rem;margin-left: 0.15rem"
                 />
                 {{item.collectiongoods}}
-              </p> -->
+              </p>-->
             </div>
           </div>
         </van-tab>
@@ -162,14 +169,14 @@
               <p class="concat-money">
                 ￥
                 <span>{{item.price}}</span>
-                <!-- <van-icon
+                <van-icon
                   color="#EF0600"
                   name="shopping-cart-o"
                   size="0.4rem"
                   style="float: right"
-                /> -->
+                />
               </p>
-              <!-- <p class="concat-browes">
+              <p class="concat-browes">
                 <van-icon
                   color="#777777"
                   name="star-o"
@@ -177,7 +184,7 @@
                   style="position: relative;top:0.03rem;margin-left: 0.15rem"
                 />
                 {{item.collectiongoods}}
-              </p> -->
+              </p>
             </div>
           </div>
         </van-tab>
@@ -196,14 +203,14 @@
               <p class="concat-money">
                 ￥
                 <span>{{item.price}}</span>
-                <!-- <van-icon
+                <van-icon
                   color="#EF0600"
                   name="shopping-cart-o"
                   size="0.4rem"
                   style="float: right"
-                /> -->
+                />
               </p>
-              <!-- <p class="concat-browes">
+              <p class="concat-browes">
                 <van-icon
                   color="#777777"
                   name="star-o"
@@ -211,7 +218,7 @@
                   style="position: relative;top:0.03rem;margin-left: 0.15rem"
                 />
                 {{item.collectiongoods}}
-              </p> -->
+              </p>
             </div>
           </div>
         </van-tab>
@@ -243,6 +250,290 @@
 </template>
 
 <script>
+import { Tab, Tabs } from "vant";
+import request from "../../utils/request";
+import Vue from "vue";
+import { Toast } from "vant";
+Vue.use(Toast);
+export default {
+  name: "dianpuxianqing",
+  data() {
+    return {
+      active: 1,
+      list: [],
+      back: false,
+      shop_id: "", //商家编号
+      top: "", //头部信息
+      bottom: "", //全部底部信息
+      shou: "", // 收藏
+      leftBottom: "", //最新商品信息
+      rightBottom: "", //价格商品信息
+      array: 4,
+      a: true,
+      b: false,
+      c: false,
+      token: "",
+      goods_id: "",
+      z: [],
+      x: [],
+      mo: ""
+    };
+  },
+   methods: {
+      onClick(index, title) {
+        var that = this
+        if (index == 2) {
+          if (this.array == 4) {
+            this.jiage()
+            that.a = false
+            that.b = false
+            that.c = true
+          }
+          if (this.array == 3) {
+            this.jiage()
+            setTimeout(function () {
+              that.array = 4
+              that.a = false
+              that.b = true
+              that.c = false
+            }, 1000)
+          }
+        } else if (index == 0) {
+          that.a = true
+          that.b = false
+          that.c = false
+
+        } else if (index == 1) {
+          that.a = true
+          that.b = false
+          that.c = false
+
+        }
+      },
+      wuping(i) {
+        this.$router.push({
+          name: 'wpxq',
+          query: {
+            goods_id: i
+          }
+
+        })
+      },
+      fh() {
+        var DDP = window.sessionStorage.getItem('DDP')
+        if (this.token == 1){
+          this.$router.push({
+            name: 'wpxq',
+            query:{
+              goods_id:this.goods_id,
+              token:this.token
+            }
+          })
+        } else if (this.token == 2)  {
+          this.$router.push({
+            name: 'wpxq',
+            query:{
+              goods_id:this.goods_id,
+              token:this.token
+            }
+          })
+        }else if (this.token == 3) {
+
+          this.$router.push({
+            name: 'wpxq',
+            query:{
+              goods_id:this.goods_id,
+              token:this.token,
+              dataList:this.z,
+              arrayList:this.x
+            }
+          })
+
+        }else if (DDP == 36) {
+          this.$router.push({
+            name: 'ph',
+            query:{
+              mo:this.mo
+            }
+          })
+
+        }else if (this.token ==7){
+          this.$router.push({
+            name: 'wpxq',
+            query:{
+              goods_id:this.goods_id,
+              token:this.token,
+              dataList:this.z,
+              arrayList:this.x
+            }
+          })
+        } else if (this.token == null){
+          this.$router.push({
+            name: 'home',
+          })
+        } else{
+          this.$router.push({
+            name: 'mar',
+          })
+        }
+
+      },
+      jubao() {
+        if (this.$store.state.username == null ){
+          this.$router.push({
+            name: 'regi',
+          })
+        } else {
+          this.$router.push({
+            name: 'jb',
+            query: {
+              id: this.shop_id
+            }
+          })
+        }
+      },
+      shops() {
+        this.$router.push({
+          name: 'shops',
+        })
+      },
+      collect() {
+        this.shou = !this.shou
+        if (this.shou == 1) {
+          request({
+            url: "api/users/collectionshp",
+            method: "post",
+            data: {
+              user_id: this.$store.state.username.id,
+              shop_id: this.shop_id,
+
+            }
+          }).then(res => {
+            //console.log(res)
+            if (res.data.code == 200) {
+              Toast('收藏成功');
+              this.Shop()
+            } else {
+              Toast('收藏失败');
+            }
+          }).catch(err => {
+            Toast('网络连接中断');
+          })
+
+        }
+        if (this.shou == 0) {
+          request({
+            url: "api/users/delcshop",
+            method: "post",
+            data: {
+              user_id: this.$store.state.username.id,
+              shop_id: this.shop_id,
+            }
+          }).then(res => {
+            //console.log(res)
+            if (res.data.code == 200) {
+              Toast('取消收藏');
+              this.Shop()
+            } else {
+              Toast('取消收藏失败');
+            }
+          }).catch(err => {
+            Toast('网络连接中断');
+          })
+
+        }
+
+      },
+      Search() {
+        this.$router.push({
+          name: 'seek',
+        })
+      },
+      Shop() {
+        request({
+          url: "api/shop/index",
+          method: "post",
+          data: {
+            shop_id: this.shop_id,
+            user_id: this.$store.state.username.id,
+            type: 2
+          }
+        }).then(res => {
+			console.log(res)
+          this.top = res.data.data.shop
+          this.bottom = res.data.data.goods
+          this.shou = res.data.data.shop.is_collectionshop
+        })
+      },
+      zuixin() {
+        request({
+          url: "api/shop/index",
+          method: "post",
+          data: {
+            shop_id: this.shop_id,
+            user_id: this.$store.state.username.id,
+            type: 1
+          }
+        }).then(res => {
+          this.leftBottom = res.data.data.goods
+          //console.log(res)
+        })
+      },
+      jiage() {
+        request({
+          url: "api/shop/index",
+          method: "post",
+          data: {
+            shop_id: this.shop_id,
+            user_id: this.$store.state.username.id,
+            type: this.array
+          }
+        }).then(res => {
+          this.rightBottom = res.data.data.goods
+          this.array = 3
+        })
+      },
+      xiaoxi(){
+        if (this.$store.state.username == null ){
+          this.$router.push({
+            name: 'regi',
+          })
+        } else {
+          this.$router.push({
+            name: 'news',
+          })
+        }
+      },
+      shop(){
+        this.$router.push({
+          name: 'Shop',
+        })
+      },
+      homm(){
+        this.$router.push({
+          name: 'home',
+        })
+      }
+    },
+  components: {
+    Tab,
+    Tabs
+  },
+  mounted() {
+    this.shop_id = JSON.parse(window.sessionStorage.getItem("DP"));
+    this.token = this.$route.query.token;
+    if (this.token == 36) {
+      window.sessionStorage.setItem("DDP", 36);
+    }
+    this.goods_id = this.$route.query.goods_id;
+    this.z = this.$route.query.a;
+    this.x = this.$route.query.b;
+    this.mo = this.$route.query.mo;
+    this.Shop();
+    this.zuixin();
+  }
+};
+</script><script>
 import { Tab, Tabs } from "vant";
 import request from "../../utils/request";
 import Vue from "vue";
@@ -383,53 +674,53 @@ export default {
         name: "shops"
       });
     },
-   collect() {
-        this.shou = !this.shou
-        if (this.shou == 1) {
-          request({
-            url: "api/users/collectionshp",
-            method: "post",
-            data: {
-              user_id: this.$store.state.username.id,
-              shop_id: this.shop_id,
-
-            }
-          }).then(res => {
+    collect() {
+      this.shou = !this.shou;
+      if (this.shou == 1) {
+        request({
+          url: "api/users/collectionshp",
+          method: "post",
+          data: {
+            user_id: this.$store.state.username.id,
+            shop_id: this.shop_id
+          }
+        })
+          .then(res => {
             //console.log(res)
             if (res.data.code == 200) {
-              Toast('收藏成功');
-              this.Shop()
+              Toast("收藏成功");
+              this.Shop();
             } else {
-              Toast('收藏失败');
+              Toast("收藏失败");
             }
-          }).catch(err => {
-            Toast('网络连接中断');
           })
-
-        }
-        if (this.shou == 0) {
-          request({
-            url: "api/users/delcshop",
-            method: "post",
-            data: {
-              user_id: this.$store.state.username.id,
-              shop_id: this.shop_id,
-            }
-          }).then(res => {
+          .catch(err => {
+            Toast("网络连接中断");
+          });
+      }
+      if (this.shou == 0) {
+        request({
+          url: "api/users/delcshop",
+          method: "post",
+          data: {
+            user_id: this.$store.state.username.id,
+            shop_id: this.shop_id
+          }
+        })
+          .then(res => {
             //console.log(res)
             if (res.data.code == 200) {
-              Toast('取消收藏');
-              this.Shop()
+              Toast("取消收藏");
+              this.Shop();
             } else {
-              Toast('取消收藏失败');
+              Toast("取消收藏失败");
             }
-          }).catch(err => {
-            Toast('网络连接中断');
           })
-
-        }
-
-      },
+          .catch(err => {
+            Toast("网络连接中断");
+          });
+      }
+    },
     Search() {
       this.$router.push({
         name: "seek"
@@ -445,10 +736,10 @@ export default {
           type: 2
         }
       }).then(res => {
+        console.log(res);
         this.top = res.data.data.shop;
         this.bottom = res.data.data.goods;
         this.shou = res.data.data.shop.is_collectionshop;
-        console.log(this.top)
       });
     },
     zuixin() {
@@ -462,7 +753,7 @@ export default {
         }
       }).then(res => {
         this.leftBottom = res.data.data.goods;
-        console.log(res);
+        //console.log(res)
       });
     },
     jiage() {
@@ -499,17 +790,6 @@ export default {
       this.$router.push({
         name: "home"
       });
-    },
-    lianxi() {
-      console.log(top.name);
-      this.$router.push({
-        name: "kf",
-        query: {
-          sid: this.shop_id,
-          token: 90,
-          name: this.top.name
-        }
-      });
     }
   },
   components: {
@@ -531,6 +811,7 @@ export default {
   }
 };
 </script>
+
 
 <style lang="less" scoped>
 * {
@@ -613,7 +894,6 @@ export default {
   color: #ffffff;
 }
 
-
 .nav-bottom {
   width: 7.5rem;
   height: 3.4rem;
@@ -641,7 +921,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-.nav-bottom>div:nth-child(2){
+.nav-bottom > div:nth-child(2) {
   padding-top: 0.8rem;
 }
 
@@ -665,7 +945,7 @@ export default {
 
 .nav-bottom-div {
   width: 6.5rem;
-  // height: 0.3rem;
+  height: 0.3rem;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -717,15 +997,15 @@ export default {
   flex-wrap: wrap;
 }
 
-.concat>div {
+.concat > div {
   width: 3.47rem;
   height: 5.2rem;
   border-radius: 10px;
   background: #ffffff;
-  margin: 0.15rem  0.14rem;
+  margin: 0.15rem 0.14rem;
   text-align: left;
   position: relative;
-  box-shadow:0px 0px 9px 0px rgba(51,51,51,0.22);
+  box-shadow: 0px 0px 9px 0px rgba(51, 51, 51, 0.22);
 }
 
 .ph {

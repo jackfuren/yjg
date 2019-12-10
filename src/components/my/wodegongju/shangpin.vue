@@ -48,10 +48,17 @@
       </div>
 
       <div v-show="show == 2 ? true : false" class="footer">
+<<<<<<< HEAD
         <div class="concat-there" v-if="commodity.length == 0 ? true : false">
           <img src="../../../assets/shoucangshangpu.png" alt />
           <p>当前暂无收藏商铺</p>
         </div>
+=======
+		  <div class="concat-there" v-if="storee.length == 0 ? true : false">
+		    <img src="../../../assets/shoucangshangpu.png" alt="">
+		    <p>当前暂无收藏商铺</p>
+		  </div>
+>>>>>>> 24bf681eab6610dfe35f8b16c9f59a0101752546
         <div class="footer-right" v-for="(item ,index) in storee" :key="index">
           <van-checkbox-group class="a" v-show="checkboxx" v-model="store">
             <van-checkbox :name="item.shop_id" checked-color="#EF0600"></van-checkbox>
