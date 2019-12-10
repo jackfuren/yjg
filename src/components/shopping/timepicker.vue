@@ -1,51 +1,45 @@
 <template>
-  <div>
-	  <div class="select-date">
-	    <div class="select-day">
-	      <div
-	        class="day"
-	        v-for="(item,index) in deliveryTimeList"
-	        :key="index"
-	        :class="nowDay===index?'active':''"
-	        @click="nowDay = index;"
-	      >{{item.day}}</div>
-	    </div>
-	    <div class="select-time">
-	      <!-- <div v-for="(item,index) in deliveryTimeList" :key="index"> -->
-	      <div v-if="nowDay===0">
-	        <div
-	          @click="clickTime('60分钟')"
-	          class="time"
-	          :class="'60分钟'===selectTime&&nowDay===selectDay?'select':''"
-	        >尽快送达|60分钟达
-			
-	        </div>
-	        <div
-	          class="time"
-	          :class="i==selectTime&&nowDay===selectDay?'select':''"
-	          v-for="(i,index) in deliveryTimeList[nowDay].timeList"
-	          @click="clickTime(i)"
-	          :key="index"
-	        >
-	          {{i}}
-	          
-	        </div>
-	      </div>
-	      <div v-if="nowDay!==0">
-	        <div
-	          class="time"
-	          :class="i==selectTime&&nowDay===selectDay?'select':''"
-	          v-for="(i,index) in deliveryTimeList[nowDay].timeList"
-	          @click="clickTime(i)"
-	          :key="index"
-	        >
-	          {{i}}
-	          
-	        </div>
-	      </div>
-	    </div>
-	    <!-- </div> -->
-	  </div>
+  <div id="time">
+    <div class="select">请选择送达时间</div>
+    <div class="select-date">
+      <div class="select-day">
+        <div
+          class="day"
+          v-for="(item,index) in deliveryTimeList"
+          :key="index"
+          :class="nowDay===index?'active':''"
+          @click="nowDay = index;"
+        >{{item.day}}</div>
+      </div>
+      <div class="select-time">
+        <!-- <div v-for="(item,index) in deliveryTimeList" :key="index"> -->
+        <div v-if="nowDay===0">
+          <div
+            @click="clickTime('60分钟')"
+            class="time"
+            :class="'60分钟'===selectTime&&nowDay===selectDay?'select':''"
+          >尽快送达|60分钟达</div>
+          <div
+            class="time"
+            :class="i==selectTime&&nowDay===selectDay?'select':''"
+            v-for="(i,index) in deliveryTimeList[nowDay].timeList"
+            @click="clickTime(i)"
+            :key="index"
+          >{{i}}</div>
+        </div>
+        <div v-if="nowDay!==0">
+          <div
+            class="time"
+            :class="i==selectTime&&nowDay===selectDay?'select':''"
+            v-for="(i,index) in deliveryTimeList[nowDay].timeList"
+            @click="clickTime(i)"
+            :key="index"
+          >{{i}}</div>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+    <div class="cansel" @click="cansel">取消</div>
   </div>
 </template>
 
@@ -57,56 +51,73 @@ export default {
       showDelivery: false,
       deliveryTimeList: [{ day: "", timeList: "" }],
       nowDay: 0,
-      selectTime: '60分钟达',
-      selectDay: 0,
-	 
+      selectTime: "60分钟达",
+      selectDay: 0
     };
   },
   mounted() {
     this.getDliveryTime();
   },
   methods: {
-	 
     clickTime(text) {
       this.selectTime = text;
       this.deliveryTime = this.deliveryTimeList[this.nowDay].day + text;
       this.selectDay = this.nowDay;
       //使用 this.$emit('input',data)改变父组件中v-model绑定的属性值
-      this.$emit('sendmsg',this.deliveryTimeList[this.selectDay].day+text);
-	  // conso
-      this.$emit('select-time');
+      this.$emit("sendmsg", this.deliveryTimeList[this.selectDay].day + text);
+      this.cansel()
+      // conso
+      this.$emit("select-time");
     },
     //计算配送时间
     getDliveryTime() {
       //获取星期几
       let date = new Date();
       let week = date.getDay();
+      let day = date.getDate();
+      var year = date.getFullYear();
+      let mounth = date.getMonth() + 1;
+      var zDay = new Date(year, mounth, 0).getDate(); //每个月有几天
+      console.log(day);
+      console.log(zDay);
       let today = "";
       let nextDay = "";
+      let thirdDay = "";
       let deliveryTimeList = [];
+      var third = day + 2;
+      if (third > zDay) {
+        thirdDay = thirdDay - zDay;
+      }
+      thirdDay = mounth + "月" + (day + 2) + "日";
       if (week == 0) {
         today = "今天（周日）";
         nextDay = "明天（周一）";
+        thirdDay = thirdDay + "(周二)";
       } else if (week == 1) {
         today = "今天（周一）";
         nextDay = "明天（周二）";
+        thirdDay = thirdDay + "(周三)";
       } else if (week == 2) {
         today = "今天（周二）";
         nextDay = "明天（周三）";
+        thirdDay = thirdDay + "(周四)";
       } else if (week == 3) {
         today = "今天（周三）";
         nextDay = "明天（周四）";
+        thirdDay = thirdDay + "(周五)";
       } else if (week == 4) {
         today = "今天（周四）";
         nextDay = "明天（周五）";
+        thirdDay = thirdDay + "(周六)";
       } else if (week == 5) {
         today = "今天（周五）";
         nextDay = "明天（周六）";
+        thirdDay = thirdDay + "(周日)";
       } else if (week == 6) {
         today = "今天（周六）";
         nextDay = "明天（周日）";
+        thirdDay = thirdDay + "(周一)";
       }
-
       //获取时间段
       let timeDate = new Date(date.getTime() + 3600000);
       let todayList = getTimeList(timeDate.getHours(), timeDate.getMinutes());
@@ -114,7 +125,7 @@ export default {
       let nextDayList = getTimeList(9, 0);
       deliveryTimeList.push({ day: nextDay, timeList: nextDayList });
       this.deliveryTime = "今天（周六）60分钟";
-      this.$emit('input', this.deliveryTime);
+      this.$emit("input", this.deliveryTime);
       this.deliveryTimeList = [];
       this.deliveryTimeList = deliveryTimeList;
       function getTimeList(hour, minut) {
@@ -159,26 +170,45 @@ export default {
         }
         return timeList;
       }
+    },
+    cansel(){
+      console.log('sadas')
+      this.$emit('cansel')
     }
   }
 };
 </script>
 
 <style lang="less">
+#time {
+  width: 100%;
+  height: 44%;
+  position: fixed;
+  bottom: 0;
+  background-color: white;
+  z-index: 10000;
+}
+.select,.cansel{
+  font-size: 0.3rem;
+  padding:0.2rem 0;
+}
+.cansel {
+  width: 100%;
+  height: 2rem;
+  background-color: white;
+}
 .select-date {
-  height: 300px;
-  position: absolute;
-      width: 100%;
-      bottom: 0.01rem;
+  font-size: 0.24rem;
+  height: 200px;
+  width: 100%;
   overflow: hidden;
   z-index: 1000;
   .select-day {
     height: 100%;
     float: left;
     width: 1.8rem;
-	background: #ccc;
+    background: rgba(245, 245, 245, 1);
     .day {
-      font-size: 0.12rem;
       line-height: 0.7rem;
       text-align: center;
       &.active {
@@ -193,7 +223,6 @@ export default {
     padding: 0 20px;
     overflow-y: auto;
     .time {
-      font-size: 0.12rem;
       line-height: 0.8rem;
       border-bottom: 1px solid #eee;
       &.select {
@@ -201,7 +230,6 @@ export default {
       }
       i {
         float: right;
-        font-size: 0.12rem;
         color: #ff4a00;
         margin-top: 0.2rem;
       }

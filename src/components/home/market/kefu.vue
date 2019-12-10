@@ -236,6 +236,7 @@ export default {
       }).then(res => {
         // uid  我得id infouid  对方id
         if (res.status === 200) {
+          console.log(res)
           for (var i in res.data.data) {
             // 聊天小表情解码
             res.data.data[i].content = this.uncodeUtf16(
@@ -276,7 +277,6 @@ export default {
           console.log(this.productShow);
           // 屏幕滚动
           this.scrollBottom();
-
           var chattingWord = document.getElementById("chattingWord");
           document.documentElement.scrollTop = chattingWord.scrollHeight;
           // 时间戳判断 超过5分钟 时间戳出现
@@ -350,23 +350,6 @@ export default {
           }
           console.log(this.msag);
         }
-
-        // for (var i in this.msag) {
-        //   var qq = {
-        //     ct: "",
-        //     ud: ""
-        //   };
-        //   if (this.msag[i].uid == "user" + this.$store.state.username.id) {
-        //     qq.ct = this.uncodeUtf16(this.msag[i].content);
-        //     qq.ud = "user" + this.$store.state.username.id;
-        //     this.mag.push(qq);
-        //   }
-        //   if (this.msag[i].uid == "shop" + this.infoUid) {
-        //     qq.ct = this.uncodeUtf16(this.msag[i].content);
-        //     (qq.ud = "shop" + this.infoUid), this.mag.push(qq);
-        //   }
-        //   console.log(this.mag)
-        // }
       });
     },
     send: function() {
@@ -758,6 +741,9 @@ export default {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
+}
+#content{
+  min-height: 90vh;
 }
 /* .oo {
   display: flex;

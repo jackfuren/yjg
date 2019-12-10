@@ -42,7 +42,7 @@
         <div class="ziqu" v-show="song ===2 ? true : false">
           <li style="border-right: 0.01rem solid #E5E5E5;" @click="time()">
             <p>自取时间</p>
-            <p>{{timm}}</p>
+            <p>{{tim}}</p>
             <img alt class="dimg" src="../../assets/dingdan_xiayibu.png" />
           </li>
           <li>
@@ -80,16 +80,20 @@
               <span v-show="song ===2 ? true : false"></span>
             </p>
           </div>
-          <van-cell-group>
+          <div class="orderB">
+            <label for>订单备注</label>
+            <textarea placeholder="选填，请先和商家协商一致" v-model="item.remark_member"></textarea>
+          </div>
+          <!-- <van-cell-group>
             <van-field
               v-model="item.remark_member"
               rows="1"
               autosize
               label="订单备注"
               type="textarea"
-              placeholder="请输入留言"
+              placeholder="选填，请先和商家协商一致"
             />
-          </van-cell-group>
+          </van-cell-group>-->
           <div class="concat-y" v-show="item.coupon_name !='' ? true : false">
             店铺优惠
             <span>{{item.coupon_name}}</span>
@@ -161,7 +165,7 @@
           </p>
         </div>
       </div>
-      <timepicker v-show="meti ===1 ? true : false" @sendmsg="shuju"></timepicker>
+      <timepicker v-show="meti ===1 ? true : false" @sendmsg="shuju" @cansel="canson"></timepicker>
       <div class="footer">
         <div>
           共{{selected_products}}件
@@ -298,6 +302,9 @@ export default {
     shuju(data) {
       console.log(data);
       this.tim = data;
+      // setTimeout(function(){
+      //   this.meti=0
+      // }.bind(this), 100);
     },
     time() {
       this.meti = 1;
@@ -674,6 +681,16 @@ export default {
       if (this.listData.length == 0) {
         this.fh();
       }
+    },
+    address() {
+      if (this.locationn == true) {
+      } else {
+        // this.youfei[]=0
+      }
+    },
+    canson() {
+      console.log("sada");
+      this.meti = 0;
     }
   },
   created() {},
@@ -690,7 +707,12 @@ export default {
     this.idd = this.$route.query.idd;
     this.Fast();
   },
-  computed: {}
+  computed: {},
+  watch: {
+    locationn() {
+      i;
+    }
+  }
 };
 </script>
 
@@ -1144,5 +1166,24 @@ export default {
   text-align: center;
   color: white;
   background: #ef0600;
+}
+.orderB {
+  margin-top: 0.1rem;
+  width: 100%;
+  font-size: 0.24rem;
+  display: flex;
+  justify-content: start;
+}
+.orderB label {
+  width: 80px;
+}
+.orderB textarea {
+  height: 15px;
+  width: 90%;
+  overflow: hidden;
+  resize: none;
+  position: relative;
+  left: 0.3rem;
+  border: none;
 }
 </style>
