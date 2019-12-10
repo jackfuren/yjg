@@ -123,7 +123,7 @@ Vue.use(Toast);
 
             this.timer = setTimeout(()=>{   //设置延迟执行
               this.$router.go(-1)
-            },2000);
+            },1000);
 
 
           }

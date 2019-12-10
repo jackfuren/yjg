@@ -146,6 +146,29 @@ export default {
         this.disabled = false;
       }
     },
+    aff() {
+      if (this.password == this.password_confirm) {
+        request({
+          url: "api/users/find",
+          method: "post",
+          data: {
+            mobile: this.phone,
+            password: this.password,
+            password_confirm: this.password_confirm,
+            code: this.code
+          }
+        }).then(res => {
+          Toast("修改成功，请重新登录");
+          if (res.data.code == 200) {
+            this.$router.push({
+              name: "regi"
+            });
+          }
+        });
+      } else {
+        Toast("两次密码不一致");
+      }
+    },
     yanzheng() {
       var reg = /^[a-zA-Z0-9]{6,12}$/;
       console.log("sadadsad");
@@ -370,7 +393,6 @@ input::-webkit-input-placeholder {
   right: 0.5rem;
   z-index: 3;
 }
-
 #eye-bottomm {
   width: 0.35rem;
   height: 0.17rem;

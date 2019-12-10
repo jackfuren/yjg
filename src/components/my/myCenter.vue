@@ -70,7 +70,7 @@
 				</div>
 				<div @click="youhuijian()"  class="nav-conn">
 				  <p><img src="../../assets/youhuiquan.png" alt=""></p>
-				  <p>优惠卷</p>
+				  <p>优惠券</p>
 				</div>
         <div @click="help()"  class="nav-conn">
           <p><img src="../../assets/wentifankui.png" alt=""></p>
@@ -86,15 +86,39 @@
       <img src="../../assets/huiyuan.png" alt="">
     </div>
     <tuijie v-show="this.$store.state.username == null ? false :true"></tuijie>
-    <van-tabbar
-      active-color="#EF0600"
-      inactive-color="#333333"
-      v-model="active4"
-    >
-      <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
-      <van-tabbar-item icon="hot-o" to="/hd">活动</van-tabbar-item>
-      <van-tabbar-item icon="shopping-cart-o" to="/Shop">购物车</van-tabbar-item>
-      <van-tabbar-item icon="contact" to="/My">我的</van-tabbar-item>
+    <van-tabbar v-model="active4"active-color="#EF0600" inactive-color="#333333">
+      <van-tabbar-item to="/">
+        <span>首页</span>
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.active : icon.inactive"
+        >
+      </van-tabbar-item>
+      <van-tabbar-item icon="hot-o" to="/hd">
+    		<span>活动</span>
+    		<img
+    			slot="icon"
+    			slot-scope="props"
+    			:src="props.active ? ico.active : ico.inactive"
+    		>
+    	</van-tabbar-item>
+      <van-tabbar-item icon="shopping-cart-o" to="/Shop">
+    		<span>购物车</span>
+    		<img
+    		  slot="icon"
+    		  slot-scope="props"
+    		  :src="props.active ? icn.active : icn.inactive"
+    		>
+    	</van-tabbar-item>
+      <van-tabbar-item icon="contact" to="/My">
+    		<span>我的</span>
+    		<img
+    		  slot="icon"
+    		  slot-scope="props"
+    		  :src="props.active ? ion.active : ion.inactive"
+    		>
+    	</van-tabbar-item>
     </van-tabbar>
 
   </div>
@@ -110,6 +134,22 @@
       return {
         item: true,
         active4: 3,
+				icon: {
+				        active: require('../../assets/tab_shouye_press.png'),
+				        inactive: require('../../assets/tab_shouye_normal.png')
+				      },
+				ico: {
+				        active: require('../../assets/tab_huodong_press.png'),
+				        inactive: require('../../assets/tab_huodong_normal.png')
+				      },
+				icn: {
+				        active: require('../../assets/tab_gouwuche_press.png'),
+				        inactive: require('../../assets/tab_gouwuche_normal.png')
+				      },
+				ion: {
+				        active: require('../../assets/tab_wode_press.png'),
+				        inactive: require('../../assets/tab_wode_normal.png')
+				      },
         name:"",
 		kuan:[],
 		fa:[],
@@ -132,7 +172,7 @@
       },
 			help() {
 			  this.$router.push({
-			    name: "Help"
+			    name: "iss"
 			  })
 			},
       she() {

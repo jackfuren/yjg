@@ -38,15 +38,39 @@
 
         </div>
       </div>
-      <van-tabbar
-        active-color="#EF0600"
-        inactive-color="#333333"
-        v-model="active4"
-      >
-        <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
-        <van-tabbar-item icon="hot-o" to="/hd">活动</van-tabbar-item>
-        <van-tabbar-item icon="shopping-cart-o" to="/Shop">购物车</van-tabbar-item>
-        <van-tabbar-item icon="contact" to="/My">我的</van-tabbar-item>
+      <van-tabbar v-model="active4"active-color="#EF0600" inactive-color="#333333">
+        <van-tabbar-item to="/">
+          <span>首页</span>
+          <img
+            slot="icon"
+            slot-scope="props"
+            :src="props.active ? icon.active : icon.inactive"
+          >
+        </van-tabbar-item>
+        <van-tabbar-item icon="hot-o" to="/hd">
+      		<span>活动</span>
+      		<img
+      			slot="icon"
+      			slot-scope="props"
+      			:src="props.active ? ico.active : ico.inactive"
+      		>
+      	</van-tabbar-item>
+        <van-tabbar-item icon="shopping-cart-o" to="/Shop">
+      		<span>购物车</span>
+      		<img
+      		  slot="icon"
+      		  slot-scope="props"
+      		  :src="props.active ? icn.active : icn.inactive"
+      		>
+      	</van-tabbar-item>
+        <van-tabbar-item icon="contact" to="/My">
+      		<span>我的</span>
+      		<img
+      		  slot="icon"
+      		  slot-scope="props"
+      		  :src="props.active ? ion.active : ion.inactive"
+      		>
+      	</van-tabbar-item>
       </van-tabbar>
     </div>
   </div>
@@ -62,6 +86,22 @@
         title: '热销',
         num: 1                       ,//活动下标
         active4: 1,
+				icon: {
+				        active: require('../../assets/tab_shouye_press.png'),
+				        inactive: require('../../assets/tab_shouye_normal.png')
+				      },
+				ico: {
+				        active: require('../../assets/tab_huodong_press.png'),
+				        inactive: require('../../assets/tab_huodong_normal.png')
+				      },
+				icn: {
+				        active: require('../../assets/tab_gouwuche_press.png'),
+				        inactive: require('../../assets/tab_gouwuche_normal.png')
+				      },
+				ion: {
+				        active: require('../../assets/tab_wode_press.png'),
+				        inactive: require('../../assets/tab_wode_normal.png')
+				      },
         carselist: [],
         titleItem: [
           {img_url: require("../../assets/img/activity_leftbar_rexiao.png"), title: '热销'},

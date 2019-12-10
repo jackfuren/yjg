@@ -24,7 +24,7 @@
           <img alt src="../../assets/dingdan_dianpu.png" />
           <p>{{dataList.sname}}</p>
         </div>
-        <div class="concat-b" v-for="(item ,index) in dataList.goods">
+        <div class="concat-b" v-for="(item ,index) in dataList.goods" :key="index">
           <img :src="item.headimg" alt />
           <p class="concat-b-a">{{item.gtitle}}</p>
           <p class="concat-b-b">{{item.specification}}</p>
@@ -278,6 +278,7 @@ export default {
 }
 .dz-a {
   width: 5.9rem;
+  min-height: 1.3rem;
   text-align: left;
   margin-left: 0.2rem;
 }

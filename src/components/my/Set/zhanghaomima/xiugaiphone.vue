@@ -209,7 +209,7 @@
     font-size: 0.28rem;
     color: #EF0600;
     border-left: 1px solid #E7E7E7;
-    //text-indent: 0.2rem;
+    /* text-indent: 0.2rem; */
      margin-top: 0.3rem;
   }
   .footer{

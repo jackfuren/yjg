@@ -28,7 +28,7 @@
       <div class="hot">
         <p class="hot-p">热门商圈</p>
         <div :key="item.id" class="index_city" v-for="(item) in list">
-          <div class="city_images">
+          <div @click="market(item.id)" class="city_images">
             <img :src="item.headimg" alt="">
             <div class="bg">
               <span><b>-</b> &nbsp;{{item.name}}&nbsp; <b>-</b></span>
@@ -131,6 +131,12 @@
           name: 'home',
         })
       },
+	  market(i) {
+	    this.$router.push({
+	      name: 'mar',
+	    })
+	    window.sessionStorage.setItem("SQ", JSON.stringify(i))
+	  },
       dw() {
         this.a = "正在定位"
         this.getLocation()

@@ -390,6 +390,7 @@ export default {
 
 .dz-a {
   width: 5.9rem;
+  min-height: 1.3rem;
   margin-top: 0.15rem;
   text-align: left;
 }

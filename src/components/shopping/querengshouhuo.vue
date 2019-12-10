@@ -301,10 +301,10 @@ export default {
 }
 .dz-a {
   width: 5.9rem;
+  min-height: 1.3rem;
   text-align: left;
   margin-left: 0.2rem;
 }
-
 
 .dz-a p:nth-child(1) {
   font-size: 0.3rem;
