@@ -1,0 +1,9 @@
+@charset "utf-8";
+.van-checkbox__icon--checked .van-icon{
+color: #fff;
+  border-color: #ef0600;
+  background-color: #ef0600;
+}
+.van-field__label{
+    max-width: 1.75rem;
+}

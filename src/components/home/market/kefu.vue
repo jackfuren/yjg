@@ -236,7 +236,7 @@ export default {
       }).then(res => {
         // uid  我得id infouid  对方id
         if (res.status === 200) {
-          console.log(res)
+          console.log(res);
           for (var i in res.data.data) {
             // 聊天小表情解码
             res.data.data[i].content = this.uncodeUtf16(
@@ -276,9 +276,11 @@ export default {
           }
           console.log(this.productShow);
           // 屏幕滚动
-          this.scrollBottom();
-          var chattingWord = document.getElementById("chattingWord");
-          document.documentElement.scrollTop = chattingWord.scrollHeight;
+          // this.scrollBottom();
+          var content = document.getElementById("content");
+          content.scrollIntoView({ block: "end" });
+          // var chattingWord = document.getElementById("chattingWord");
+          // document.documentElement.scrollTop = chattingWord.scrollHeight;
           // 时间戳判断 超过5分钟 时间戳出现
           if (this.msag.length > 1) {
             //无记录时
@@ -395,19 +397,23 @@ export default {
     },
     // 上传图片之前检测图片格式,大小及类型
     beforeRead(file) {
-      connsole.log(file.size);
-      var image = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
-      var flag = false;
-      for (var i = 0; i < image.length; i++) {
-        if (file.type == image[i]) {
-          flag = true;
-        }
-      }
-      if (flag) {
-        return flag;
+      console.log(file);
+      if (file.size / 1024 >= 5000) {
+        Toast("上传图片应小于3M");
       } else {
-        Toast("请上传 jpeg/jpg/png/gif 格式图片");
-        return flag;
+        var image = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
+        var flag = false;
+        for (var i = 0; i < image.length; i++) {
+          if (file.type == image[i]) {
+            flag = true;
+          }
+        }
+        if (flag) {
+          return flag;
+        } else {
+          Toast("请上传 jpeg/jpg/png/gif 格式图片");
+          return flag;
+        }
       }
     },
     // 上传图片到图片服务器
@@ -742,7 +748,7 @@ export default {
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
-#content{
+#content {
   min-height: 90vh;
 }
 /* .oo {

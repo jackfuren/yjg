@@ -182,7 +182,7 @@ export default {
 <style lang="less">
 #time {
   width: 100%;
-  height: 44%;
+  height: 4rem;
   position: fixed;
   bottom: 0;
   background-color: white;
@@ -194,12 +194,11 @@ export default {
 }
 .cansel {
   width: 100%;
-  height: 2rem;
   background-color: white;
 }
 .select-date {
   font-size: 0.24rem;
-  height: 200px;
+  height: 2.5rem;
   width: 100%;
   overflow: hidden;
   z-index: 1000;

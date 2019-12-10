@@ -687,12 +687,6 @@ export default {
 .boxes-div-there p:nth-child(3) span {
   font-size: 0.3rem;
 }
-/deep/.van-checkbox__icon--checked .van-icon {
-  color: #fff !important;
-  border-color: #ef0600 !important;
-  background-color: #ef0600 !important;
-}
-
 .product_number_input input {
   width: 0.5rem;
   height: 0.3rem;

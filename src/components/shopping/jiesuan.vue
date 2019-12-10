@@ -80,11 +80,7 @@
               <span v-show="song ===2 ? true : false"></span>
             </p>
           </div>
-          <div class="orderB">
-            <label for>订单备注</label>
-            <textarea placeholder="选填，请先和商家协商一致" v-model="item.remark_member"></textarea>
-          </div>
-          <!-- <van-cell-group>
+          <van-cell-group>
             <van-field
               v-model="item.remark_member"
               rows="1"
@@ -93,7 +89,7 @@
               type="textarea"
               placeholder="选填，请先和商家协商一致"
             />
-          </van-cell-group>-->
+          </van-cell-group>
           <div class="concat-y" v-show="item.coupon_name !='' ? true : false">
             店铺优惠
             <span>{{item.coupon_name}}</span>
@@ -883,7 +879,7 @@ export default {
   color: #ef0600;
 }
 .ziqu {
-  font-size: 0.24rem;
+  font-size: 0.22rem;
   text-align: left;
   display: flex;
 }
@@ -1166,24 +1162,5 @@ export default {
   text-align: center;
   color: white;
   background: #ef0600;
-}
-.orderB {
-  margin-top: 0.1rem;
-  width: 100%;
-  font-size: 0.24rem;
-  display: flex;
-  justify-content: start;
-}
-.orderB label {
-  width: 80px;
-}
-.orderB textarea {
-  height: 15px;
-  width: 90%;
-  overflow: hidden;
-  resize: none;
-  position: relative;
-  left: 0.3rem;
-  border: none;
 }
 </style>

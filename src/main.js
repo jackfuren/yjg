@@ -16,23 +16,25 @@ import 'vant/lib/index.css';
 import { Icon } from 'vant';
 Vue.use(Icon);
 Vue.use(Vant);
-import {Tabbar, TabbarItem} from 'vant';
+import { Tabbar, TabbarItem } from 'vant';
 Vue.use(Tabbar).use(TabbarItem);
-import {AddressEdit} from 'vant';
+import { AddressEdit } from 'vant';
 Vue.use(AddressEdit);
 import { Toast } from 'vant';
 Vue.use(Toast);
-import {Area} from 'vant';
+import { Area } from 'vant';
 Vue.use(Area);
-import {SubmitBar} from 'vant';
+import { SubmitBar } from 'vant';
 Vue.use(SubmitBar);
-import {Checkbox, CheckboxGroup} from 'vant';
+import { Checkbox, CheckboxGroup } from 'vant';
 Vue.use(Checkbox).use(CheckboxGroup);
 import { Dialog } from 'vant';
 Vue.use(Dialog);
 import { Popup } from 'vant';
 Vue.use(Popup);
 import { ImagePreview } from 'vant';
+import { Uploader } from 'vant';
+Vue.use(Uploader);
 
 Vue.use(ImagePreview);
 import VueClipboard from 'vue-clipboard2'
@@ -40,7 +42,7 @@ Vue.use(VueClipboard)
 import VueJsonp from 'vue-jsonp'
 Vue.use(VueJsonp)
 
-import {Step, Steps} from 'vant';
+import { Step, Steps } from 'vant';
 Vue.use(Step).use(Steps);
 import "swiper/dist/css/swiper.min.css"
 import 'swiper/dist/css/swiper.css'
@@ -50,6 +52,7 @@ Vue.use(VueAwesomeSwiper)
 import request from '../src/components/utils/request'
 Vue.prototype.request = request
 Vue.config.productionTip = true
+import '../static/vantRe.css'
 //引入store
 import store from '@/store'
 /* eslint-disable no-new */

@@ -133,9 +133,9 @@
               <p class="concat-money">
                 ￥
                 <span>{{item.price}}</span>
-                <!-- <van-icon color="#EF0600" name="shopping-cart-o" size="0.4rem" /> -->
+                <van-icon color="#EF0600" name="shopping-cart-o" size="0.4rem" />
               </p>
-              <!-- <p class="concat-browes">
+              <p class="concat-browes">
                 <van-icon
                   color="#777777"
                   name="star-o"
@@ -143,7 +143,7 @@
                   style="position: relative;top:0.03rem;margin-left: 0.15rem"
                 />
                 {{item.collectiongoods}}
-              </p> -->
+              </p>
             </div>
           </div>
         </van-tab>
@@ -162,14 +162,14 @@
               <p class="concat-money">
                 ￥
                 <span>{{item.price}}</span>
-                <!-- <van-icon
+                <van-icon
                   color="#EF0600"
                   name="shopping-cart-o"
                   size="0.4rem"
                   style="float: right"
-                /> -->
+                />
               </p>
-              <!-- <p class="concat-browes">
+              <p class="concat-browes">
                 <van-icon
                   color="#777777"
                   name="star-o"
@@ -177,7 +177,7 @@
                   style="position: relative;top:0.03rem;margin-left: 0.15rem"
                 />
                 {{item.collectiongoods}}
-              </p> -->
+              </p>
             </div>
           </div>
         </van-tab>
@@ -196,14 +196,14 @@
               <p class="concat-money">
                 ￥
                 <span>{{item.price}}</span>
-                <!-- <van-icon
+                <van-icon
                   color="#EF0600"
                   name="shopping-cart-o"
                   size="0.4rem"
                   style="float: right"
-                /> -->
+                />
               </p>
-              <!-- <p class="concat-browes">
+              <p class="concat-browes">
                 <van-icon
                   color="#777777"
                   name="star-o"
@@ -211,7 +211,7 @@
                   style="position: relative;top:0.03rem;margin-left: 0.15rem"
                 />
                 {{item.collectiongoods}}
-              </p> -->
+              </p>
             </div>
           </div>
         </van-tab>
@@ -616,10 +616,10 @@ export default {
 
 .nav-bottom {
   width: 7.5rem;
-  height: 3.4rem;
   color: black;
   position: relative;
   background-color: white;
+  padding-bottom: 0.15rem;
   margin-bottom: 0.2rem;
 }
 
@@ -682,7 +682,7 @@ export default {
   height: 0.5rem;
   display: flex;
   justify-content: space-between;
-  margin: 0.4rem auto;
+  margin: 0.2rem auto;
 }
 
 .nav-bottom-two div:nth-child(1) {
@@ -707,7 +707,7 @@ export default {
 
 .van-tab__pane {
   position: relative;
-  top: 1rem;
+  top: 0.1rem;
 }
 
 .concat {

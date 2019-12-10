@@ -66,7 +66,7 @@
     </div>
 </van-list>
       <div style="height: 1rem"></div>
-			<van-tabbar v-model="active4"active-color="#EF0600" inactive-color="#333333">
+			<van-tabbar v-model="active4" active-color="#EF0600" inactive-color="#333333">
 			  <van-tabbar-item to="/">
 			    <span>首页</span>
 			    <img

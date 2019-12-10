@@ -140,9 +140,9 @@
               <p class="concat-money">
                 ￥
                 <span>{{item.price}}</span>
-                <!-- <van-icon color="#EF0600" name="shopping-cart-o" size="0.4rem" /> -->
+                <van-icon color="#EF0600" name="shopping-cart-o" size="0.4rem" />
               </p>
-              <!-- <p class="concat-browes">
+              <p class="concat-browes">
                 <van-icon
                   color="#777777"
                   name="star-o"
@@ -150,7 +150,7 @@
                   style="position: relative;top:0.03rem;margin-left: 0.15rem"
                 />
                 {{item.collectiongoods}}
-              </p>-->
+              </p>
             </div>
           </div>
         </van-tab>
