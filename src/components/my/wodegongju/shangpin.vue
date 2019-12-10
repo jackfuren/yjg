@@ -37,7 +37,7 @@
 
 
       <div v-show="show == 2 ? true : false" class="footer">
-		  <div class="concat-there" v-if="commodity.length == 0 ? true : false">
+		  <div class="concat-there" v-if="storee.length == 0 ? true : false">
 		    <img src="../../../assets/shoucangshangpu.png" alt="">
 		    <p>当前暂无收藏商铺</p>
 		  </div>

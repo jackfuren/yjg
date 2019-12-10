@@ -28,9 +28,9 @@
           <p>{{top.name}}</p>
           <p> {{top.province + top.city + top.area + top.address}} <span> < 500m</span></p>
           <div class="nav-bottom-div">
-            <div>商品评价：<span>{{top.quality}}</span></div>
-            <div>服务评价：<span>{{top.service}}</span></div>
-            <div>物流评价：<span>{{top.description}}</span></div>
+            <div v-if="top.quality==''?false:true">商品评价：<span>{{top.quality}}</span></div>
+            <div v-if="top.service==''?false:true">服务评价：<span>{{top.service}}</span></div>
+            <div v-if="top.description==''?false:true">物流评价：<span>{{top.description}}</span></div>
           </div>
           <div class="nav-bottom-two">
             <div v-if="shou == 1 ? true : false" @click=" collect()">
@@ -352,6 +352,7 @@ Vue.use(Toast);
             type: 2
           }
         }).then(res => {
+			console.log(res)
           this.top = res.data.data.shop
           this.bottom = res.data.data.goods
           this.shou = res.data.data.shop.is_collectionshop
