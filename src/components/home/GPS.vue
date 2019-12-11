@@ -2,7 +2,8 @@
   <div class="box">
     <div class="box-container">
       <div class="nav">
-        <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/>
+		  <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+        <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/> -->
         <p>选择定位地址</p>
         <div class="nav-div">
 
@@ -375,6 +376,7 @@
     left: 0.25rem;
     top: 0.2rem;
     color: #BBBBBB;
+	width: 0.55rem;
   }
 
   .nav-div {

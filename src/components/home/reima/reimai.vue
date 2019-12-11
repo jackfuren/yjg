@@ -3,9 +3,11 @@
     <div class="box-container">
       <div id="n" ></div>
       <div class="nav">
-        <van-icon  @click="fh()" class="nav-left" color="#333333" name="arrow-left" size="0.5rem"/>
+		  <img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+        <!-- <van-icon  @click="fh()" class="nav-left" color="#333333" name="arrow-left" size="0.5rem"/> -->
         <p >品牌热卖</p>
-        <van-icon @click="dd()"  name="wap-nav" size="0.4rem" class="nav-van"/>
+		<img src="../../../assets/img/cai.png" @click="dd()" class="nav-van" alt="">
+        <!-- <van-icon @click="dd()"  name="wap-nav" size="0.4rem" class="nav-van"/> -->
         <div v-show="rapid"  class="nav-top-back">
           <p @click="xiaoxi"><img style="width: 0.4rem;height: 0.4rem;position: relative;top: 0.09rem;right: 0.3rem" src="../../../assets/shangjiaye_wuxiaoxi.png" alt=""><span>消息</span></p>
           <p @click="shop"><img style="width: 0.4rem;height: 0.4rem;position: relative;top: 0.05rem;right: 0.2rem" src="../../../assets/shangjaiyetanchuang_gouwuche.png" alt=""><span style="position: relative;left: 0.14rem">购物车</span></p>
@@ -286,6 +288,7 @@
     position: absolute;
     left: 0.25rem;
     top: 0.2rem;
+	width: 0.55rem;
     clear: both;
     z-index: 999999;
   }
@@ -294,6 +297,7 @@
     position: absolute;
     right: 0.3rem;
     top: 0.25rem;
+	width: 0.4rem;
   }
   .nav-top-back {
     background-image: url(../../../assets/shangjiaye_xialakuang.png);

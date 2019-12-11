@@ -1,8 +1,10 @@
 <template>
   <div class="box">
     <div class="box-container" id="1">
-      <van-icon @click="fh()" class="top-left" color="#777777" name="arrow-left" size="0.5rem"/>
-      <van-icon @click="rapid =! rapid" class="top-right" color="#777777" name="wap-nav" size="0.5rem"/>
+		<img src="../../../assets/img/fan.png" @click="fh()" class="top-left" alt="">
+      <!-- <van-icon @click="fh()" class="top-left" color="#777777" name="arrow-left" size="0.5rem"/> -->
+      <img src="../../../assets/img/cai.png" @click="rapid =! rapid" class="top-right" alt="">
+	  <!-- <van-icon @click="rapid =! rapid" class="top-right" color="#777777" name="wap-nav" size="0.5rem"/> -->
       <div v-show="rapid"  class="nav-top-back">
         <p @click="xiaoxi"><img style="width: 0.4rem;height: 0.4rem;position: relative;top: 0.09rem;right: 0.3rem" src="../../../assets/shangjiaye_wuxiaoxi.png" alt=""><span>消息</span></p>
         <p @click="shop"><img style="width: 0.4rem;height: 0.4rem;position: relative;top: 0.05rem;right: 0.2rem" src="../../../assets/shangjaiyetanchuang_gouwuche.png" alt=""><span style="position: relative;left: 0.14rem">购物车</span></p>
@@ -165,7 +167,8 @@
       <!-- 屏幕监听-->
       <div class="navbar" v-show="bar">
         <div>
-          <van-icon @click="fh()" class="top-leftt" color="#777777" name="arrow-left" size="0.5rem"/>
+			<img src="../../../assets/img/fan.png" @click="fh()" class="top-leftt" alt="">
+          <!-- <van-icon @click="fh()" class="top-leftt" color="#777777" name="arrow-left" size="0.5rem"/> -->
         </div>
         <div class="navbar-div">
           <div>
@@ -183,7 +186,8 @@
 
         </div>
         <div>
-          <van-icon @click="rapid =! rapid" class="top-rightt" color="#777777" name="wap-nav" size="0.5rem"/>
+			<img src="../../../assets/img/cai.png" @click="rapid =! rapid" class="top-rightt" alt="">
+          <!-- <van-icon @click="rapid =! rapid" class="top-rightt" color="#777777" name="wap-nav" size="0.5rem"/> -->
         </div>
 
       </div>
@@ -1227,6 +1231,7 @@ Vue.use(Toast);
     left: 0.5rem;
     z-index: 888;
     top: 0.3rem;
+	width: 0.55rem;
   }
 
   .top-right {
@@ -1234,6 +1239,7 @@ Vue.use(Toast);
     right: 0.5rem;
     z-index: 888;
     top: 0.3rem;
+	width: 0.4rem;
   }
 
   /*轮播图*/
@@ -1602,6 +1608,7 @@ Vue.use(Toast);
     left: 0.3rem;
     z-index: 999;
     top: 0.2rem;
+	width: 0.55rem;
   }
 
   .top-rightt {
@@ -1609,6 +1616,7 @@ Vue.use(Toast);
     right: 0.3rem;
     z-index: 999;
     top: 0.2rem;
+	width: 0.4rem;
   }
 
   .nav-tj-top {

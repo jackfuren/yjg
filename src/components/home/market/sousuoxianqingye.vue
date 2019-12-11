@@ -4,17 +4,18 @@
       <!-- 头部-->
       <div class="nav">
         <div class="nav-top">
-          <van-icon @click="fh()" color="#333333" name="arrow-left" size="0.6rem"
-                    style="position: relative;top: -0.01rem"/>
+			<img src="../../../assets/img/fan.png" @click="fh()"  style="position: relative;top: -0.01rem;width: 0.55rem;" alt="">
+<!--          <van-icon @click="fh()" color="#333333" name="arrow-left" size="0.6rem"
+                    style="position: relative;top: -0.01rem"/> -->
           <div @click="seek()" class="search">
             <van-icon color="#333333" name="search" size="0.4rem"
                       style="position: absolute;top: 0.15rem;left: 0.18rem"/>
             <span style="margin-left: 0.5rem">搜索</span>
           </div>
-
-          <van-icon @click="back =!back" color="#333333" name="wap-nav"
-                    style="float: right;margin-right: 0.55rem;margin-top: 0.1rem"
-                    size="0.6rem"/>
+			<img src="../../../assets/img/cai.png" @click="back =!back" style="float: right;margin-right: 0.55rem;margin-top: 0.1rem" alt="">
+          <!-- <van-icon @click="back =!back" color="#333333" name="wap-nav"
+                    
+                    size="0.6rem"/> -->
 
         </div>
         <div v-show="back" class="nav-top-back">

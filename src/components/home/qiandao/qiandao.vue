@@ -4,9 +4,11 @@
       <div class="background">
         <!-- 返回 详情-->
         <div class="nav">
-          <van-icon @click="fh()" class="nav-left" color="#FFFFFF" name="arrow-left" size="0.5rem"/>
+			<img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+          <!-- <van-icon @click="fh()" class="nav-left" color="#FFFFFF" name="arrow-left" size="0.5rem"/> -->
           <p>签到</p>
-          <van-icon @click="right()" class="nav-right" color="#FFFFFF" name="wap-nav" size="0.5rem"/>
+		  <img src="../../../assets/img/cai.png" @click="right()" class="nav-right" alt="">
+          <!-- <van-icon @click="right()" class="nav-right" color="#FFFFFF" name="wap-nav" size="0.5rem"/> -->
           <div class="xiala" v-show="xiala">
             <img alt="" src="../../../assets/qiandaoye_xialakuang.png">
             <p @click="wode()" class="xiala-p"><img alt="" src="../../../assets/qiandaoye_wodeqiandao.png">我的签到</p>
@@ -247,9 +249,11 @@
     position: absolute;
     left: 0.25rem;
     top: 0.2rem;
+	width: 0.55rem;
   }
 
   .nav-right {
+	  width: 0.4rem;
     position: absolute;
     right: 0.25rem;
     top: 0.2rem;

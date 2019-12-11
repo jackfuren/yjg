@@ -2,7 +2,8 @@
   <div class="box">
     <div class="box-container">
       <div class="nav">
-        <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/>
+		  <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+        <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/> -->
         <p>退款/售后</p>
       </div>
 			<div class="concat-there" v-if="listData.length == 0 ? true : false">
@@ -123,6 +124,7 @@
   }
 
   .nav-left {
+	  width: 0.55rem;
     position: absolute;
     left: 0.25rem;
     top: 0.2rem;

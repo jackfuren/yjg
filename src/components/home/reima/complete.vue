@@ -3,7 +3,8 @@
     <div class="box-container">
       <div class="nav">
           <div id="aa"></div>
-        <van-icon @click="fh()" class="nav-left" color="#333333" name="arrow-left" size="0.5rem"/>
+		  <img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+        <!-- <van-icon @click="fh()" class="nav-left" color="#333333" name="arrow-left" size="0.5rem"/> -->
         <p>全部品牌</p>
       </div>
       <div class="all">
@@ -111,6 +112,7 @@
   .nav-left {
     position: absolute;
     left: 0.25rem;
+	width: 0.55rem;
     top: 0.2rem;
     clear: both;
     z-index: 999999;

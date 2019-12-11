@@ -2,12 +2,13 @@
   <div class="box">
     <div class="box-container">
       <div class="nav">
-        <van-icon
+        <!-- <van-icon
           @click="fh()"
           name="arrow-left"
           size="0.45rem"
-          style="margin-top: 0.2rem;margin-left: 0.15rem"
-        />
+          
+        /> -->
+		<img src="../../../assets/img/fan.png" @click="fh()" style="width:0.55rem;margin-top: 0.2rem;margin-left: 0.15rem" alt="">
         <div class="nav-div">
           <div :style=" show == 1? backg :backgg " @click="show=1">商品</div>
           <div :style=" show == 2? backg :backgg " @click="show=2">店铺</div>

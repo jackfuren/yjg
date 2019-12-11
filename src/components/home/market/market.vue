@@ -4,12 +4,13 @@
       <!-- 头部-->
       <div class="nav">
         <div class="nav-top">
-          <van-icon @click="fh()" color="#FFFFFF" name="arrow-left" size="0.55rem"
-                    style="float: left;margin-top: 0.2rem"/>
+			<img src="../../../assets/img/fan.png" @click="fh()" style="float: left;margin-top: 0.2rem;width: 0.55rem;" alt="">
+          <!-- <van-icon @click="fh()" color="#FFFFFF" name="arrow-left" size="0.55rem"
+                    style="float: left;margin-top: 0.2rem"/> -->
           <van-icon @click="sou()" color="#FFFFFF" name="search" size="0.5rem"
                     style="margin-right: 0.1rem;margin-top: 0.2rem"/>
-
-          <van-icon @click="rapid =! rapid" color="#FFFFFF" name="wap-nav" size="0.5rem" style=";margin-top: 0.2rem"/>
+			<img src="../../../assets/img/cai.png" @click="rapid =! rapid" style="width: 0.4rem;margin-top: 0.2rem" alt="">
+          <!-- <van-icon  color="#FFFFFF" name="wap-nav" size="0.5rem" /> -->
         </div>
         <div class="nav-bottom">
           <p>{{top.name}}</p>

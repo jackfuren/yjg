@@ -1,7 +1,8 @@
 <template>
 	<div class="box">
 		<div class="nav">
-		  <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/>
+			<img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+		  <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/> -->
 		  <p>关于我们</p>
 		</div>
 		<img :src=this.img alt="">
@@ -76,6 +77,7 @@
 	  position: absolute;
 	  left: 0.25rem;
 	  top: 0.2rem;
+	  width: 0.55rem;
 	}
 	img{
 		width: 103px;
