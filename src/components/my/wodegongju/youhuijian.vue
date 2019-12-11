@@ -2,7 +2,8 @@
   <div class="box">
     <div class="box-container">
       <div class="nav">
-        <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.45rem"/>
+		  <img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+        <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.45rem"/> -->
         <p>优惠券</p>
       </div>
       <van-tabs v-model="active">
@@ -172,6 +173,7 @@
     position: absolute;
     left: 0.2rem;
     top: 0.2rem;
+	width: 0.55rem;
   }
 
   .van-tab__pane {

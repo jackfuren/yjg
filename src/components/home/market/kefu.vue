@@ -1,7 +1,8 @@
 <template>
   <div class="box">
     <div class="nav">
-      <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem" />
+		<img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+      <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem" /> -->
       <p class="name">{{name}}</p>
       <p class="pu" @click="dianpuLink">店铺</p>
     </div>
@@ -554,6 +555,7 @@ export default {
   position: absolute;
   left: 0.25rem;
   top: 0.2rem;
+  width: 0.55rem;
 }
 .pu {
   display: inline-block;

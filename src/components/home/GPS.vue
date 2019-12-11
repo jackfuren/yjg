@@ -46,7 +46,7 @@
         <van-area :area-list="areaList" @cancel="quxiao()" @change="OnChange" @confirm="que" />
       </van-popup>
       <div class="city" v-if="ss">
-        <div class="city-div" v-for="(item,index) in dataList">
+        <div class="city-div" v-for="(item,index) in dataList" :key="index">
           <p @click="dian(item)">{{item.area_name}}</p>
         </div>
       </div>
@@ -171,11 +171,23 @@ export default {
           window.sessionStorage.setItem("lat", data.position.lat);
           window.sessionStorage.setItem("lng", data.position.lng);
           if (data.addressComponent.building != "") {
-            that.dz = data.addressComponent.building; //楼信息列表
+            that.dzz = data.addressComponent.building; //楼信息列表
           } else if (data.addressComponent.neighborhood != "") {
-            that.dz = data.addressComponent.neighborhood;
+            var index = data.formattedAddress.indexOf(
+              data.addressComponent.neighborhood
+            );
+            that.dzz = data.formattedAddress.substring(
+              index,
+              data.formattedAddress.length
+            );
           } else {
-            that.dz = data.addressComponent.township; //所在街道
+            var index = data.formattedAddress.indexOf(
+              data.addressComponent.street
+            );
+            that.dzz = data.formattedAddress.substring(
+              index,
+              data.formattedAddress.length
+            );
           }
           console.log(that.dz);
           window.localStorage.setItem("site", that.dz);

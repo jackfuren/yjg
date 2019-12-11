@@ -1,8 +1,9 @@
 <template>
   <div class="box">
     <div class="box-container">
-      <div class="nav" @click="fh()">
-        <van-icon  class="nav-left" name="arrow-left" size="0.5rem"/>
+      <div class="nav">
+		  <img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+        <!-- <van-icon  class="nav-left" name="arrow-left" size="0.5rem"/> -->
         <p>账号设置</p>
       </div>
       <div class="concat">
@@ -83,6 +84,7 @@
   }
 
   .nav-left {
+	  width: 0.55rem;
     position: absolute;
     left: 0.25rem;
     top: 0.2rem;

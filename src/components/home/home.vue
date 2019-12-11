@@ -305,12 +305,31 @@ export default {
           window.sessionStorage.setItem("lat", this.lat);
           window.sessionStorage.setItem("lng", this.lng);
           console.log(this.lat, this.lng);
+          // that.dzz = data.formattedAddress.indexOf(data.addressComponent.street);
+          console.log(
+            data.formattedAddress.indexOf(data.addressComponent.street)
+          );
+          console.log(
+            data.formattedAddress.substring(12, data.formattedAddress.length)
+          );
           if (data.addressComponent.building != "") {
             that.dzz = data.addressComponent.building; //楼信息列表
           } else if (data.addressComponent.neighborhood != "") {
-            that.dzz = data.addressComponent.neighborhood;
+            var index = data.formattedAddress.indexOf(
+              data.addressComponent.neighborhood
+            );
+            that.dzz = data.formattedAddress.substring(
+              index,
+              data.formattedAddress.length
+            );
           } else {
-            that.dzz = data.addressComponent.township; //所在街道
+            var index = data.formattedAddress.indexOf(
+              data.addressComponent.street
+            );
+            that.dzz = data.formattedAddress.substring(
+              index,
+              data.formattedAddress.length
+            );
           }
           console.log(that.dzz);
           that.dz = that.dzz;
@@ -475,25 +494,25 @@ export default {
   line-height: 0.88rem;
   position: relative;
   text-align: left;
+  display: flex;
+  align-items: center;
 }
 
 .location img {
   width: 0.23rem;
   height: 0.3rem;
-  margin-left: 0.3rem;
-}
-
-.loc-down {
+  margin:0 0.05rem 0 0.3rem;
   position: relative;
-  top: 0.04rem;
+  top: -0.05rem;
 }
-
 .location p {
+  max-width: 1.2rem;
   line-height: 1rem;
-  position: relative;
-  top: -0.02rem;
+  height: 1rem;
   display: inline-block;
   font-size: 0.28rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .search {

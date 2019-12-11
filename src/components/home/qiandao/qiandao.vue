@@ -46,7 +46,7 @@
           <img alt src="../../../assets/qiandaoye_zhankuang1.png" />&ensp;今日签到战况&ensp;
           <img alt src="../../../assets/qiandaoye_zhankuang2.png" />
         </p>
-        <p class="footer-p" v-for="(item , index) in dataList">
+        <p class="footer-p" v-for="(item , index) in dataList" :key="index">
           <span>
             <img alt :src="item.avatar" />沿街购
           </span>
@@ -72,7 +72,7 @@
           <img alt src="../../../assets/qiandaoye_zhankuang2.png" />
         </p>
 
-        <p class="footer-p" v-for="(item , index) in dataListt">
+        <p class="footer-p" v-for="(item , index) in dataListt" :key="index">
           <span>
             <img alt :src="item.avatar" />沿街购
           </span>

@@ -4,7 +4,8 @@
     <div class="nav-top">
       <div class="nav">
         <div class="navvan">
-        	<van-icon @click="fh()" class="nav-left"  name="arrow-left" size="0.5rem"/>
+			<img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+        	<!-- <van-icon @click="fh()" class="nav-left"  name="arrow-left" size="0.5rem"/> -->
         	<p>订单详情</p>
         </div>
       </div>
@@ -201,6 +202,7 @@ console.log(this.id)
   }
 
   .nav-left {
+	  width: 0.55rem;
     position: absolute;
     left: 0.25rem;
     top: 0.2rem;

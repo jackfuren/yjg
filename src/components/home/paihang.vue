@@ -117,7 +117,6 @@
               <span v-if="index >4 " style="color: #777777;left: 0rem;">销量{{item.num}}件</span>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -263,7 +262,7 @@ export default {
   position: fixed;
   background: white;
   top: 0;
-  z-index: 99;
+  z-index: 999;
 }
 
 .nav p {
@@ -309,7 +308,7 @@ export default {
   background: white;
   position: fixed;
   top: 0.88rem;
-  z-index: 999;
+  z-index: 99;
 }
 
 .all div {
@@ -536,7 +535,7 @@ export default {
   display: table-cell;
   vertical-align: middle;
   position: relative;
-  box-shadow:0px 0px 16px 0px rgba(0, 0, 0, 0.18);
+  box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.18);
   border-radius: 0.1rem;
   overflow: hidden;
 }

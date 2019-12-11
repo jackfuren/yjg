@@ -1,7 +1,8 @@
 <template>
   <div class="box">
     <div class="nav">
-      <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/>
+		<img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+      <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/> -->
       <p>注册</p>
     </div>
     <p class="box-p">手机号{{phone}}已经注册</p>
@@ -67,6 +68,7 @@
   }
 
   .nav-left {
+	  width: 0.55rem;
     position: absolute;
     left: 0.25rem;
     top: 0.2rem;

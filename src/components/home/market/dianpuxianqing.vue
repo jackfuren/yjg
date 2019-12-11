@@ -4,20 +4,22 @@
       <!-- 头部-->
       <div class="nav">
         <div class="nav-top">
-          <van-icon
+          <!-- <van-icon
             @click="fh()"
             color="#FFFFFF"
             name="arrow-left"
             size="0.6rem"
             style="margin-top: 0.1rem"
-          />
-          <van-icon
+          /> -->
+		  <img src="../../../assets/img/fan.png" @click="fh()" style="margin-top: 0.1rem;width: 0.55rem;" alt="">
+          <!-- <van-icon
             @click="back =!back"
             color="#FFFFFF"
             name="wap-nav"
             style="float: right;margin-right: 0.55rem;margin-top: 0.1rem"
             size="0.6rem"
-          />
+          /> -->
+		  <img src="../../../assets/img/cai.png" @click="back =!back" style="width:0.4rem;float: right;margin-right: 0.55rem;margin-top: 0.1rem" alt="">
           <van-icon
             @click="Search()"
             color="#FFFFFF"

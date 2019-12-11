@@ -1,7 +1,8 @@
 <template>
   <div class="box">
     <div class="nav">
-      <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/>
+		<img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+      <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/> -->
       <p>个人信息</p>
       <span @click="save()">保存</span>
     </div>
@@ -39,7 +40,8 @@
     <van-popup v-model="showw">
       <div class="sex">
         <div class="nav">
-          <van-icon @click="fhh()" class="nav-leftt" name="arrow-left" size="0.5rem"/>
+			<img src="../../../assets/img/fan.png" @click="fhh()" class="nav-leftt" alt="">
+          <!-- <van-icon @click="fhh()" class="nav-leftt" name="arrow-left" size="0.5rem"/> -->
           <p>修改昵称</p>
         </div>
         <div class="concat">
@@ -209,11 +211,13 @@ Vue.use(Toast);
     position: absolute;
     left: 0.25rem;
     top: 0.2rem;
+	width:0.55rem;
   }
   .nav-leftt {
     position: absolute;
     left: 0.3rem;
     top: 0.2rem;
+	width:0.55rem;
   }
   .nav span {
     position: absolute;
