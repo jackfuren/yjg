@@ -272,7 +272,7 @@ export default {
       a: true,
       b: false,
       c: false,
-      token: "",
+      token: this.$route.query.token,
       goods_id: "",
       z: [],
       x: [],
@@ -367,7 +367,10 @@ export default {
               arrayList:this.x
             }
           })
-        } else if (this.token == null){
+        }else if(this.token ==50){
+          this.$router.go(-1)
+        }
+         else if (this.token == null){
           this.$router.push({
             name: 'home',
           })

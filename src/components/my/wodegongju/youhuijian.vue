@@ -7,8 +7,7 @@
       </div>
       <van-tabs v-model="active">
         <van-tab title="商家优惠券">
-          <div class="top">
-<!--            <p v-show="useList.length ==0 ? false:true">待使用</p>-->
+          <div class="top"  v-if="dataList.lenght==0 ? true:false">
             <div class="top-concat">
               <div v-for="(item,index) in dataList" :key="index">
                 <div class="top-concat-divv">
@@ -38,7 +37,10 @@
               </div>
             </div>
           </div>
+          <div v-if="dataList.lenght==0 ? false:true" class="wu">暂无优惠卷</div>
         </van-tab>
+
+
         <van-tab title="平台优惠券">
           <div style="padding-top: 0.2rem">
             <div class="top-concat-bottomm" v-for="(item,index) in terraceList" :key="index">
@@ -96,7 +98,7 @@
       }).then(res => {
         //console.log(res)
         this.dataList =res.data.data
-        //console.log(this.dataList)
+        console.log(this.dataList)
       })
       request({
         url: "api/coupon/mycoupon",

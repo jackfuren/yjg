@@ -50,7 +50,7 @@
         <div class="nav-wl" v-show="shou.length>0 ? true : false">
           <p>最近物流</p>
           <div class="nav-qs" @click="wuliu()">
-            <div class="nav-qsp" v-for="(imet,index) in shou">
+            <div class="nav-qsp" v-for="(imet,index) in shou" :key="index">
               <img :src="imet.goods[0].headimg" alt />
               <div class="nav-right">
                 <van-checkbox
@@ -74,27 +74,19 @@
         <div class="xian"></div>
         <div class="nav-xx">
           <div @click="shangpin()" class="nav-conn">
-            <p>
-              <img src="../../assets/shoucang.png" alt />
-            </p>
+            <img src="../../assets/shoucang.png" alt />
             <p>我的收藏</p>
           </div>
           <div @click="youhuijian()" class="nav-conn">
-            <p>
-              <img src="../../assets/youhuiquan.png" alt />
-            </p>
+            <img src="../../assets/youhuiquan.png" alt />
             <p>优惠券</p>
           </div>
           <div @click="help()" class="nav-conn">
-            <p>
-              <img src="../../assets/wentifankui.png" alt />
-            </p>
-            <p>帮助反馈</p>
+            <img src="../../assets/wentifankui.png" alt />
+            <p>帮助中心</p>
           </div>
           <div @click="she()" class="nav-conn">
-            <p>
-              <img src="../../assets/shezhi.png" alt />
-            </p>
+            <img src="../../assets/shezhi.png" alt />
             <p>设置</p>
           </div>
         </div>
@@ -415,7 +407,7 @@ export default {
 
 .nav-a {
   position: absolute;
-  top: 0.68rem;
+  top: 0.3rem;
   right: 0.2rem;
 }
 .nav-a img {
@@ -577,15 +569,9 @@ export default {
   height: 1rem;
   font-size: 0.24rem;
 }
-
-.nav-conn p:nth-child(1) {
-  font-size: 0.36rem;
+.nav-conn > img {
+  margin-bottom: 0.08rem;
 }
-
-.nav-conn p:nth-child(2) {
-  font-size: 0.24rem;
-}
-
 .nav-hy {
   width: 100%;
   height: 2rem;

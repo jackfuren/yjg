@@ -169,6 +169,9 @@
 </script>
 
 <style scoped>
+input{
+  background-color: white;
+}
   input::-webkit-input-placeholder {
     /* placeholder颜色  */
     color: #CCCCCC;

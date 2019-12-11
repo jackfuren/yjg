@@ -48,17 +48,14 @@
       </div>
 
       <div v-show="show == 2 ? true : false" class="footer">
-<<<<<<< HEAD
         <div class="concat-there" v-if="commodity.length == 0 ? true : false">
           <img src="../../../assets/shoucangshangpu.png" alt />
           <p>当前暂无收藏商铺</p>
         </div>
-=======
-		  <div class="concat-there" v-if="storee.length == 0 ? true : false">
-		    <img src="../../../assets/shoucangshangpu.png" alt="">
-		    <p>当前暂无收藏商铺</p>
-		  </div>
->>>>>>> 24bf681eab6610dfe35f8b16c9f59a0101752546
+        <div class="concat-there" v-if="storee.length == 0 ? true : false">
+          <img src="../../../assets/shoucangshangpu.png" alt />
+          <p>当前暂无收藏商铺</p>
+        </div>
         <div class="footer-right" v-for="(item ,index) in storee" :key="index">
           <van-checkbox-group class="a" v-show="checkboxx" v-model="store">
             <van-checkbox :name="item.shop_id" checked-color="#EF0600"></van-checkbox>
@@ -104,7 +101,8 @@ export default {
       guang: true,
       wan: false,
       commodity: [], //商品列表
-      storee: [] //店铺列表
+      storee: [], //店铺列表,
+      link: true
     };
   },
   methods: {
@@ -119,6 +117,7 @@ export default {
       this.guang = !this.guang;
       this.wan = !this.wan;
       this.checkboxx = !this.checkboxx;
+      this.link = !this.link;
     },
     delet() {
       //console.log(this.show)
@@ -188,14 +187,16 @@ export default {
       });
     },
     enterXq(gid) {
-      console.log(gid)
-      this.$router.push({
-        name: "wpxq",
-        query: {
-          goods_id: gid,
-          token: 46
-        }
-      });
+      console.log(gid);
+      if (this.link == true) {
+        this.$router.push({
+          name: "wpxq",
+          query: {
+            goods_id: gid,
+            token: 46
+          }
+        });
+      }
     }
   },
   components: {

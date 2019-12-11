@@ -72,7 +72,6 @@
           </div>
         </div>
       </van-list>
-
       <div style="height: 1rem"></div>
       <van-tabbar v-model="active4" active-color="#EF0600" inactive-color="#333333">
         <van-tabbar-item to="/">
@@ -179,14 +178,13 @@ export default {
       dj: "",
       show: false,
       showw: false,
-      formattedAddress: "正在获取定位...",
+      formattedAddress: "",
       dzz: "",
       dzzz: "",
       lat: "", //weidu
       lnt: "", //jingdu
       shuju: "",
-      finished: false,
-      token: this.$route.query.token
+      finished: false
     };
   },
   methods: {
@@ -268,17 +266,12 @@ export default {
       });
     },
     Site() {
-      if (this.token != 56) {
+      let a = window.sessionStorage.getItem("site");
+      if (a == null) {
         this.getLocation();
       }
     },
     getLocation() {
-      console.log(window.localStorage.getItem("site"));
-      if (window.localStorage.getItem("site") == null) {
-        this.show = true;
-      } else {
-        this.show = false;
-      }
       // 从高德地图api获取浏览器定位
       const that = this;
       var map1 = new AMap.Map("container1", {
@@ -300,22 +293,35 @@ export default {
           console.log(data);
           this.shuju = data;
           // 经纬度
-          this.lat = data.position.lat;
+          this.lat = data.position.lat;  
           this.lng = data.position.lng;
           window.sessionStorage.setItem("lat", this.lat);
           window.sessionStorage.setItem("lng", this.lng);
           console.log(this.lat, this.lng);
-          if (data.addressComponent.building != "") {
-            that.dzz = data.addressComponent.building; //楼信息列表
-          } else if (data.addressComponent.neighborhood != "") {
-            that.dzz = data.addressComponent.neighborhood;
-          } else {
-            that.dzz = data.addressComponent.township; //所在街道
-          }
+          // let aaa = data.formattedAddress;
+          // let ccc = "街道";
+          // let eee = data.addressComponent.streetNumber;
+          // console.log(aaa)
+          // for (var l = 0; l < aaa.length; l++) {
+          //   if (ccc == aaa[l]) {
+          //     that.dzz = aaa
+          //       .substring(l + 1, aaa.length)
+          //       .split(eee)
+          //       .join("");
+          //   }
+          // }
+          that.dzz = data.addressComponent.building;
+          // data是具体的定位信息
           console.log(that.dzz);
-          that.dz = that.dzz;
-          console.log(that.dz);
+          window.localStorage.setItem("site", that.dzz);
+          window.sessionStorage.setItem("site", that.dzz);
+          that.dz=that.dzz
+          console.log(that.dz)
+          // that.dzz = data.addressComponent.township
+          //addressComponent.street //data.addressComponent.township
+          //that.dzzz=data.addressComponent.street
           that.formattedAddress = data.formattedAddress;
+          that.show = true;
         }
         function onError(data) {
           console.log(data);
@@ -352,7 +358,10 @@ export default {
       });
     },
     onLoad() {
-      console.log("fghjkl;");
+      console.log(
+        window.sessionStorage.getItem("lat"),
+        window.sessionStorage.getItem("lng")
+      );
       request({
         url: "api/index/goods",
         method: "post",
@@ -379,7 +388,6 @@ export default {
     },
     que() {
       this.show = false;
-      console.log(window.localStorage.getItem("site"));
       window.sessionStorage.setItem("site", this.dzz);
       let b = window.sessionStorage.getItem("site");
       window.localStorage.setItem("site", b);
@@ -403,6 +411,8 @@ export default {
     }
   },
   mounted() {
+    //this.dataList = shop.data
+    //轮播图
     request({
       url: "api/index/adv",
       method: "get"

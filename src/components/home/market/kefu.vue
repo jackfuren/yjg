@@ -3,7 +3,7 @@
     <div class="nav">
       <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem" />
       <p class="name">{{name}}</p>
-      <p class="pu">店铺</p>
+      <p class="pu" @click="dianpuLink">店铺</p>
     </div>
 
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh" id="content">
@@ -505,6 +505,15 @@ export default {
         }
       });
     },
+    dianpuLink() {
+      this.$router.push({
+        name: "dpxq",
+        query: {
+          token: 37,
+          goods_id: this.goods_id
+        }
+      });
+    },
     // 进入时滚动到底部
     scrollBottom: function() {
       var content = document.getElementById("content");
@@ -729,6 +738,14 @@ export default {
 .masgContentMyImg {
   float: right;
   margin-right: 0.1rem;
+  width: auto;
+  height: 5rem;
+}
+.masgContentMyImg img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 .masgContentYou {
   background-color: #fff;
