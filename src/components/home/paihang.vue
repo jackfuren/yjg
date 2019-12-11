@@ -128,7 +128,7 @@
           url: "api/brand/phgoods",
           method: "post"
         }).then(res => {
-          //console.log(res)
+          console.log(res)
           this.dataList = res.data.data
           //consoleog(res.data.data)
         })
