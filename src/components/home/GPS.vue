@@ -173,6 +173,8 @@ export default {
           if (data.addressComponent.building != "") {
             that.dzz = data.addressComponent.building; //楼信息列表
           } else if (data.addressComponent.neighborhood != "") {
+            that.dzz = data.addressComponent.neighborhood;
+          } else if (data.addressComponent.neighborhood == "") {
             var index = data.formattedAddress.indexOf(
               data.addressComponent.neighborhood
             );

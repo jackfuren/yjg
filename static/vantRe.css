@@ -7,3 +7,12 @@ color: #fff;
 .van-field__label{
     max-width: 1.75rem;
 }
+.swiper-pagination-bullet {
+ width: 0.098rem !important;
+ height: 0.098rem !important;
+ margin: 0 0.1rem;
+ }
+  
+ .swiper-pagination-bullet-active {
+ background: #ef0600;
+ }

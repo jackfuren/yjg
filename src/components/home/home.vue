@@ -186,7 +186,8 @@ export default {
       lnt: "", //jingdu
       shuju: "",
       finished: false,
-      token: this.$route.query.token
+      token: this.$route.query.token,
+      queP: false
     };
   },
   methods: {
@@ -271,11 +272,19 @@ export default {
       if (this.token != 56) {
         this.getLocation();
       }
+      if (this.dz == "正在获取") {
+        console.log(this.dz);
+        window.sessionStorage.setItem("site", "正在获取");
+      }
     },
     getLocation() {
       console.log(window.localStorage.getItem("site"));
-      if (window.localStorage.getItem("site") == null) {
+      if (
+        window.localStorage.getItem("site") == null ||
+        window.localStorage.getItem("site") == "正在获取"
+      ) {
         this.show = true;
+        this.dz = "正在获取";
       } else {
         this.show = false;
       }
@@ -305,16 +314,14 @@ export default {
           window.sessionStorage.setItem("lat", this.lat);
           window.sessionStorage.setItem("lng", this.lng);
           console.log(this.lat, this.lng);
-          // that.dzz = data.formattedAddress.indexOf(data.addressComponent.street);
-          console.log(
-            data.formattedAddress.indexOf(data.addressComponent.street)
-          );
           console.log(
             data.formattedAddress.substring(12, data.formattedAddress.length)
           );
           if (data.addressComponent.building != "") {
             that.dzz = data.addressComponent.building; //楼信息列表
           } else if (data.addressComponent.neighborhood != "") {
+            that.dzz = data.addressComponent.neighborhood;
+          } else if (data.addressComponent.neighborhood == "") {
             var index = data.formattedAddress.indexOf(
               data.addressComponent.neighborhood
             );
@@ -332,8 +339,7 @@ export default {
             );
           }
           console.log(that.dzz);
-          that.dz = that.dzz;
-          console.log(that.dz);
+          that.queP = true;
           that.formattedAddress = data.formattedAddress;
         }
         function onError(data) {
@@ -371,7 +377,6 @@ export default {
       });
     },
     onLoad() {
-      console.log("fghjkl;");
       request({
         url: "api/index/goods",
         method: "post",
@@ -397,12 +402,17 @@ export default {
       });
     },
     que() {
-      this.show = false;
-      console.log(window.localStorage.getItem("site"));
-      window.sessionStorage.setItem("site", this.dzz);
-      let b = window.sessionStorage.getItem("site");
-      window.localStorage.setItem("site", b);
-      this.dz = window.localStorage.getItem("site");
+      console.log(this.queP);
+      if (this.queP == true) {
+        this.show = false;
+        this.dz = this.dzz;
+        console.log(this.dz);
+        console.log(this.dz);
+        window.sessionStorage.setItem("site", this.dzz);
+        let b = window.sessionStorage.getItem("site");
+        window.localStorage.setItem("site", b);
+        this.dz = window.localStorage.getItem("site");
+      }
     },
     cong() {
       this.getLocation();
@@ -501,18 +511,19 @@ export default {
 .location img {
   width: 0.23rem;
   height: 0.3rem;
-  margin:0 0.05rem 0 0.3rem;
+  margin: 0 0.05rem 0 0.3rem;
   position: relative;
   top: -0.05rem;
 }
 .location p {
-  max-width: 1.2rem;
+  max-width: 1.6rem;
   line-height: 1rem;
   height: 1rem;
   display: inline-block;
   font-size: 0.28rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .search {

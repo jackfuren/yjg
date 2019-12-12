@@ -3,9 +3,12 @@
     <div class="box-container">
       <div id="n"></div>
       <div class="nav">
-        <van-icon @click="fh()" class="nav-left" color="#333333" name="arrow-left" size="0.5rem" />
+        <img src="../../assets/img/fan.png" @click="fh()" class="top-left" alt />
+        <!-- <van-icon @click="fh()" class="nav-left" color="#333333" name="arrow-left" size="0.5rem"/> -->
         <p>精选排行</p>
-        <van-icon @click="dd()" name="wap-nav" size="0.4rem" class="nav-van" />
+        <img src="../../assets/img/cai.png" @click="dd()" class="top-right" alt />
+
+        <!-- <van-icon @click="dd()" name="wap-nav" size="0.4rem" class="nav-van" /> -->
         <div v-show="rapid" class="nav-top-back">
           <p @click="xiaoxi">
             <img
@@ -263,8 +266,19 @@ export default {
   background: white;
   top: 0;
   z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.2rem;
+  box-sizing: border-box;
+}
+.top-left {
+  width: 0.55rem;
 }
 
+.top-right {
+  width: 0.4rem;
+}
 .nav p {
   font-size: 0.36rem;
   font-weight: 500;
@@ -290,8 +304,8 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   position: fixed;
-  right: 0.26rem;
-  top: 0.6rem;
+  right: 0.19rem;
+  top: 0.65rem;
   padding-top: 0.2rem;
 }
 

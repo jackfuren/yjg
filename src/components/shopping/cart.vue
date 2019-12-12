@@ -177,7 +177,9 @@ export default {
       dataListTwo: [],
       arrListTwo: [],
       link:
-        "https://www.adidas.com.cn/?utm_source=baidu&utm_medium=sem&utm_campaign=2018-xcat-brandzone&utm_content=title-bzpc&utm_term=brandzonepc"
+        "https://www.adidas.com.cn/?utm_source=baidu&utm_medium=sem&utm_campaign=2018-xcat-brandzone&utm_content=title-bzpc&utm_term=brandzonepc",
+
+      shouC: false
     };
   },
   created() {
@@ -395,8 +397,13 @@ export default {
       }).then(res => {
         //console.log(res)
         if (res.data.code == 200) {
-          Toast("删除成功");
           this.gian();
+          if (this.shouC == true) {
+            Toast("收藏成功");
+            this.shouC = false;
+          } else {
+            Toast("删除成功");
+          }
         }
       });
     },
@@ -405,12 +412,14 @@ export default {
       this.arrList = [];
       for (var i = 0; i < this.dataList.length; i++) {
         for (var j = 0; j < this.dataList[i].goods.length; j++) {
-          //console.log(11111)
           if (this.dataList[i].goods[j].check) {
             this.arrList.push(this.dataList[i].goods[j].goods_id);
+            console.log(this.arrList);
           }
         }
       }
+
+      var that = this;
       this.request({
         url: "api/users/collectiongoods",
         method: "post",
@@ -421,8 +430,8 @@ export default {
       }).then(res => {
         //console.log(res)
         if (res.data.code == 200) {
-          Toast("收藏成功");
-          this.gian();
+          this.shouC = true;
+          this.removeCart();
         }
         if (res.data.code == 0) {
           Toast("你已经收藏该商品了");
@@ -485,8 +494,8 @@ export default {
     xiaoxi() {
       this.$router.push({
         name: "news",
-        query:{
-          token:3
+        query: {
+          token: 3
         }
       });
     }

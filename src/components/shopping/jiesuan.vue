@@ -5,7 +5,7 @@
     <!-- </transition> -->
     <div class="box-container">
       <div class="nav">
-		  <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+        <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt />
         <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem" /> -->
         <p>确认订单</p>
       </div>
@@ -396,6 +396,7 @@ export default {
           this.msg = res.data.code;
           this.location = true;
           this.locationn = false;
+          this.youfei = 0;
           window.sessionStorage.setItem("lijitoken", JSON.stringify(1));
           var list = {
             A: this.cart_id,
@@ -481,12 +482,17 @@ export default {
               cart_id: this.listData[i].cart_id
             }
           }).then(res => {
-            this.youyo.push(res.data.data);
-            for (let m in this.youyo) {
-              this.total_amount = 0;
-              if (this.listData[i].id == this.youyo[m].shop_id) {
-                this.youfei.push(Number(this.youyo[m].dispatchprice));
-                console.log(this.youfei);
+            console.log(res);
+            if (this.location != false) {
+              this.youfei.push(0);
+            } else {
+              this.youyo.push(res.data.data);
+              for (let m in this.youyo) {
+                this.total_amount = 0;
+                if (this.listData[i].id == this.youyo[m].shop_id) {
+                  this.youfei.push(Number(this.youyo[m].dispatchprice));
+                  console.log(this.youfei);
+                }
               }
             }
             this.heji.push(
@@ -508,8 +514,6 @@ export default {
               this.total_amount = this.total_amount;
             }
           });
-          console.log(i);
-          console.log(this.youfei[i]);
         }
       } else if (this.song === 1) {
         this.youyo = [];
@@ -591,16 +595,16 @@ export default {
         this.youyo = [];
         this.youfei = [];
         this.heji = [];
-        for (let i = 0; i < this.listData.length; i++) {
-          this.heji.push(
-            this.listData[i].totalprice - this.listData[i].coupon_price + 0
-          ); //每个商家的合计
-          if (this.listData[i].totalprice > this.pinyou.ji) {
-            this.total_amount = this.heji[0] - this.pinyou.price;
-          } else {
-            this.total_amount = this.heji[0];
-          }
-        }
+        // for (let i = 0; i < this.listData.length; i++) {
+        //   this.heji.push(
+        //     this.listData[i].totalprice - this.listData[i].coupon_price + 0
+        //   ); //每个商家的合计
+        //   if (this.listData[i].totalprice > this.pinyou.ji) {
+        //     this.total_amount = this.heji[0] - this.pinyou.price;
+        //   } else {
+        //     this.total_amount = this.heji[0];
+        //   }
+        // }
       }
     },
     Submit() {
@@ -764,7 +768,7 @@ export default {
 }
 
 .nav-left {
-	width: 0.55rem;
+  width: 0.55rem;
   position: absolute;
   left: 0.25rem;
   top: 0.2rem;

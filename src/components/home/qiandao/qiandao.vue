@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" @click="qd">
     <div class="box-container">
       <div class="background">
         <!-- 返回 详情-->
@@ -54,7 +54,7 @@
           <span>{{item.add_time}}</span>
         </p>
 
-        <p class="footer-di"  v-if='dataList.length!=0'>---- &nbsp; 我是有底线的 &nbsp; ----</p>
+        <p class="footer-di" v-if="dataList.length!=0">---- &nbsp; 我是有底线的 &nbsp; ----</p>
       </div>
       <div class="footer" v-show="array == 1 ? true : false">
         <p style="background: #CCCCCC">未开始</p>
@@ -80,8 +80,9 @@
           <span>{{item.add_time}}</span>
         </p>
 
-        <p class="footer-di" v-if='dataList.length!=0'>--- &nbsp; 我是有底线的 &nbsp; ---</p>
+        <p class="footer-di" v-if="dataList.length!=0">--- &nbsp; 我是有底线的 &nbsp; ---</p>
       </div>
+
       <!--弹出层-->
       <van-popup style="border-radius: 20px" v-model="show">
         <div class="pop">
@@ -128,7 +129,8 @@ export default {
       dataList: [],
       dataListt: [],
       code: "",
-      text: "立即签到"
+      text: "立即签到",
+      zhankai: false
     };
   },
   methods: {
@@ -158,7 +160,13 @@ export default {
       });
     },
     right() {
-      this.xiala = !this.xiala;
+      this.xiala = true;
+    },
+    qd() {
+      this.zhankai = !this.zhankai;
+      if (this.zhankai == false) {
+        this.xiala = false;
+      }
     },
     wode() {
       this.$router.push({
@@ -225,7 +233,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.tit{
+.tit {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -369,7 +377,7 @@ export default {
   justify-content: space-around;
 }
 .footer-p span {
-  text-align:left;
+  text-align: left;
 }
 
 .footer-p img {
@@ -433,7 +441,7 @@ export default {
 
 .xiala {
   width: 2.9rem;
-  height: 1.9rem;
+  height: 1.7rem;
   position: absolute;
   right: 0.2rem;
   top: 0.72rem;
@@ -441,7 +449,7 @@ export default {
 
 .xiala img {
   width: 2.9rem;
-  height: 1.9rem;
+  height: 1.7rem;
 }
 
 .nav > .xiala > .xiala-p {
@@ -451,13 +459,16 @@ export default {
   font-size: 0.3rem;
   color: #ffffff;
   text-align: center;
+  display: flex;
+  // justify-content: center;
+  align-items: center;
 }
 
 .xiala-p img {
   width: 0.4rem;
   height: 0.4rem;
   position: relative;
-  top: 0.051rem;
+  top: -0.05rem;
   margin-right: 0.2rem;
 }
 
