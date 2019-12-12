@@ -102,26 +102,26 @@ Vue.use(Toast);
     },
     methods: {
       fh() {
-		  this.$router.go(-1)
-       // if (this.active == 4){
-       //   this.$router.push({
-       //     name: 'ddd',
-       //     query:{
-       //       id:this.active
-       //     }
-       //   })
-       // } else if (this.active == 5){
-       //   this.$router.push({
-       //     name: 'sqsh',
-       //     query:{
-       //       id:this.f
-       //     }
-       //   })
-       // } else {
-       //   this.$router.push({
-       //     name: 'Help',
-       //   })
-       // }
+		  // this.$router.go(-1)
+       if (this.active == 4){
+         this.$router.push({
+           name: 'ddd',
+           query:{
+             id:this.active
+           }
+         })
+       } else if (this.active == 5){
+         this.$router.push({
+           name: 'sqsh',
+           query:{
+             id:this.f
+           }
+         })
+       } else {
+         this.$router.push({
+           name: 'Help',
+         })
+       }
       },
       delImg(index) {
         // 删除指定下标的图片对象
@@ -171,6 +171,9 @@ Vue.use(Toast);
         }).then(res => {
           if (res.data.code == 200){
             Toast('评价成功')
+						this.$router.push({
+						  name: 'pjcg',
+						})
           }
         })
 

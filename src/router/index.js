@@ -157,6 +157,11 @@ const psw = resolve=>{
     resolve(require('@/components/shopping/peisongwan'));
   })
 }
+const pjcg = resolve=>{
+  require.ensure(['@/components/shopping/pingjiacg'],()=>{
+    resolve(require('@/components/shopping/pingjiacg'));
+  })
+}
 const wl = resolve=>{
   require.ensure(['@/components/shopping/wuliu'],()=>{
     resolve(require('@/components/shopping/wuliu'));
@@ -179,6 +184,7 @@ const Help = resolve=>{
     resolve(require('@/components/my/Help/help'));
   })
 }
+
 const  cus = resolve=>{
   require.ensure(['@/components/my/Help/customer'],()=>{
     resolve(require('@/components/my/Help/customer'));
@@ -483,6 +489,11 @@ const router =new Router({
 		  name: 'psw',
 		  component: psw
 		},
+		{
+		  path: '/pjcg',
+		  name: 'pjcg',
+		  component: pjcg
+		},
     {
       path: '/dd',
       name: 'dd',
@@ -576,7 +587,8 @@ const router =new Router({
       path: '/Help',
       name: 'Help',
       component: Help
-    }, {
+    },
+	{
       path: '/cus',
       name: 'cus',
       component: cus

@@ -59,7 +59,7 @@ Vue.use(Toast);
     methods: {
       fh() {
         this.$router.push({
-          name: 'My',
+          name: 'set',
 
         })
       },
