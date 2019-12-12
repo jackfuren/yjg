@@ -3,7 +3,6 @@
     <div class="box-container">
       <div class="nav">
 		  <img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
-        <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.45rem"/> -->
         <p>优惠券</p>
       </div>
       <van-tabs v-model="active">
@@ -38,12 +37,15 @@
               </div>
             </div>
           </div>
-          <div v-if="dataList.lenght==0 ? false:true" class="wu">暂无优惠卷</div>
+          <div v-if="dataList.lenght==0 ? false:true" class="wu">
+			  <img src="../../../assets/youkong.png" alt="">
+			  <p>暂无商家优惠卷</p>
+		  </div>
         </van-tab>
 
 
         <van-tab title="平台优惠券">
-          <div style="padding-top: 0.2rem">
+          <div style="padding-top: 0.2rem" v-if="terraceList.lenght==0 ? true:false">
             <div class="top-concat-bottomm" v-for="(item,index) in terraceList" :key="index">
               <div class="top-concat-bottom-div">
                 <span>￥</span> <span>{{item.sub_price}}</span> <span>{{item.name}}</span>
@@ -55,6 +57,10 @@
               </div>
             </div>
           </div>
+		  <div v-if="terraceList.lenght==0 ? false:true" class="wu">
+		  		<img src="../../../assets/youkong.png" alt="">
+		  		<p>暂无平台优惠卷</p>
+		  </div>
         </van-tab>
       </van-tabs>
     </div>
@@ -88,7 +94,6 @@
       Tabs
     },
     mounted() {
-
       request({
         url: "api/coupon/mycoupon",
         method: "post",
@@ -97,7 +102,7 @@
             type_id:2//商家和平台卷的区分
           }
       }).then(res => {
-        //console.log(res)
+        console.log(res)
         this.dataList =res.data.data
         console.log(this.dataList)
       })
@@ -109,7 +114,7 @@
           type_id:1
         }
       }).then(res => {
-        //console.log(res)
+        console.log(res)
         if (res.data.code == 200){
 					console.log(res.data.data)
           this.terraceList = res.data.data
@@ -339,4 +344,13 @@
     -o-transform:rotate(45deg); /* Opera */
     transform:rotate(45deg);
   }
+	.wu{
+		position: relative;
+		top: 4.5rem;
+		font-size: 0.28rem;
+		color: #333333;
+	}
+	.wu img{
+	width: 3.4rem;
+	}
 </style>

@@ -79,33 +79,39 @@
 	  		this.checked=e
 	  },
 	  bao(){
-		  request({
-		    url: "api/users/updaddr",
-		    method: "post",
-		    data: {
-		      user_id:this.user_id,
-		      addrid:this.addrid,
-		      consignee:this.name,
-		      phone:this.tel,
-		      province:this.province,
-		      city:this.city,
-		      area:this.county,
-		      address:this.addressDetail,
-		      is_default:this.checked
-		    }
-		  }).then(res => {
-		    console.log(res)
-		     if (res.data.code == 200){
-		       Toast('修改地址成功');
-			   this.$router.push({
-			     name: 'sho',
-			   })
-		     } else {
-		       Toast('修改地址失败');
-		     }
-		  }).catch(err=>{
-		    Toast('网络连接中断');
-		  })
+		  let tel = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/
+		  if(tel.test(this.tel)){
+			  request({
+				url: "api/users/updaddr",
+				method: "post",
+				data: {
+				  user_id:this.user_id,
+				  addrid:this.addrid,
+				  consignee:this.name,
+				  phone:this.tel,
+				  province:this.province,
+				  city:this.city,
+				  area:this.county,
+				  address:this.addressDetail,
+				  is_default:this.checked
+				}
+			  }).then(res => {
+				console.log(res)
+				 if (res.data.code == 200){
+				   Toast('修改地址成功');
+				   this.$router.push({
+					 name: 'sho',
+				   })
+				 } else {
+				   Toast('修改地址失败');
+				 }
+			  }).catch(err=>{
+				Toast('网络连接中断');
+			  })
+		  }else{
+			  Toast('手机号格式不正确');
+			  this.tel = ''
+		  }
 	  },
 	  que() {
 	    request({

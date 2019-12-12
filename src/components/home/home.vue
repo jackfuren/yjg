@@ -271,6 +271,9 @@ export default {
       if (this.token != 56) {
         this.getLocation();
       }
+	  if(this.dz=='正在获取'){
+		   this.getLocation();
+		}
     },
     getLocation() {
       console.log(window.localStorage.getItem("site"));
@@ -506,13 +509,14 @@ export default {
   top: -0.05rem;
 }
 .location p {
-  max-width: 1.2rem;
+  max-width: 1.6rem;
   line-height: 1rem;
   height: 1rem;
   display: inline-block;
   font-size: 0.28rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .search {

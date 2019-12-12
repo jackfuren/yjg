@@ -69,30 +69,37 @@
 		  this.checked=e
 	  },
 	  bao(){
-		  request({
-		    url: "api/users/addaddr",
-		    method: "post",
-		    data: {
-		      user_id:this.user_id,
-		      consignee:this.name,
-		      phone:this.tel,
-		      province:this.province,
-		      city:this.city,
-		      area:this.county,
-		      address:this.addressDetail,
-		      is_default:this.checked
-		    }
-		  }).then(res => {
-			  console.log(res)
-		    if (res.data.code == 200){
-		      Toast('保存成功')
-		      this.timer = setTimeout(()=>{   //设置延迟执行
-		        this.$router.push({
-		          name: "sho"
-		        })
-		      },1000);
-		    }
-		  })
+			let tel = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/
+			if(tel.test(this.tel)){
+				request({
+				  url: "api/users/addaddr",
+				  method: "post",
+				  data: {
+				    user_id:this.user_id,
+				    consignee:this.name,
+				    phone:this.tel,
+				    province:this.province,
+				    city:this.city,
+				    area:this.county,
+				    address:this.addressDetail,
+				    is_default:this.checked
+				  }
+				}).then(res => {
+				  console.log(res)
+				  if (res.data.code == 200){
+				    Toast('保存成功')
+				    this.timer = setTimeout(()=>{   //设置延迟执行
+				      this.$router.push({
+				        name: "sho"
+				      })
+				    },1000);
+				  }
+				})
+			}else{
+				Toast('手机号格式不正确');
+				this.tel = ''
+			}
+		  
 	  }
     },
     mounted() {
