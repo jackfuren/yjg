@@ -90,14 +90,16 @@
           <p>签到成功</p>
           <div class="pop-div">
             <span>您的签到码</span>
-            <p>{{code}}</p>
-            <button
-              class="fz"
-              type="button"
-              v-clipboard:copy="code"
-              v-clipboard:error="onError"
-              v-clipboard:success="onCopy"
-            >复制</button>
+            <div>
+              <!-- <p>{{code}}</p> -->
+              <button
+                class="fz"
+                type="button"
+                v-clipboard:copy="code"
+                v-clipboard:error="onError"
+                v-clipboard:success="onCopy"
+              >{{code}}</button>
+            </div>
           </div>
         </div>
       </van-popup>
@@ -130,12 +132,12 @@ export default {
         }
       ],
       array: "",
-      show: false,
+      show: true,
       xiala: false,
       user_id: "", //用户编码
       dataList: [],
       dataListt: [],
-      code: "",
+      code: "asdfghjk",
       text: "立即签到",
       zhankai: false
     };
@@ -218,6 +220,7 @@ export default {
     this.Sex();
     this.Sexx();
     var that = this;
+    Toast.setDefaultOptions({ duration: 1000 });
     var mySwiper = new Swiper(".swiper-container", {
       direction: "horizontal",
       loop: true,
@@ -428,18 +431,22 @@ export default {
   text-align: left;
   padding-top: 0.3rem;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
-
-.pop-div p {
-  display: inline-block;
-  padding: 0.1rem;
-  border: 1px solid rgba(153, 153, 153, 1);
-  border-radius: 28px;
-  color: #ef0a05;
-  font-size: 0.3rem;
+.pop-div > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+// .pop-div p {
+//   display: inline-block;
+//   padding: 0.1rem;
+//   border: 1px solid rgba(153, 153, 153, 1);
+//   border-radius: 28px;
+//   color: #ef0a05;
+//   font-size: 0.3rem;
+// }
 
 .pop-div span {
   font-size: 0.28rem;
@@ -502,17 +509,12 @@ export default {
   margin-right: 0.2rem;
 }
 .fz {
-  /* width: 0.67rem; */
-  height: 0.3rem;
-  padding: 0 0.1rem 0 0.1rem;
-  border-radius: 10px;
+  padding: 0.1rem;
+  border: 1px solid rgba(153, 153, 153, 1);
+  border-radius: 28px;
+  color: #ef0a05;
+  font-size: 0.3rem;
   line-height: 0.3rem;
-  background: #ef0600;
-  color: white;
-  font-size: 0.24px;
-  list-style: none;
-  border: 0;
-  float: right;
-  margin-right: 0.5rem;
+  background: unset;
 }
 </style>
