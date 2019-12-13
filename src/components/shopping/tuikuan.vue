@@ -7,7 +7,7 @@
         <p>退款/售后</p>
       </div>
 			<div class="concat-there" v-if="listData.length == 0 ? true : false">
-			  <img src="../../assets/shoucangshangpu.png" alt="">
+			  <img src="../../assets/liulamjilukong.png" alt="">
 			  <p>当前暂无退款商品</p>
 			</div>
       <div class="concat" v-for="(item ,index) in listData " :key="index">
