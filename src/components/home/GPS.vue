@@ -361,23 +361,29 @@ export default {
   line-height: 0.88rem;
   position: relative;
   text-align: left;
-  float: left;
+  display: flex;
+  align-items: center;
 }
 
 .location img {
   width: 0.23rem;
   height: 0.3rem;
   margin-left: 0.3rem;
+  margin-right: 0.1rem;
   position: relative;
-  top: 0.01rem;
+  top: -0.05rem;
 }
 
 .location p {
+  max-width: 2rem;
   line-height: 1rem;
   position: relative;
   top: -0.02rem;
   display: inline-block;
   font-size: 0.28rem !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /*搜索*/
