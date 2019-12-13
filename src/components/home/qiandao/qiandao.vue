@@ -91,6 +91,13 @@
           <div class="pop-div">
             <span>您的签到码</span>
             <p>{{code}}</p>
+            <button
+              class="fz"
+              type="button"
+              v-clipboard:copy="code"
+              v-clipboard:error="onError"
+              v-clipboard:success="onCopy"
+            >复制</button>
           </div>
         </div>
       </van-popup>
@@ -198,6 +205,12 @@ export default {
           this.dataListt = res.data.data;
         }
       });
+    },
+    onCopy: function(e) {
+      Toast("复制成功");
+    },
+    onError: function(e) {
+      Toast("复制失败");
     }
   },
   mounted() {
@@ -414,11 +427,13 @@ export default {
   margin: 0 auto;
   text-align: left;
   padding-top: 0.3rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .pop-div p {
   display: inline-block;
-  float: right;
   padding: 0.1rem;
   border: 1px solid rgba(153, 153, 153, 1);
   border-radius: 28px;
@@ -429,8 +444,6 @@ export default {
 .pop-div span {
   font-size: 0.28rem;
   color: #333333;
-  position: relative;
-  top: 0.1rem;
 }
 
 .dengdai {
@@ -487,5 +500,19 @@ export default {
   position: relative;
   top: 0.051rem;
   margin-right: 0.2rem;
+}
+.fz {
+  /* width: 0.67rem; */
+  height: 0.3rem;
+  padding: 0 0.1rem 0 0.1rem;
+  border-radius: 10px;
+  line-height: 0.3rem;
+  background: #ef0600;
+  color: white;
+  font-size: 0.24px;
+  list-style: none;
+  border: 0;
+  float: right;
+  margin-right: 0.5rem;
 }
 </style>
