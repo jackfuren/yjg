@@ -1477,8 +1477,10 @@ export default {
   text-indent: 0;
   text-align: center;
   line-height: 0.4rem;
-  border: 1px solid #ef0600;
   margin-left: 0.1rem;
+  background-image: url("");
+  background-image: url(../../../assets/youhuiquan.png);
+  background-size: 100% 100%;
 }
 .concat-top > p:last-child {
   margin-left: 0.55rem;

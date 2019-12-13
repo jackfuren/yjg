@@ -52,7 +52,7 @@
                         <span style="font-size: 0.3rem;font-weight: bold">{{content.price}}</span>
                         <a href="#">￥{{content.original_price}}</a>
                       </span>
-                      <span>&lt;{{content.sid}}公里</span>
+                      <span>&lt;{{content.distance}}</span>
                     </p>
                   </div>
                 </div>
