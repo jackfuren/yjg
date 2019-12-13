@@ -407,8 +407,8 @@ export default {
 
 .nav-a {
   position: absolute;
-  top: 0.3rem;
-  right: 0.2rem;
+  top: 0.55rem;
+  right: 0.3rem;
 }
 .nav-a img {
   width: 0.4rem;
