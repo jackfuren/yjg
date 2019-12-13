@@ -274,7 +274,8 @@ export default {
       }
       if (this.dz == "正在获取") {
         console.log(this.dz);
-        window.sessionStorage.setItem("site", "正在获取");
+        this.dz=window.localStorage.getItem("site")
+        this.getLocation();
       }
     },
     getLocation() {

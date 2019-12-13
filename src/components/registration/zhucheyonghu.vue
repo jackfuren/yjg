@@ -240,10 +240,6 @@ input::-webkit-input-placeholder {
   /* placeholder字体大小  */
   font-size: 0.26rem;
 }
-input {
-  background-color: white;
-}
-
 .box {
   position: relative;
   width: 100%;

@@ -26,14 +26,27 @@
         </div>
         <div class="dz" v-if="locationn">
           <img alt src="../../assets/dingdan_dizhi.png" />
-          <div class="dz-a">
+          <div class="dz-a" v-if="song!=2">
             <p>
               {{listarr.consignee}}
               <span>{{listarr.phone}}</span>
             </p>
             <p>{{listarr.province +listarr.city +listarr.area+listarr.address}}</p>
           </div>
-          <img alt @click="site()" class="dz-img" src="../../assets/dingdan_xiayibu.png" />
+          <div class="dz-a" v-if="song==2">
+            <p>
+              {{listData[0].name}}
+              <span>{{sAdd.phone}}</span>
+            </p>
+            <p>{{sAdd.province +sAdd.city +sAdd.area+sAdd.address}}</p>
+          </div>
+          <img
+            alt
+            @click="site()"
+            class="dz-img"
+            src="../../assets/dingdan_xiayibu.png"
+            v-if="song!=2"
+          />
         </div>
         <p class="paotui" v-show="song ===1 ? true : false" @click="time()">
           立即送出
@@ -234,7 +247,7 @@ export default {
       song: 0,
       swe: ["快递配送", "专业配送", "到店自取"],
       meti: 0,
-      tim: "",
+      tim: "请选择自取时间",
       ip: "",
       shop_id: "",
       cart_id: "",
@@ -255,7 +268,8 @@ export default {
         price: 0,
         pid: "",
         ji: ""
-      }
+      },
+      sAdd: ""
     };
   },
   methods: {
@@ -409,6 +423,7 @@ export default {
           window.sessionStorage.setItem("llll", JSON.stringify(list));
           this.listData = res.data.data.shop;
           this.dhao = res.data.data.origin_id;
+          this.sAdd = res.data.data.shopaddr;
           this.pd();
           this.ptmoney();
         } else {
@@ -426,6 +441,7 @@ export default {
           window.sessionStorage.setItem("llll", JSON.stringify(list));
           this.listData = res.data.data.shop;
           this.dhao = res.data.data.origin_id;
+          this.sAdd = res.data.data.shopaddr;
           for (var i in res.data.data.shop) {
             this.heshu.push(res.data.data.shop[i].totalnum);
             this.pu.push(res.data.data.shop[i].is_public);

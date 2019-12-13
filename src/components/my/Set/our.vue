@@ -78,15 +78,10 @@
 	  left: 0.25rem;
 	  top: 0.2rem;
 	  width: 0.55rem;
-	}
-	img{
-		width: 103px;
-		height: 103px;
-		margin: 20px 0 3px 0;
+	
 	}
 	p{
 		margin-bottom: 3px;
-		
 	}
 	.bottom {
 	  width: 6.9rem;
