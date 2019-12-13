@@ -274,7 +274,7 @@ export default {
       }
       if (this.dz == "正在获取") {
         console.log(this.dz);
-        this.dz=window.localStorage.getItem("site")
+        this.dz = window.localStorage.getItem("site");
         this.getLocation();
       }
     },
@@ -299,7 +299,7 @@ export default {
           enableHighAccuracy: true, //是否使用高精度定位，默认:true
           timeout: 10000, //超过10秒后停止定位，默认：5s
           buttonPosition: "RB", //定位按钮的停靠位置
-          buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+          buttonOffset: new AMap.Pixel(0, 0), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
           zoomToAccuracy: true //定位成功后是否自动调整地图视野到定位点
         });
         map1.addControl(geolocation);
@@ -315,31 +315,27 @@ export default {
           window.sessionStorage.setItem("lat", this.lat);
           window.sessionStorage.setItem("lng", this.lng);
           console.log(this.lat, this.lng);
-          console.log(
-            data.formattedAddress.substring(12, data.formattedAddress.length)
-          );
-          if (data.addressComponent.building != "") {
-            that.dzz = data.addressComponent.building; //楼信息列表
-          } else if (data.addressComponent.neighborhood != "") {
-            that.dzz = data.addressComponent.neighborhood;
-          } else if (data.addressComponent.neighborhood == "") {
-            var index = data.formattedAddress.indexOf(
-              data.addressComponent.neighborhood
-            );
-            that.dzz = data.formattedAddress.substring(
-              index,
-              data.formattedAddress.length
-            );
+          console.log(this.shuju);
+          //  显示位置判断
+          if (this.shuju.addressComponent.building != "") {
+            that.dzz = this.shuju.addressComponent.building; //楼信息列表
+          } else if (this.shuju.addressComponent.neighborhood != "") {
+            that.dzz = this.shuju.formattedAddress.split(
+              this.shuju.addressComponent.neighborhood
+            )[1];
+          } else if (this.shuju.addressComponent.township != "") {
+            that.dzz = this.shuju.formattedAddress.split(
+              this.shuju.addressComponent.township
+            )[1];
           } else {
-            var index = data.formattedAddress.indexOf(
-              data.addressComponent.street
-            );
-            that.dzz = data.formattedAddress.substring(
-              index,
-              data.formattedAddress.length
-            );
+            that.dzz = this.shuju.formattedAddress.split(
+              this.shuju.addressComponent.street
+            )[1];
           }
+
           console.log(that.dzz);
+          window.localStorage.setItem("site", that.dzz);
+          window.sessionStorage.setItem("site", that.dzz);
           that.queP = true;
           that.formattedAddress = data.formattedAddress;
         }

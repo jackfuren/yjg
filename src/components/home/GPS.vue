@@ -98,7 +98,7 @@ export default {
       });
       var marker = new AMap.Marker();
       var val = this.place;
-      window.localStorage.setItem("site", this.value);
+      window.localStorage.setItem("site", val);
       function geoCode() {
         geocoder.getLocation(val, function(status, result) {
           console.log(status, result);
@@ -150,6 +150,7 @@ export default {
       this.getLocation();
     },
     getLocation() {
+      console.log("ssssssssssss");
       // 从高德地图api获取浏览器定位
       const that = this;
       var map1 = new AMap.Map("container1", {
@@ -160,7 +161,7 @@ export default {
           enableHighAccuracy: true, //是否使用高精度定位，默认:true
           timeout: 10000, //超过10秒后停止定位，默认：5s
           buttonPosition: "RB", //定位按钮的停靠位置
-          buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+          buttonOffset: new AMap.Pixel(0, 0), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
           zoomToAccuracy: true //定位成功后是否自动调整地图视野到定位点
         });
         map1.addControl(geolocation);
@@ -168,32 +169,28 @@ export default {
         AMap.event.addListener(geolocation, "complete", onComplete);
         AMap.event.addListener(geolocation, "error", onError);
         function onComplete(data) {
+          console.log(data);
           window.sessionStorage.setItem("lat", data.position.lat);
           window.sessionStorage.setItem("lng", data.position.lng);
+          //  显示位置判断
           if (data.addressComponent.building != "") {
             that.dzz = data.addressComponent.building; //楼信息列表
           } else if (data.addressComponent.neighborhood != "") {
-            that.dzz = data.addressComponent.neighborhood;
-          } else if (data.addressComponent.neighborhood == "") {
-            var index = data.formattedAddress.indexOf(
+            that.dzz = data.formattedAddress.split(
               data.addressComponent.neighborhood
-            );
-            that.dzz = data.formattedAddress.substring(
-              index,
-              data.formattedAddress.length
-            );
+            )[1];
+          } else if (data.addressComponent.township != "") {
+            that.dzz = data.formattedAddress.split(
+              data.addressComponent.township
+            )[1];
           } else {
-            var index = data.formattedAddress.indexOf(
+            that.dzz = data.formattedAddress.split(
               data.addressComponent.street
-            );
-            that.dzz = data.formattedAddress.substring(
-              index,
-              data.formattedAddress.length
-            );
+            )[1];
           }
-          console.log(that.dz);
-          window.localStorage.setItem("site", that.dz);
-          window.sessionStorage.setItem("site", that.dz);
+
+          window.localStorage.setItem("site", that.dzz);
+          window.sessionStorage.setItem("site", that.dzz);
           that.$router.push({
             name: "home",
             query: {
@@ -223,6 +220,8 @@ export default {
       });
       var marker = new AMap.Marker();
       var val = this.value;
+      console.log(this.value);
+      window.localStorage.setItem("site", this.value);
       window.sessionStorage.setItem("site", this.value);
       function geoCode() {
         geocoder.getLocation(val, function(status, result) {
@@ -297,6 +296,7 @@ export default {
     }
   },
   mounted() {
+    console.log(window.localStorage.getItem("site"));
     //热门商圈
     this.request({
       url: "api/index/bigshop",

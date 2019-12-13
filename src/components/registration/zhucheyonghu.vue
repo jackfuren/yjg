@@ -102,6 +102,7 @@ export default {
           Toast("该手机号已经注册过");
           this.zhen = false;
           this.jia = true;
+          this.disabled=true
         } else if (res.data.msg == "请传过来密码") {
           this.zhen = true;
           this.jia = false;

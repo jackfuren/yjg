@@ -74,19 +74,19 @@
         <div class="xian"></div>
         <div class="nav-xx">
           <div @click="shangpin()" class="nav-conn">
-            <img src="../../assets/shoucang.png" alt />
+            <img src="../../assets/shoucang@3x.png" alt />
             <p>我的收藏</p>
           </div>
           <div @click="youhuijian()" class="nav-conn">
-            <img src="../../assets/youhuiquan.png" alt />
+            <img src="../../assets/youhuiquan@3x.png" alt />
             <p>优惠券</p>
           </div>
           <div @click="help()" class="nav-conn">
-            <img src="../../assets/wentifankui.png" alt />
+            <img src="../../assets/wentifankui@3x.png" alt />
             <p>帮助中心</p>
           </div>
           <div @click="she()" class="nav-conn">
-            <img src="../../assets/shezhi.png" alt />
+            <img src="../../assets/shezhi@3x.png" alt />
             <p>设置</p>
           </div>
         </div>
@@ -485,8 +485,8 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.nav-xx img {
-  width: 30px;
+.nav-xx > .nav-conn > img {
+  width: 60%;
 }
 .nav-con {
   height: 1rem;
@@ -566,6 +566,7 @@ export default {
 }
 
 .nav-conn {
+  width: 1rem;
   height: 1rem;
   font-size: 0.24rem;
 }

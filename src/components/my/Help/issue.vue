@@ -245,12 +245,10 @@ Vue.use(Toast);
   }
 
   .footer {
-    position: absolute;
+    position: fixed;
     width: 5.5rem;
     bottom: 0.38rem;
-    left: 50%;
-    margin-left: -2.75rem;
-
+    left: calc(43% - 2.25rem);
   }
 
   .footer p {

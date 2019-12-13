@@ -347,7 +347,6 @@ export default {
       if (this.listData.length > 1) {
         // this.song=index
         if (index == 2) {
-          this.song == 0;
           Toast("不在同一个商家不可以选择自取");
         } else {
           this.song = index;

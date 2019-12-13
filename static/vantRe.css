@@ -16,3 +16,16 @@ color: #fff;
  .swiper-pagination-bullet-active {
  background: #ef0600;
  }
+#concat-tuijian-div {
+  font-size: 0;
+  width: 100%;
+ }
+ #concat-tuijian-div table{
+   font-size: 0.3rem;
+ }
+ #concat-tuijian-div div{
+  font-size: 0.3rem;
+}
+#concat-tuijian-div img {
+    width:100% !important;
+}
