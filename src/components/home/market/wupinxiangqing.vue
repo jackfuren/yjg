@@ -87,7 +87,7 @@
       <div class="concat-top">
         <p>
           发货
-          <span>浙江杭州 | 快递：免运费</span>
+          <span>{{address}} | 快递：{{you==0?'免运费':'不包邮'}}</span>
           <span>销量{{dataList.sold}}</span>
         </p>
         <div v-show="qq == 1 ? true :false">
@@ -469,7 +469,9 @@ export default {
       qq: 1,
       fen: 0, //判断分享
       jiian: [],
-      jiann: ""
+      jiann: "",
+      address: "",
+      you: 0
     };
   },
   methods: {
@@ -856,7 +858,9 @@ export default {
           this.goods.picture = res.data.data.shoplogo; //规格里的图
           this.sku.price = res.data.data.price;
           this.goods.title = res.data.data.title;
-          this.you();
+          this.address =
+            res.data.data.province.split("省")[0] +
+            res.data.data.city.split("市")[0];
         });
       }
     },
@@ -872,7 +876,7 @@ export default {
         }
       });
     },
-    you() {
+    youhui() {
       request({
         url: "api/coupon/shop", //优惠券
         method: "post",
@@ -881,6 +885,7 @@ export default {
           user_id: this.$store.state.username.id
         }
       }).then(res => {
+        console.log(res);
         this.youu = res.data.data;
         console.log(this.youu);
         for (var i in this.youu) {
@@ -914,7 +919,7 @@ export default {
       }).then(res => {
         console.log(res);
         if (res.data.code == 200) {
-          this.you();
+          this.youhui();
         }
       });
     },
@@ -1115,6 +1120,12 @@ export default {
     this.goodsid = this.$route.query.id;
     this.mo = this.$route.query.mo;
     this.idd();
+    setTimeout(
+      function() {
+        this.youhui();
+      }.bind(this),
+      800
+    );
   },
   components: {
     Rate,
@@ -1127,9 +1138,7 @@ export default {
     $route: function(to, from) {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
-
       this.token = to.query.token;
-
       request({
         url: "api/goods/show",
         method: "post",
@@ -1143,7 +1152,7 @@ export default {
         this.dataList = res.data.data;
         this.shou = res.data.data.is_collectiongoods;
         this.chang = res.data.data.comment.length;
-        this.you();
+        this.youhui();
       });
     }
   },

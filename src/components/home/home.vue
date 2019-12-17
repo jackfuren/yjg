@@ -316,26 +316,51 @@ export default {
           window.sessionStorage.setItem("lng", this.lng);
           console.log(this.lat, this.lng);
           console.log(this.shuju);
+          console.log(this.dzz);
           //  显示位置判断
           if (this.shuju.addressComponent.building != "") {
             that.dzz = this.shuju.addressComponent.building; //楼信息列表
           } else if (this.shuju.addressComponent.neighborhood != "") {
-            that.dzz = this.shuju.formattedAddress.split(
-              this.shuju.addressComponent.neighborhood
-            )[1];
+            if (
+              this.shuju.formattedAddress.split(
+                this.shuju.addressComponent.neighborhood
+              )[1] == ""
+            ) {
+              that.dzz = this.shuju.addressComponent.neighborhood;
+            } else {
+              that.dzz = this.shuju.formattedAddress.split(
+                this.shuju.addressComponent.neighborhood
+              )[1];
+            }
           } else if (this.shuju.addressComponent.township != "") {
-            that.dzz = this.shuju.formattedAddress.split(
-              this.shuju.addressComponent.township
-            )[1];
+            if (
+              this.shuju.formattedAddress.split(
+                this.shuju.addressComponent.township
+              )[1] == ""
+            ) {
+              that.dzz = this.shuju.addressComponent.township;
+            } else {
+              that.dzz = this.shuju.formattedAddress.split(
+                this.shuju.addressComponent.township
+              )[1];
+            }
           } else {
-            that.dzz = this.shuju.formattedAddress.split(
-              this.shuju.addressComponent.street
-            )[1];
+            if (
+              this.shuju.formattedAddress.split(
+                this.shuju.addressComponent.street
+              )[1] == ""
+            ) {
+              that.dzz = this.shuju.addressComponent.street;
+            } else {
+              that.dzz = this.shuju.formattedAddress.split(
+                this.shuju.addressComponent.street
+              )[1];
+            }
           }
-
-          console.log(that.dzz);
+          console.log(this.dzz);
           window.localStorage.setItem("site", that.dzz);
           window.sessionStorage.setItem("site", that.dzz);
+          console.log(window.localStorage.getItem("site"));
           that.queP = true;
           that.formattedAddress = data.formattedAddress;
         }
@@ -374,29 +399,39 @@ export default {
       });
     },
     onLoad() {
-      request({
-        url: "api/index/goods",
-        method: "post",
-        data: {
-          p: this.page,
-          rows: this.total,
-          lat: window.sessionStorage.getItem("lat"),
-          lng: window.sessionStorage.getItem("lng")
-        }
-      }).then(res => {
-        console.log(res);
-        let myData = [];
-        myData = res.data.data;
-        for (let i = 0; i < myData.length; i++) {
-          this.dataList.push(myData[i]);
-        }
-        if (this.dataList.length >= myData.length) {
-          this.finished = true;
-        }
-        console.log(this.dataList);
-        this.loading = false;
-        this.page = this.page + 1;
-      });
+      if (window.localStorage.getItem("site") != null) {
+        request({
+          url: "api/index/goods",
+          method: "post",
+          data: {
+            p: this.page,
+            rows: this.total,
+            lat: window.sessionStorage.getItem("lat"),
+            lng: window.sessionStorage.getItem("lng")
+          }
+        }).then(res => {
+          console.log(res);
+          let myData = [];
+          myData = res.data.data;
+          for (let i = 0; i < myData.length; i++) {
+            this.dataList.push(myData[i]);
+          }
+          if (this.dataList.length >= myData.length) {
+            this.finished = true;
+          }
+          console.log(this.dataList);
+          this.loading = false;
+          this.page = this.page + 1;
+        });
+      } else {
+        setTimeout(
+          function() {
+            console.log("sdsdsdsdsdsd");
+            this.onLoad();
+          }.bind(this),
+          1000
+        );
+      }
     },
     que() {
       console.log(this.queP);
@@ -405,7 +440,7 @@ export default {
         this.dz = this.dzz;
         console.log(this.dz);
         console.log(this.dz);
-        window.sessionStorage.setItem("site", this.dzz);
+        window.sessionStorage.setItem("site", this.dz);
         let b = window.sessionStorage.getItem("site");
         window.localStorage.setItem("site", b);
         this.dz = window.localStorage.getItem("site");
@@ -429,6 +464,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.dz);
     request({
       url: "api/index/adv",
       method: "get"

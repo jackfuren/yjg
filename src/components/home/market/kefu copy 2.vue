@@ -10,150 +10,155 @@
     <van-pull-refresh
       v-model="isLoading"
       @refresh="onRefresh"
-      :class="{'showF':show}"
       id="chatContent"
+      :class="{'showF':show}"
     >
       <!-- 下拉刷新 -->
-      <section>
-        <div id="chattingWord " style="text-align: left;background: #F7F7F7;">
-          <!--  商品信息->发送给客服  -->
-          <section>
-            <section>
-              <div class="masg" style="width:100%;">
-                <div class="masgDiv" v-for="(item, index) in chatS" :key="index">
-                  <p class="time" v-if="item.showTime==true">{{item.add_time}}</p>
-                  <!-- 自己 -->
-                  <div v-if="item.uid == uid" class>
-                    <van-row>
-                      <van-col span="4">&nbsp;</van-col>
-                      <van-col span="16">
-                        <div
-                          v-if="item.type === 0 && item.content!=infooUid"
-                          class="masgContent masgContentMy"
-                        >
-                          <p>{{item.content}}</p>
-                        </div>
-                        <div v-if="item.type === 1" class="masgContent masgContentMyImg">
-                          <img :src="item.content" alt />
-                        </div>
-                        <div v-if="item.content===infooUid" @click="link">
-                          <div class="comm">
-                            <img :src="img" alt />
-                            <div>
-                              <p class="ti">{{title}}</p>
-                              <p class="money">￥{{money}}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </van-col>
-                      <van-col span="4">
-                        <div class="touXiang">
-                          <img :src="tou" alt />
-                        </div>
-                      </van-col>
-                    </van-row>
-                  </div>
-                  <!-- 对方 -->
-                  <div v-else class>
-                    <van-row>
-                      <van-col span="4">
-                        <div class="touXiang">
-                          <img src="../../../assets/gggggg.png" alt />
-                        </div>
-                      </van-col>
-                      <van-col span="16">
-                        <div
-                          v-if="item.type===0"
-                          class="masgContent masgContentYou"
-                        >{{item.content}}</div>
-                        <div v-if="item.type===1" class="masgContent masgContentYouImg">
-                          <img :src="item.content" alt />
-                        </div>
-                      </van-col>
-                      <van-col span="4">&nbsp;</van-col>
-                    </van-row>
-                  </div>
-                </div>
+      <div id="chattingWord" style="text-align: left;background: #F7F7F7;">
+        <!--  商品信息->发送给客服  -->
+        <!-- 历史记录 -->
+        <section>
+          <section v-if="token==90 ? false : true ">
+            <div v-if="productShow==true">
+              <p class="time">今天 {{enterTime}}</p>
+              <div class="commodity">
+                <dt>
+                  <img :src="img" alt />
+                </dt>
+                <dd>
+                  <p class="ti">{{title}}</p>
+                  <p class="money">￥{{money}}</p>
+                  <p class="send" @click="song()">发给商家</p>
+                </dd>
               </div>
-            </section>
+            </div>
           </section>
           <section>
-            <section v-if="token==90 ? false : true ">
-              <div v-if="productShow==true">
-                <p class="time">今天 {{enterTime}}</p>
-                <div class="commodity">
-                  <dt>
-                    <img :src="img" alt />
-                  </dt>
-                  <dd>
-                    <p class="ti">{{title}}</p>
-                    <p class="money">￥{{money}}</p>
-                    <p class="send" @click="song()">发给商家</p>
-                  </dd>
-                </div>
-              </div>
-            </section>
-            <section>
-              <div class="masg" style="width:100%;">
-                <div class="masgDiv" v-for="(item, index) in chatB" :key="index">
-                  <p class="time" v-if="item.showTime==true">{{item.add_time}}</p>
-                  <!-- 自己 -->
-                  <div v-if="item.uid == uid" class>
-                    <van-row>
-                      <van-col span="4">&nbsp;</van-col>
-                      <van-col span="16">
-                        <div
-                          v-if="item.type === 0 && item.content!=infooUid"
-                          class="masgContent masgContentMy"
-                        >
-                          <p>{{item.content}}</p>
-                        </div>
-                        <div v-if="item.type === 1" class="masgContent masgContentMyImg">
-                          <img :src="item.content" alt />
-                        </div>
-                        <div v-if="item.content===infooUid" @click="link">
-                          <div class="comm">
-                            <img :src="img" alt />
-                            <div>
-                              <p class="ti">{{title}}</p>
-                              <p class="money">￥{{money}}</p>
-                            </div>
+            <div class="masg" style="width:100%;">
+              <div class="masgDiv" v-for="(item, index) in chatS" :key="index">
+                <p class="time" v-if="item.showTime==true">{{item.add_time}}</p>
+                <!-- 自己 -->
+                <div v-if="item.uid == uid" class>
+                  <van-row>
+                    <van-col span="4">&nbsp;</van-col>
+                    <van-col span="16">
+                      <div
+                        v-if="item.type === 0 && item.content!=infooUid"
+                        class="masgContent masgContentMy"
+                      >{{item.content}}</div>
+                      <div v-if="item.type === 1" class="masgContent masgContentMyImg">
+                        <img :src="item.content" alt />
+                      </div>
+                      <div v-if="item.content===infooUid" @click="link">
+                        <div class="comm">
+                          <img :src="img" alt />
+                          <div>
+                            <p class="ti">{{title}}</p>
+                            <p class="money">￥{{money}}</p>
                           </div>
                         </div>
-                      </van-col>
-                      <van-col span="4">
-                        <div class="touXiang">
-                          <img :src="tou" alt />
-                        </div>
-                      </van-col>
-                    </van-row>
-                  </div>
-                  <!-- 对方 -->
-                  <div v-else class>
-                    <van-row>
-                      <van-col span="4">
-                        <div class="touXiang">
-                          <img src="../../../assets/gggggg.png" alt />
-                        </div>
-                      </van-col>
-                      <van-col span="16">
-                        <div
-                          v-if="item.type===0"
-                          class="masgContent masgContentYou"
-                        >{{item.content}}</div>
-                        <div v-if="item.type===1" class="masgContent masgContentYouImg">
-                          <img :src="item.content" alt />
-                        </div>
-                      </van-col>
-                      <van-col span="4">&nbsp;</van-col>
-                    </van-row>
-                  </div>
+                      </div>
+                    </van-col>
+                    <van-col span="4">
+                      <div class="touXiang">
+                        <img :src="tou" alt />
+                      </div>
+                    </van-col>
+                  </van-row>
+                </div>
+                <!-- 对方 -->
+                <div v-else class>
+                  <van-row>
+                    <van-col span="4">
+                      <div class="touXiang">
+                        <img src="../../../assets/gggggg.png" alt />
+                      </div>
+                    </van-col>
+                    <van-col span="16">
+                      <div v-if="item.type===0" class="masgContent masgContentYou">{{item.content}}</div>
+                      <div v-if="item.type===1" class="masgContent masgContentYouImg">
+                        <img :src="item.content" alt />
+                      </div>
+                    </van-col>
+                    <van-col span="4">&nbsp;</van-col>
+                  </van-row>
                 </div>
               </div>
-            </section>
+            </div>
           </section>
-        </div>
-      </section>
+        </section>
+        <!-- 本次发送 -->
+        <section>
+          <section v-if="token==90 ? false : true ">
+            <div v-if="product">
+              <p class="time">今天 {{enterTime}}</p>
+              <div class="commodity">
+                <dt>
+                  <img :src="img" alt />
+                </dt>
+                <dd>
+                  <p class="ti">{{title}}</p>
+                  <p class="money">￥{{money}}</p>
+                  <p class="send" @click="song()">发给商家</p>
+                </dd>
+              </div>
+            </div>
+          </section>
+          <section>
+            <div class="masg" style="width:100%;">
+              <div class="masgDiv" v-for="(item, index) in ben" :key="index">
+                <p class="time" v-if="item.showTime==true">{{item.add_time}}</p>
+                <!-- 自己 -->
+                <div v-if="item.uid == uid" class>
+                  <van-row>
+                    <van-col span="4">&nbsp;</van-col>
+                    <van-col span="16">
+                      <div
+                        v-if="item.type === 0 && item.content!=infooUid"
+                        class="masgContent masgContentMy"
+                      >{{item.content}}</div>
+                      <div v-if="item.type === 1" class="masgContent masgContentMyImg">
+                        <img :src="item.content" alt />
+                      </div>
+                      <div v-if="item.content===infooUid" @click="link">
+                        <div class="comm">
+                          <img :src="img" alt />
+                          <div>
+                            <p class="ti">{{title}}</p>
+                            <p class="money">￥{{money}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </van-col>
+                    <van-col span="4">
+                      <div class="touXiang">
+                        <img :src="tou" alt />
+                      </div>
+                    </van-col>
+                  </van-row>
+                </div>
+                <!-- 对方 -->
+                <div v-else class>
+                  <van-row>
+                    <van-col span="4">
+                      <div class="touXiang">
+                        <img src="../../../assets/gggggg.png" alt />
+                      </div>
+                    </van-col>
+                    <van-col span="16">
+                      <div v-if="item.type===0" class="masgContent masgContentYou">{{item.content}}</div>
+                      <div v-if="item.type===1" class="masgContent masgContentYouImg">
+                        <img :src="item.content" alt />
+                      </div>
+                    </van-col>
+                    <van-col span="4">&nbsp;</van-col>
+                  </van-row>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </div>
     </van-pull-refresh>
 
     <div class="tabBar">
@@ -164,7 +169,7 @@
           <img src="../../../assets/biaoq.png" alt />
         </van-col>-->
         <van-col v-if="text === ''" span="20" class="inputTxt">
-          <input type="text" v-model="text" @focus="huoqu" />
+          <input type="text" v-model="text" @blur="huoqu" />
           <img src="../../../assets/biaoq.png" @click="faceContent()" alt />
         </van-col>
         <van-col v-else span="18" class="inputTxt">
@@ -227,22 +232,14 @@ export default {
       productShow: true,
       enterTime: "",
       chatS: [],
-      chatB: [],
-      fen: {},
-      listId: ""
+      ben: [],
+      product: true,
+      shang: {}
     };
   },
   mounted() {
     this.init();
-      console.log(this.$route.query)
     this.token = this.$route.query.token;
-    if (this.token == 90) {
-      this.listId = this.$route.query.listId;
-      console.log(this.listId);
-      console.log(this.$store.state.username.id)
-      console.log(this.infoUid)
-      this.clear();
-    }
     // 进入客服页面的时间
     this.enterTime = getNowTime()
       .split(" ")[2]
@@ -251,13 +248,8 @@ export default {
     // 进入时滚动到底部
     setTimeout(
       function() {
+        this.scrollBottom();
         this.hos();
-        setTimeout(
-          function() {
-            this.scrollBottom();
-          }.bind(this),
-          200
-        );
       }.bind(this),
       800
     );
@@ -298,7 +290,7 @@ export default {
           }
         }).then(res => {
           if (res.status === 200) {
-            console.log(res);
+            // console.log(res);
           } else {
             Toast("连接失败，请联系管理员");
           }
@@ -329,7 +321,7 @@ export default {
       }).then(res => {
         // uid  我得id infouid  对方id
         if (res.status === 200) {
-          console.log(res);
+          // console.log(res);
           for (var i in res.data.data) {
             // 聊天小表情解码
             res.data.data[i].content = this.uncodeUtf16(
@@ -350,8 +342,21 @@ export default {
               )[1];
             }
           }
+
           this.msag = res.data.data;
-          console.log(this.productShow);
+          //判断聊天记录中是否存在商品链接
+          for (var i in this.msag) {
+            if (
+              this.msag[i].uid == this.uid &&
+              this.msag[i].content === this.infooUid
+            ) {
+              this.productShow = false;
+              break;
+            } else {
+              this.productShow = true;
+            }
+          }
+          // console.log(this.productShow);
           // 屏幕滚动
           this.scrollBottom();
           // 时间戳判断 超过5分钟 时间戳出现
@@ -423,9 +428,14 @@ export default {
               this.msag[i + 1].showTime = true;
             }
           }
-          console.log(this.msag);
+          // console.log(this.msag);
           this.scrollBottom();
-          this.chatHos();
+          setTimeout(
+            function() {
+              this.fenge();
+            }.bind(this),
+            1000
+          );
         }
       });
     },
@@ -466,7 +476,7 @@ export default {
     },
     // 上传图片之前检测图片格式,大小及类型
     beforeRead(file) {
-      console.log(file);
+      // console.log(file);
       if (file.size / 1024 >= 5000) {
         Toast("上传图片应小于3M");
       } else {
@@ -514,7 +524,6 @@ export default {
       );
     },
     huoqu() {
-      console.log("ssssssssssssss");
       this.show = false;
       setTimeout(
         function() {
@@ -602,54 +611,29 @@ export default {
     // 进入时滚动到底部
     scrollBottom: function() {
       var content = document.getElementById("chatContent");
-      console.log(content.scrollHeight);
+      // console.log(content.scrollHeight);
       content.scrollTop = content.scrollHeight + 300;
+      // console.log(content.scrollTop);
     },
     hos() {
-      // console.log(this.msag);
-      if (this.msag.length > 0) {
-        this.fen = this.msag[this.msag.length - 1];
-        // console.log(this.fen);
-      }
-      this.chatHos();
+      this.shang = this.msag[this.msag.length - 1];
+      // console.log(this.shang);
     },
-    chatHos() {
-      console.log(this.msag);
-      if (this.msag.length > 0) {
-        for (var index = this.msag.length - 1; index >= 0; index--) {
-          if (this.msag[index].content == this.fen.content) {
-            console.log(index);
-            this.chatS = this.msag.slice(0, index + 1);
-            this.chatB = this.msag.slice(index + 1);
-            //判断聊天记录中是否存在商品链接
-            for (var i in this.chatB) {
-              if (
-                this.chatB[i].uid == this.uid &&
-                this.chatB[i].content === this.infooUid
-              ) {
-                this.productShow = false;
-                break;
-              } else {
-                this.productShow = true;
-              }
-            }
-            break;
-          }
+    // 分割聊天记录
+    fenge() {
+      //   chatS: [],
+      // ben: [],
+      for (var i = this.msag.length - 1; i >= 8; i--) {
+        // console.log(i);
+        if (this.msag[i].content == this.shang.content) {
+          console.log('aaaaaaaaaaaaa')
+          this.chatS = this.msag.slice(0, i);
+          this.ben = this.msag.slice(i, -1);
+          console.log(this.chatS)
+          console.log(this.ben)
+          break
         }
-      } else {
-        this.chatB = this.msag;
       }
-    },
-    clear() {
-      request({
-        url: "api/char/yesread", //历史记录
-        method: "post",
-        data: {
-          id: this.listId
-        }
-      }).then(res => {
-        console.log(res);
-      });
     }
   },
   destroyed() {
@@ -809,6 +793,8 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100%;
+  /* height: 0.9rem;  */
+  /* margin-top: 0.9rem; */
 }
 .shu {
   /* position: absolute;
@@ -886,15 +872,12 @@ export default {
   display: inline-block;
 }
 .masgContentMy {
-  height: auto;
   background-color: #fc6957;
-  max-width: 4rem;
   padding: 0.2rem;
   border-radius: 0.5rem 0 0.5rem 0.5rem;
   color: #fee7e5;
   float: right;
   margin-right: 0.1rem;
-  word-wrap: break-word;
 }
 .masgContentMyImg {
   float: right;
@@ -927,13 +910,12 @@ export default {
   overflow: hidden;
 }
 #chatContent {
-  width: 100%;
   height: 89vh;
-  overflow-y: scroll;
+  overflow: scroll;
   margin-top: 0.88rem;
 }
 .showF {
-  height: 133vw !important;
+  height: 110vw !important;
 }
 
 /* .oo {

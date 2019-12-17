@@ -2,14 +2,16 @@
   <div class="box">
     <div class="box-container">
       <div class="nav">
-		  <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+        <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt />
         <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem" /> -->
         <p>消息</p>
       </div>
       <div style="height: 0.88rem"></div>
       <dl class="xi" @click="xiaoxi()">
         <dt>
-          <img src="../../assets/xitong.png" alt />
+          <div id="xTou">
+            <img src="../../assets/xitong.png" alt />
+          </div>
         </dt>
         <dd>
           <p>
@@ -25,9 +27,9 @@
       <div style="width: 100%;height: 0.4rem;background: #F9F9F8;"></div>
       <dl class="xi" v-for="(item,index) in resList" :key="index" @click="xi(index)">
         <dt>
-          <p>
+          <div id="sjTou">
             <img :src="item.shoplogo" alt />
-          </p>
+          </div>
         </dt>
         <dd>
           <p>
@@ -90,15 +92,48 @@ export default {
     },
     xi(index) {
       console.log(index);
-      console.log(this.resList[index].infouid.split("shop")[1]);
+      console.log(this.resList[index].uid.split("shop")[1]);
       this.$router.push({
         name: "kf",
         query: {
-          sid: this.resList[index].infouid.split("shop")[1],
+          sid: this.resList[index].uid.split("shop")[1],
           token: 90,
-          name: this.resList[index].name
+          name: this.resList[index].name,
+          listId: this.resList[index].id
         }
       });
+    },
+    // 转码
+    utf16toEntities(str) {
+      var patt = /[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则
+      str = str.replace(patt, function(char) {
+        var H, L, code;
+        if (char.length === 2) {
+          H = char.charCodeAt(0); // 取出高位
+          L = char.charCodeAt(1); // 取出低位
+          code = (H - 0xd800) * 0x400 + 0x10000 + L - 0xdc00; // 转换算法
+          return "&#" + code + ";";
+        } else {
+          return char;
+        }
+      });
+      return str;
+    },
+    // 解码
+    uncodeUtf16(str) {
+      var reg = /\&#.*?;/g;
+      var result = str.replace(reg, function(char) {
+        var H, L, code;
+        if (char.length == 9) {
+          code = parseInt(char.match(/[0-9]+/g));
+          H = Math.floor((code - 0x10000) / 0x400) + 0xd800;
+          L = ((code - 0x10000) % 0x400) + 0xdc00;
+          return unescape("%u" + H.toString(16) + "%u" + L.toString(16));
+        } else {
+          return char;
+        }
+      });
+      return result;
     }
   },
   mounted() {
@@ -144,7 +179,7 @@ export default {
       }
     });
     request({
-      url: "api/char/user_log", //商家消息的接口
+      url: "api/char/message_log", //商家消息的接口
       data: {
         userid: this.$store.state.username.id
       },
@@ -152,6 +187,10 @@ export default {
     }).then(res => {
       console.log(res);
       if (res.data.code == 200) {
+        console.log(res.data.data);
+        for (var i in res.data.data) {
+          res.data.data[i].msg = this.uncodeUtf16(res.data.data[i].msg);
+        }
         this.resList = res.data.data;
       }
     });
@@ -204,7 +243,7 @@ export default {
 }
 
 .nav-left {
-	width: 0.55rem;
+  width: 0.55rem;
   position: absolute;
   left: 0.25rem;
   top: 0.2rem;
@@ -250,14 +289,35 @@ export default {
   display: flex;
   text-align: left;
   margin-top: 0.15rem;
+  padding: 0 0.1rem;
 }
 .xi dt {
   flex: 1;
   margin-right: 0.15rem;
 }
 .xi dt img {
+  width: 120%;
+  height: 100%;
+  position: relative;
+  left: -0.1rem;
+}
+#sjTou {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+#xTou {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 0.1rem;
+}
+#xTou img {
   width: 100%;
-  padding: 0.1rem;
+  height: 100%;
+  left: 0;
 }
 .xi dd {
   flex: 4;

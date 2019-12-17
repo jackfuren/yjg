@@ -89,17 +89,14 @@
           <img alt src="../../../assets/qiandaoye_qiandaochenggong.png" />
           <p>签到成功</p>
           <div class="pop-div">
-            <span>您的签到码</span>
-            <div>
-              <!-- <p>{{code}}</p> -->
-              <button
-                class="fz"
-                type="button"
-                v-clipboard:copy="code"
-                v-clipboard:error="onError"
-                v-clipboard:success="onCopy"
-              >{{code}}</button>
-            </div>
+            <button
+              class="fz"
+              type="button"
+              v-clipboard:copy="code"
+              v-clipboard:error="onError"
+              v-clipboard:success="onCopy"
+            >{{code}}</button>
+            <span>点击签到码可复制</span>
           </div>
         </div>
       </van-popup>
@@ -132,12 +129,12 @@ export default {
         }
       ],
       array: "",
-      show: true,
+      show: false,
       xiala: false,
       user_id: "", //用户编码
       dataList: [],
       dataListt: [],
-      code: "asdfghjk",
+      code: "",
       text: "立即签到",
       zhankai: false
     };
@@ -434,22 +431,9 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-.pop-div > div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-// .pop-div p {
-//   display: inline-block;
-//   padding: 0.1rem;
-//   border: 1px solid rgba(153, 153, 153, 1);
-//   border-radius: 28px;
-//   color: #ef0a05;
-//   font-size: 0.3rem;
-// }
 
 .pop-div span {
-  font-size: 0.28rem;
+  font-size: 0.24rem;
   color: #333333;
 }
 
@@ -509,7 +493,7 @@ export default {
   margin-right: 0.2rem;
 }
 .fz {
-  padding: 0.1rem;
+  padding: 0.1rem 0.3rem;
   border: 1px solid rgba(153, 153, 153, 1);
   border-radius: 28px;
   color: #ef0a05;

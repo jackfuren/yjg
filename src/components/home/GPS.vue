@@ -57,7 +57,7 @@
 <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=e785b2d68f5c945dd0b7f293c6db3d3b&plugin=AMap.Geocoder&callback=init"></script>
 <script>
 import areaList from "../../../config/area";
-
+import { Toast } from "vant";
 export default {
   name: "GPS",
   data() {
@@ -176,17 +176,41 @@ export default {
           if (data.addressComponent.building != "") {
             that.dzz = data.addressComponent.building; //楼信息列表
           } else if (data.addressComponent.neighborhood != "") {
-            that.dzz = data.formattedAddress.split(
-              data.addressComponent.neighborhood
-            )[1];
+            if (
+              data.formattedAddress.split(
+                data.addressComponent.neighborhood
+              )[1] == ""
+            ) {
+              that.dzz = data.addressComponent.neighborhood;
+            } else {
+              that.dzz = data.formattedAddress.split(
+                data.addressComponent.neighborhood
+              )[1];
+            }
           } else if (data.addressComponent.township != "") {
-            that.dzz = data.formattedAddress.split(
-              data.addressComponent.township
-            )[1];
+            if (
+              data.formattedAddress.split(
+                data.addressComponent.township
+              )[1] == ""
+            ) {
+              that.dzz = data.addressComponent.township;
+            } else {
+              that.dzz = data.formattedAddress.split(
+                data.addressComponent.township
+              )[1];
+            }
           } else {
-            that.dzz = data.formattedAddress.split(
-              data.addressComponent.street
-            )[1];
+            if (
+              data.formattedAddress.split(
+                data.addressComponent.street
+              )[1] == ""
+            ) {
+              that.dzz = data.addressComponent.street;
+            } else {
+              that.dzz = data.formattedAddress.split(
+                data.addressComponent.street
+              )[1];
+            }
           }
 
           window.localStorage.setItem("site", that.dzz);
@@ -221,8 +245,6 @@ export default {
       var marker = new AMap.Marker();
       var val = this.value;
       console.log(this.value);
-      window.localStorage.setItem("site", this.value);
-      window.sessionStorage.setItem("site", this.value);
       function geoCode() {
         geocoder.getLocation(val, function(status, result) {
           console.log(status, result);
@@ -232,18 +254,21 @@ export default {
             console.log(lng, lat);
             window.sessionStorage.setItem("lat", lat);
             window.sessionStorage.setItem("lng", lng);
+            window.localStorage.setItem("site", val);
+            window.sessionStorage.setItem("site", val);
+            that.$router.push({
+              name: "home",
+              query: {
+                token: 56
+              }
+            });
           } else {
-            log.error("根据地址查询位置失败");
+            Toast("获取位置信息失败");
+            // log.error("根据地址查询位置失败");
           }
         });
       }
       geoCode();
-      this.$router.push({
-        name: "home",
-        query: {
-          token: 56
-        }
-      });
     },
     getLatLngLocation() {
       const that = this;
