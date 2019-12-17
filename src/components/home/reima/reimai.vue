@@ -141,7 +141,7 @@
 		  this.$router.push({
 		    name: 'pinpaixq',
 			query: {
-			  pinpai: this.pin[index],
+			  pinpai: this.pin[index].id,
 			  token:112
 			}
 		  })
