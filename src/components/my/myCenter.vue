@@ -78,7 +78,7 @@
             <p>我的收藏</p>
           </div>
           <div @click="youhuijian()" class="nav-conn">
-            <img src="../../assets/youhuiquan.png" alt />
+            <img src="../../assets/youhuiquan (2).png" alt />
             <p>优惠券</p>
           </div>
           <div @click="help()" class="nav-conn">

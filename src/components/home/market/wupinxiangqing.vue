@@ -471,7 +471,8 @@ export default {
       jiian: [],
       jiann: "",
       address: "",
-      you: 0
+      you: 0,
+	  op:''
     };
   },
   methods: {
@@ -589,6 +590,24 @@ export default {
           name: "ph",
           query: {
             mo: this.mo
+          }
+        });
+      }else if (this.token == 112) {
+		  this.op=this.$route.query.brandid;
+        this.$router.push({
+          name: "pinpaixq",
+          query: {
+            token: this.token,
+			pinpai:this.op
+          }
+        });
+      } else if (this.token == 122) {
+		  this.op=this.$route.query.brandid;
+        this.$router.push({
+          name: "pinpaixq",
+          query: {
+            token: this.token,
+			pinpai:this.op
           }
         });
       } else {

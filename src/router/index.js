@@ -13,6 +13,11 @@ const  pinpaixq = resolve=>{
     resolve(require('@/components/home/market/pinpaixiangqing'));
   })
 }
+const  fujin = resolve=>{
+  require.ensure(['@/components/home/market/julizuijinquanbu'],()=>{
+    resolve(require('@/components/home/market/julizuijinquanbu'));
+  })
+}
 const  gps = resolve=>{
   require.ensure(['@/components/home/GPS'],()=>{
     resolve(require('@/components/home/GPS'));
@@ -406,6 +411,10 @@ const router =new Router({
       path: '/pinpaixq',
       name: 'pinpaixq',
       component: pinpaixq
+    },{
+      path: '/fujin',
+      name: 'fujin',
+      component: fujin
     },
     {
       path: '/dpxq',

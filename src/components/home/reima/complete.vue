@@ -8,7 +8,7 @@
         <p>全部品牌</p>
       </div>
       <div class="all">
-        <div :id="item.etitle" class="all-div" v-for="(item ,index) in dataLIst" :key="index">
+        <div :id="item.etitle" class="all-div" v-for="(item ,index) in dataLIst" :key="index" @click="xq(item.index)">
           <p>{{item.etitle}}</p>
           <div class="all-one" v-for="(ite,index) in item.son " :key="index">
             <div>
@@ -50,6 +50,15 @@
           window.location.href = '#' + i
         }
       },
+			xq(index){
+				  this.$router.push({
+				    name: 'pinpaixq',
+					query: {
+					  pinpai: this.dataLIst[index],
+					  token:122
+					}
+				  })
+			},
       brand(){
         this.request({
           url: "api/brand/lists",
