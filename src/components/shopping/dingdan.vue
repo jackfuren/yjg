@@ -3,7 +3,7 @@
     <div class="box-container">
       <div class="nav-top">
         <div class="nav">
-			<img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+          <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt />
           <!-- <van-icon @click="fh()" class="nav-left" color="#FFFFFF" name="arrow-left" size="0.5rem" /> -->
           <p style="color:#FFFFFF">订单详情</p>
           <p class="nav-top-p">等待买家付款</p>
@@ -86,7 +86,7 @@
       <div class="footer">
         <div class="liann">
           <div>
-            <p>
+            <p @click="lianxi()">
               <img alt src="../../assets/dingdan_bodadianhua.png" />拨打电话
             </p>
           </div>
@@ -118,7 +118,8 @@ export default {
       show: false,
       columns: ["拍错", "不想要了", "不喜欢", "我高兴", "呵呵"],
       content: "",
-      goods_id: ""
+      goods_id: "",
+      phone: ""
     };
   },
   props: {
@@ -171,8 +172,10 @@ export default {
           order_id: this.order_id
         }
       }).then(res => {
+        console.log(res.data.data);
         this.dataList = res.data.data;
         this.goods_id = res.data.data.goods[0].gid;
+        this.phone = this.dataList.mobile;
       });
     },
     onConfirm(value, index) {
@@ -263,6 +266,21 @@ export default {
           token: 43
         }
       });
+    },
+    lianxi() {
+      this.$dialog
+        .alert({
+          title: "客服电话", //加上标题
+          message: this.phone, //改变弹出框的内容
+          showCancelButton: true //展示取水按钮
+        })
+        .then(() => {
+          //点击确认按钮后的调用
+          window.location.href = "tel://" + this.phone;
+        })
+        .catch(() => {
+          //点击取消按钮后的调用
+        });
     }
   },
   mounted() {
@@ -346,7 +364,7 @@ export default {
 }
 
 .nav-left {
-	width: 0.55rem;
+  width: 0.55rem;
   position: absolute;
   left: 0.25rem;
   top: 0.2rem;
@@ -600,7 +618,7 @@ export default {
   width: 75%;
   display: flex;
   align-items: center;
-  justify-content:space-between;
+  justify-content: space-between;
 }
 
 .liann img {
@@ -610,7 +628,7 @@ export default {
   margin-right: 0.1rem;
 }
 .liann > div {
-  margin:0 0.2rem;
+  margin: 0 0.2rem;
 }
 .liann div p {
   width: 1.8rem;
@@ -626,7 +644,7 @@ export default {
 .liann > div:nth-child(2) > p {
   border: 1px solid #777777;
   color: #333333;
-} 
+}
 .xin {
   width: 6.9rem;
   height: 2.3rem;
