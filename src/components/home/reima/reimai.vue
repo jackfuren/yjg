@@ -4,10 +4,8 @@
       <div id="n" ></div>
       <div class="nav">
 		  <img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
-        <!-- <van-icon  @click="fh()" class="nav-left" color="#333333" name="arrow-left" size="0.5rem"/> -->
         <p >品牌热卖</p>
 		<img src="../../../assets/img/cai.png" @click="dd()" class="nav-van" alt="">
-        <!-- <van-icon @click="dd()"  name="wap-nav" size="0.4rem" class="nav-van"/> -->
         <div v-show="rapid"  class="nav-top-back">
           <p @click="xiaoxi"><img style="width: 0.4rem;height: 0.4rem;position: relative;top: 0.09rem;right: 0.3rem" src="../../../assets/shangjiaye_wuxiaoxi.png" alt=""><span>消息</span></p>
           <p @click="shop"><img style="width: 0.4rem;height: 0.4rem;position: relative;top: 0.05rem;right: 0.2rem" src="../../../assets/shangjaiyetanchuang_gouwuche.png" alt=""><span style="position: relative;left: 0.14rem">购物车</span></p>
@@ -27,7 +25,7 @@
       </div>
       <div class="swiper-pagination swiper_dot" id="pagination"></div>
       <div class="all">
-        <div class="all-div" v-for="(inte,index) in pin" :key="index">
+        <div class="all-div" @click="pinq(index)" v-for="(inte,index) in pin" :key="index">
           <div class="all-div-div">
             <img :src="inte.pic" alt="">
           </div>
@@ -138,6 +136,16 @@
       ding(){
         window.location.href ="#n"
       },
+	  pinq(index){
+		  console.log(this.pin[index])
+		  this.$router.push({
+		    name: 'pinpaixq',
+			query: {
+			  pinpai: this.pin[index],
+			  token:112
+			}
+		  })
+	  },
       ping(){
         this.request({
           url: "api/brand/lists",

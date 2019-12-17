@@ -74,22 +74,23 @@
         <div class="xian"></div>
         <div class="nav-xx">
           <div @click="shangpin()" class="nav-conn">
-            <img src="../../assets/shoucang@3x.png" alt />
+            <img src="../../assets/shoucang.png" alt />
             <p>我的收藏</p>
           </div>
           <div @click="youhuijian()" class="nav-conn">
-            <img src="../../assets/youhuiquan@3x.png" alt />
+            <img src="../../assets/youhuiquan.png" alt />
             <p>优惠券</p>
           </div>
           <div @click="help()" class="nav-conn">
-            <img src="../../assets/wentifankui@3x.png" alt />
+            <img src="../../assets/wentifankui.png" alt />
             <p>帮助中心</p>
           </div>
           <div @click="she()" class="nav-conn">
-            <img src="../../assets/shezhi@3x.png" alt />
+            <img src="../../assets/shezhi.png" alt />
             <p>设置</p>
           </div>
         </div>
+		<div style="height: 0.15rem;"></div>
       </div>
       <div class="nav-hy">
         <img src="../../assets/huiyuan.png" alt />
@@ -558,7 +559,7 @@ export default {
 
 .nav-gj {
   width: 6.9rem;
-  height: 2rem;
+  /* height: 2rem; */
   background-color: #ffffff;
   border-radius: 5px;
   margin: 0 auto;

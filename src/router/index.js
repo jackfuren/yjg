@@ -8,6 +8,11 @@ const  home = resolve=>{
     resolve(require('@/components/home/home'));
   })
 }
+const  pinpaixq = resolve=>{
+  require.ensure(['@/components/home/market/pinpaixiangqing'],()=>{
+    resolve(require('@/components/home/market/pinpaixiangqing'));
+  })
+}
 const  gps = resolve=>{
   require.ensure(['@/components/home/GPS'],()=>{
     resolve(require('@/components/home/GPS'));
@@ -397,6 +402,10 @@ const router =new Router({
       path: '/mar',
       name: 'mar',
       component: mar
+    },{
+      path: '/pinpaixq',
+      name: 'pinpaixq',
+      component: pinpaixq
     },
     {
       path: '/dpxq',

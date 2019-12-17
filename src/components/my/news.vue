@@ -83,6 +83,10 @@ export default {
         this.$router.push({
           name: "My"
         });
+      }else if (this.token == 80) {
+        this.$router.push({
+          name: "seek"
+        });
       }
     },
     xiaoxi() {

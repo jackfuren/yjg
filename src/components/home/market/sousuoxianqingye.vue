@@ -10,8 +10,6 @@
             style="position: relative;top: -0.01rem;width: 0.55rem;"
             alt
           />
-          <!--          <van-icon @click="fh()" color="#333333" name="arrow-left" size="0.6rem"
-          style="position: relative;top: -0.01rem"/>-->
           <div @click="seek()" class="search">
             <van-icon
               color="#333333"
@@ -27,7 +25,7 @@
           size="0.6rem"/>-->
         </div>
         <div v-show="back" class="nav-top-back">
-          <p>
+          <p  @click="xiaoxi">
             <img
               style="width: 0.4rem;height: 0.4rem;position: relative;top: 0.09rem;right: 0.3rem"
               src="../../../assets/shangjiaye_wuxiaoxi.png"
@@ -35,7 +33,7 @@
             />
             <span>消息</span>
           </p>
-          <p>
+          <p @click="shop">
             <img
               style="width: 0.4rem;height: 0.4rem;position: relative;top: 0.05rem;right: 0.2rem"
               src="../../../assets/shangjaiyetanchuang_gouwuche.png"
@@ -43,7 +41,7 @@
             />
             <span>购物车</span>
           </p>
-          <p>
+          <p @click="homm">
             <img
               style="width: 0.4rem;height: 0.4rem;position: relative;top: 0.05rem;right: 0.3rem"
               src="../../../assets/shangjiayetanchuang_shouyee.png"
@@ -51,21 +49,13 @@
             />
             <span>首页</span>
           </p>
-          <p>
+          <p @click="shareApp()">
             <img
               style="width: 0.4rem;height: 0.4rem;position: relative;top: 0.05rem;right: 0.26rem"
               src="../../../assets/shangjaiye_fenxiang.png"
               alt
             />
             <span>分享</span>
-          </p>
-          <p @click="jubao()">
-            <img
-              style="width: 0.4rem;height: 0.4rem;position: relative;top: 0.05rem;right: 0.3rem"
-              src="../../../assets/shangjiaye_jubao.png"
-              alt
-            />
-            <span>举报</span>
           </p>
         </div>
       </div>
@@ -303,6 +293,31 @@ export default {
         }
       }
     },
+	xiaoxi() {
+	  if (this.$store.state.username == null) {
+	    this.$router.push({
+	      name: "regi"
+	    });
+	  } else {
+	    this.$router.push({
+	      name: "news",
+	      query: {
+	        token: 80,
+	        id: this.goods_id
+	      }
+	    });
+	  }
+	},
+	shop() {
+	  this.$router.push({
+	    name: "Shop"
+	  });
+	},
+	homm() {
+	  this.$router.push({
+	    name: "home"
+	  });
+	},
     wuping(i) {
       this.$router.push({
         name: "wpxq",
@@ -417,7 +432,7 @@ export default {
 .nav-top-back {
   background-image: url(../../../assets/shangjiaye_xialakuang.png);
   width: 2.9rem;
-  height: 4.11rem;
+  // height: 4.11rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   position: absolute;
@@ -463,16 +478,16 @@ export default {
 .concat {
   width: 7.5rem;
   display: flex;
-  justify-content: space-around;
+  // justify-content: space-between;
   flex-wrap: wrap;
 }
 
 .concat div {
   width: 3.46rem;
-  height: 5.2rem;
+  // height: 5.2rem;
   border-radius: 10px;
   background: #ffffff;
-  margin: 0.15rem 0;
+  margin: 0.15rem 0.13rem;
   text-align: left;
 }
 
@@ -567,7 +582,7 @@ export default {
   position: absolute;
   top: 0.33rem;
   right: 3.3rem;
-  z-index: 9999;
+  z-index: 777;
 }
 
 .sanjiao img {
@@ -579,7 +594,7 @@ export default {
   position: absolute;
   top: 0.33rem;
   right: 0.8rem;
-  z-index: 9999;
+  z-index: 777;
 }
 
 .sanjiaoo img {

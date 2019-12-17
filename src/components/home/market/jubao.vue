@@ -2,12 +2,11 @@
   <div class="box">
     <div class="nav">
 		<img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
-      <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/> -->
       <p>举报</p>
     </div>
     <div class="jubao" @click="select = true">
+      <span>举报原因</span>
       <span>{{jubao}}</span>
-      <span>请选择</span>
       <van-icon size="0.3rem" style="position: relative;top: 0.05rem;left:4rem" color="#CCCCCC" name="arrow"/>
     </div>
     <p class="miaoshu">举报描述</p>
@@ -59,7 +58,7 @@
         postData: [], //图片
         phDat: [], //图片返回参数
         shi: 86400,
-        jubao: "举报原因",
+        jubao: "请选择",
         text: "",// 举报描述
         select: false,
         columns: ['不喜欢', '与描述不符', '质量太差', '码号太大', '就是想举报'],
