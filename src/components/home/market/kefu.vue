@@ -10,12 +10,12 @@
     <van-pull-refresh
       v-model="isLoading"
       @refresh="onRefresh"
-      :class="{'showF':show}"
+      :class="{'showF':show,'showH':showH}"
       id="chatContent"
     >
       <!-- 下拉刷新 -->
       <section>
-        <div id="chattingWord " style="text-align: left;background: #F7F7F7;">
+        <div id="chattingWord " style="text-align: left;background: #F7F7F7;margin-bottom:0.6rem;">
           <!--  商品信息->发送给客服  -->
           <section>
             <section>
@@ -86,8 +86,11 @@
                     <img :src="img" alt />
                   </dt>
                   <dd>
-                    <p class="ti">{{title}}</p>
-                    <p class="money">￥{{money}}</p>
+                    <div>
+                      <p class="ti">{{title}}</p>
+                      <p class="money">￥{{money}}</p>
+                    </div>
+
                     <p class="send" @click="song()">发给商家</p>
                   </dd>
                 </div>
@@ -164,11 +167,16 @@
           <img src="../../../assets/biaoq.png" alt />
         </van-col>-->
         <van-col v-if="text === ''" span="20" class="inputTxt">
-          <input type="text" v-model="text" @focus="huoqu" />
+          <div id="text">
+            <textarea type="text" v-model="text" @focus="huoqu" rows="1"></textarea>
+          </div>
           <img src="../../../assets/biaoq.png" @click="faceContent()" alt />
         </van-col>
         <van-col v-else span="18" class="inputTxt">
-          <input type="text" v-model="text" />
+          <div id="text">
+            <textarea type="text" v-model="text" rows="1" id="as" @input="as" @focus="huoqu"></textarea>
+          </div>
+
           <img src="../../../assets/biaoq.png" @click="faceContent()" alt />
         </van-col>
         <van-col v-if="text === ''" span="3" class="flexBox">
@@ -229,18 +237,15 @@ export default {
       chatS: [],
       chatB: [],
       fen: {},
-      listId: ""
+      listId: "",
+      showH: false
     };
   },
   mounted() {
     this.init();
-      console.log(this.$route.query)
+    // console.log(this.$route.query);
     this.token = this.$route.query.token;
     if (this.token == 90) {
-      this.listId = this.$route.query.listId;
-      console.log(this.listId);
-      console.log(this.$store.state.username.id)
-      console.log(this.infoUid)
       this.clear();
     }
     // 进入客服页面的时间
@@ -259,7 +264,7 @@ export default {
           200
         );
       }.bind(this),
-      800
+      900
     );
   },
   methods: {
@@ -298,7 +303,7 @@ export default {
           }
         }).then(res => {
           if (res.status === 200) {
-            console.log(res);
+            // console.log(res);
           } else {
             Toast("连接失败，请联系管理员");
           }
@@ -329,7 +334,7 @@ export default {
       }).then(res => {
         // uid  我得id infouid  对方id
         if (res.status === 200) {
-          console.log(res);
+          // console.log(res);
           for (var i in res.data.data) {
             // 聊天小表情解码
             res.data.data[i].content = this.uncodeUtf16(
@@ -351,11 +356,11 @@ export default {
             }
           }
           this.msag = res.data.data;
-          console.log(this.productShow);
+          // console.log(this.productShow);
           // 屏幕滚动
           this.scrollBottom();
           // 时间戳判断 超过5分钟 时间戳出现
-          if (this.msag.length > 1) {
+          if (this.msag.length > 0) {
             //无记录时
             this.msag[0].showTime = true;
           }
@@ -423,7 +428,7 @@ export default {
               this.msag[i + 1].showTime = true;
             }
           }
-          console.log(this.msag);
+          // console.log(this.msag);
           this.scrollBottom();
           this.chatHos();
         }
@@ -466,7 +471,7 @@ export default {
     },
     // 上传图片之前检测图片格式,大小及类型
     beforeRead(file) {
-      console.log(file);
+      // console.log(file);
       if (file.size / 1024 >= 5000) {
         Toast("上传图片应小于3M");
       } else {
@@ -514,7 +519,6 @@ export default {
       );
     },
     huoqu() {
-      console.log("ssssssssssssss");
       this.show = false;
       setTimeout(
         function() {
@@ -595,30 +599,34 @@ export default {
         name: "dpxq",
         query: {
           token: 37,
-          goods_id: this.goods_id
+          s_id: this.$route.query.sid
         }
       });
     },
     // 进入时滚动到底部
     scrollBottom: function() {
       var content = document.getElementById("chatContent");
-      console.log(content.scrollHeight);
+      // console.log(content.scrollHeight);
       content.scrollTop = content.scrollHeight + 300;
     },
     hos() {
-      // console.log(this.msag);
       if (this.msag.length > 0) {
         this.fen = this.msag[this.msag.length - 1];
         // console.log(this.fen);
+      } else {
+        this.fen = null;
       }
       this.chatHos();
     },
     chatHos() {
-      console.log(this.msag);
-      if (this.msag.length > 0) {
+      // console.log(this.msag);
+      if (this.fen == null) {
+        this.chatB = this.msag;
+        // console.log(this.chatB);
+      } else {
         for (var index = this.msag.length - 1; index >= 0; index--) {
           if (this.msag[index].content == this.fen.content) {
-            console.log(index);
+            // console.log(index);
             this.chatS = this.msag.slice(0, index + 1);
             this.chatB = this.msag.slice(index + 1);
             //判断聊天记录中是否存在商品链接
@@ -636,8 +644,6 @@ export default {
             break;
           }
         }
-      } else {
-        this.chatB = this.msag;
       }
     },
     clear() {
@@ -648,8 +654,44 @@ export default {
           id: this.listId
         }
       }).then(res => {
-        console.log(res);
+        // console.log(res);
       });
+    },
+    as() {
+      var a = 0;
+      var wordList = this.text.split("");
+      var z = /\w/;
+      var da = /[A-Z]/;
+      var size = 1;
+      var as = document.getElementById("as");
+      var txt = document.getElementsByClassName("inputTxt")[0];
+      // console.log(wordList);
+      for (var i in wordList) {
+        // console.log(wordList[i]);
+        if (z.test(wordList[i]) && !da.test(wordList[i])) {
+          a += 1;
+        } else if (da.test(wordList[i])) {
+          a += 1.4;
+        } else {
+          a += 2;
+        }
+      }
+      // console.log(a);
+      if (a >= 35) {
+        size += 1;
+        z = 0;
+      }
+      var height = size * 0.4;
+      as.style.height = height + "rem";
+      if (height > 0.4) {
+        txt.style.height = "auto";
+        this.showH = true;
+      } else {
+        txt.style.height = "0.6rem";
+        this.showH = false;
+      }
+
+      // console.log(txt.style.height);
     }
   },
   destroyed() {
@@ -667,25 +709,26 @@ export default {
 }
 .nav {
   z-index: 100;
-  width: 100%;
+  width: 100vw;
   height: 0.88rem;
   background: #ffffff;
   position: fixed;
   top: 0;
   text-align: center;
   border-bottom: 1px solid #f7f7f7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.2rem;
+  box-sizing: border-box;
 }
 .name {
   line-height: 0.88rem;
   font-size: 0.36rem;
   font-weight: 500;
-  display: inline-block;
   color: rgba(51, 51, 51, 1);
 }
 .nav-left {
-  position: absolute;
-  left: 0.25rem;
-  top: 0.2rem;
   width: 0.55rem;
 }
 .pu {
@@ -697,11 +740,8 @@ export default {
     rgba(253, 67, 63, 1)
   );
   color: #ffffff;
-  position: absolute;
-  right: 0.2rem;
-  top: 0.2rem;
   border-radius: 0.3rem;
-  padding: 0.09rem 0.14rem;
+  padding: 0.06rem 0.14rem;
 }
 .time {
   background: #cccccc;
@@ -722,11 +762,13 @@ export default {
   font-size: 0.3rem;
   background: #fff;
   border-radius: 0.2rem;
+  padding: 0.2rem;
+  box-sizing: border-box;
 }
 
 .commodity dt {
   flex: 2;
-  margin: 0.2rem;
+  margin-right: 0.2rem;
 }
 .commodity dt img {
   width: 100%;
@@ -734,7 +776,6 @@ export default {
 }
 .commodity dd {
   flex: 5;
-  margin: 0.2rem;
 }
 .commodity dd .ti {
   width: 100%;
@@ -811,11 +852,10 @@ export default {
   width: 100%;
 }
 .shu {
-  /* position: absolute;
-  bottom: 0rem; */
   width: 100%;
-  height: 0.9rem;
   background: #eeeeee;
+  padding: 0.1rem 0;
+  box-sizing: border-box;
 }
 .inputTxt {
   background-color: #fff;
@@ -823,15 +863,29 @@ export default {
   height: 0.6rem;
   margin: auto 0;
   border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.1rem;
+  box-sizing: border-box;
 }
-.inputTxt input {
-  width: 85%;
+#text {
+  width: 90%;
+  overflow: hidden;
+}
+.inputTxt textarea {
+  width: 100.5%;
   font-size: 0.3rem;
   float: left;
-  height: 0.5rem;
+  height: 0.4rem;
+  line-height: 0.4rem;
   margin: 0.05rem 0 0 0.1rem;
   outline: none;
   border: none;
+  resize: none;
+  padding-right: 0.1rem;
+  box-sizing: border-box;
 }
 .inputTxt img {
   float: left;
@@ -852,8 +906,11 @@ export default {
 /* 聊天框部分样式 */
 #chattingWord {
   width: 100%;
-  /* padding-bottom: 0.4rem; */
-  /* box-sizing: border-box; */
+  margin-bottom: 0.4rem;
+  box-sizing: border-box;
+}
+#chattingWord > div {
+  width: 100%;
 }
 
 .masgDiv {
@@ -930,38 +987,12 @@ export default {
   width: 100%;
   height: 89vh;
   overflow-y: scroll;
-  margin-top: 0.88rem;
+  padding-top: 0.88rem;
 }
 .showF {
-  height: 133vw !important;
+  height: 70vh !important;
 }
-
-/* .oo {
-  display: flex;
-  margin-top: 0.35rem;
-  margin-bottom: 0.2rem;
-  width: 98%;
-  padding-left: 3%;
+.showH {
+  height: 87vh !important;
 }
-.oo dt {
-  flex: 5;
-  width: auto;
-}
-.oo dt div {
-  width: auto;
-  height: auto;
-  padding: 0.05rem 0.1rem 0.05rem 0.1rem;
-  background-color: #fc6957;
-  border-radius: 0.4rem 0 0.4rem 0.4rem;
-  color: #ffffff;
-}
-.oo dd {
-  flex: 1;
-  width: 20%;
-  margin-right: 0.2rem;
-  margin-left: 0.2rem;
-}
-.oo dd img {
-  width: 100%;
-} */
 </style>

@@ -592,9 +592,7 @@ export default {
           }
         });
       } else {
-        this.$router.push({
-          name: "dpxq"
-        });
+        this.$router.go(-1)
       }
     },
     shareApp() {
@@ -866,6 +864,8 @@ export default {
     },
     dianpu() {
       window.sessionStorage.setItem("DP", JSON.stringify(this.dataList.sid));
+      window.localStorage.setItem("DP", JSON.stringify(this.dataList.sid));
+      console.log(this.dataList.sid)
       this.$router.push({
         name: "dpxq",
         query: {

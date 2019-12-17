@@ -10,16 +10,26 @@
             name="arrow-left"
             size="0.6rem"
             style="margin-top: 0.1rem"
-          /> -->
-		  <img src="../../../assets/img/fan.png" @click="fh()" style="margin-top: 0.1rem;width: 0.55rem;" alt="">
+          />-->
+          <img
+            src="../../../assets/img/fan.png"
+            @click="fh()"
+            style="margin-top: 0.1rem;width: 0.55rem;"
+            alt
+          />
           <!-- <van-icon
             @click="back =!back"
             color="#FFFFFF"
             name="wap-nav"
             style="float: right;margin-right: 0.55rem;margin-top: 0.1rem"
             size="0.6rem"
-          /> -->
-		  <img src="../../../assets/img/cai.png" @click="back =!back" style="width:0.4rem;float: right;margin-right: 0.55rem;margin-top: 0.1rem" alt="">
+          />-->
+          <img
+            src="../../../assets/img/cai.png"
+            @click="back =!back"
+            style="width:0.4rem;float: right;margin-right: 0.55rem;margin-top: 0.1rem"
+            alt
+          />
           <van-icon
             @click="Search()"
             color="#FFFFFF"
@@ -83,11 +93,18 @@
             <span>< 500m</span>
           </p>
           <div class="nav-bottom-div">
-
-
-            <div v-if="top.quality==''?false:true">商品评价：<span>{{top.quality}}</span></div>
-            <div v-if="top.service==''?false:true">服务评价：<span>{{top.service}}</span></div>
-            <div v-if="top.description==''?false:true">物流评价：<span>{{top.description}}</span></div>
+            <div v-if="top.quality==''?false:true">
+              商品评价：
+              <span>{{top.quality}}</span>
+            </div>
+            <div v-if="top.service==''?false:true">
+              服务评价：
+              <span>{{top.service}}</span>
+            </div>
+            <div v-if="top.description==''?false:true">
+              物流评价：
+              <span>{{top.description}}</span>
+            </div>
           </div>
           <div class="nav-bottom-two">
             <div v-if="shou == 1 ? true : false" @click=" collect()">
@@ -385,53 +402,53 @@ export default {
         name: "shops"
       });
     },
-   collect() {
-        this.shou = !this.shou
-        if (this.shou == 1) {
-          request({
-            url: "api/users/collectionshp",
-            method: "post",
-            data: {
-              user_id: this.$store.state.username.id,
-              shop_id: this.shop_id,
-
-            }
-          }).then(res => {
+    collect() {
+      this.shou = !this.shou;
+      if (this.shou == 1) {
+        request({
+          url: "api/users/collectionshp",
+          method: "post",
+          data: {
+            user_id: this.$store.state.username.id,
+            shop_id: this.shop_id
+          }
+        })
+          .then(res => {
             //console.log(res)
             if (res.data.code == 200) {
-              Toast('收藏成功');
-              this.Shop()
+              Toast("收藏成功");
+              this.Shop();
             } else {
-              Toast('收藏失败');
+              Toast("收藏失败");
             }
-          }).catch(err => {
-            Toast('网络连接中断');
           })
-
-        }
-        if (this.shou == 0) {
-          request({
-            url: "api/users/delcshop",
-            method: "post",
-            data: {
-              user_id: this.$store.state.username.id,
-              shop_id: this.shop_id,
-            }
-          }).then(res => {
+          .catch(err => {
+            Toast("网络连接中断");
+          });
+      }
+      if (this.shou == 0) {
+        request({
+          url: "api/users/delcshop",
+          method: "post",
+          data: {
+            user_id: this.$store.state.username.id,
+            shop_id: this.shop_id
+          }
+        })
+          .then(res => {
             //console.log(res)
             if (res.data.code == 200) {
-              Toast('取消收藏');
-              this.Shop()
+              Toast("取消收藏");
+              this.Shop();
             } else {
-              Toast('取消收藏失败');
+              Toast("取消收藏失败");
             }
-          }).catch(err => {
-            Toast('网络连接中断');
           })
-
-        }
-
-      },
+          .catch(err => {
+            Toast("网络连接中断");
+          });
+      }
+    },
     Search() {
       this.$router.push({
         name: "seek"
@@ -447,10 +464,11 @@ export default {
           type: 2
         }
       }).then(res => {
+        console.log(res);
         this.top = res.data.data.shop;
         this.bottom = res.data.data.goods;
         this.shou = res.data.data.shop.is_collectionshop;
-        console.log(this.top)
+        console.log(this.top);
       });
     },
     zuixin() {
@@ -519,7 +537,8 @@ export default {
     Tabs
   },
   mounted() {
-    this.shop_id = JSON.parse(window.sessionStorage.getItem("DP"));
+    this.shop_id = JSON.parse(window.localStorage.getItem("DP"));
+    console.log(this.shop_id);
     this.token = this.$route.query.token;
     if (this.token == 36) {
       window.sessionStorage.setItem("DDP", 36);
@@ -615,7 +634,6 @@ export default {
   color: #ffffff;
 }
 
-
 .nav-bottom {
   width: 7.5rem;
   color: black;
@@ -643,7 +661,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-.nav-bottom>div:nth-child(2){
+.nav-bottom > div:nth-child(2) {
   padding-top: 0.8rem;
 }
 
@@ -719,15 +737,15 @@ export default {
   flex-wrap: wrap;
 }
 
-.concat>div {
+.concat > div {
   width: 3.47rem;
   height: 5.2rem;
   border-radius: 10px;
   background: #ffffff;
-  margin: 0.15rem  0.14rem;
+  margin: 0.15rem 0.14rem;
   text-align: left;
   position: relative;
-  box-shadow:0px 0px 9px 0px rgba(51,51,51,0.22);
+  box-shadow: 0px 0px 9px 0px rgba(51, 51, 51, 0.22);
 }
 
 .ph {

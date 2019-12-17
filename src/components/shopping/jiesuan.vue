@@ -74,7 +74,7 @@
             <img alt src="../../assets/dingdan_dianpu.png" />
             <p>{{item.name}}</p>
           </div>
-          <div class="concat-b" v-for="(ite ,i) in item.goods" :key="i">
+          <div class="concat-b" v-for="(ite ,i) in item.goods" :key="i" @click="link(ite.goods_id)">
             <img :src="ite.headimg" alt />
             <p class="concat-b-a">{{ite.title}}</p>
             <p class="concat-b-b">{{ite.goods_attr_val}}</p>
@@ -707,6 +707,15 @@ export default {
     canson() {
       console.log("sada");
       this.meti = 0;
+    },
+    link(id) {
+      console.log(id);
+      this.$router.push({
+        name: "wpxq",
+        query: {
+          goods_id: id
+        }
+      });
     }
   },
   created() {},

@@ -314,6 +314,8 @@ export default {
           this.lng = data.position.lng;
           window.sessionStorage.setItem("lat", this.lat);
           window.sessionStorage.setItem("lng", this.lng);
+          window.localStorage.setItem("lat", this.lat);
+          window.localStorage.setItem("lng", this.lng);
           console.log(this.lat, this.lng);
           console.log(this.shuju);
           console.log(this.dzz);
@@ -363,6 +365,7 @@ export default {
           console.log(window.localStorage.getItem("site"));
           that.queP = true;
           that.formattedAddress = data.formattedAddress;
+          that.ding();
         }
         function onError(data) {
           console.log(data);
@@ -399,6 +402,7 @@ export default {
       });
     },
     onLoad() {
+      console.log(window.localStorage.getItem("site"));
       if (window.localStorage.getItem("site") != null) {
         request({
           url: "api/index/goods",
@@ -406,8 +410,8 @@ export default {
           data: {
             p: this.page,
             rows: this.total,
-            lat: window.sessionStorage.getItem("lat"),
-            lng: window.sessionStorage.getItem("lng")
+            lat: window.localStorage.getItem("lat"),
+            lng: window.localStorage.getItem("lng")
           }
         }).then(res => {
           console.log(res);
@@ -429,7 +433,7 @@ export default {
             console.log("sdsdsdsdsdsd");
             this.onLoad();
           }.bind(this),
-          1000
+          2000
         );
       }
     },
@@ -461,6 +465,9 @@ export default {
       window.sessionStorage.setItem("site", b);
       this.dz = window.localStorage.getItem("site");
       this.show = false;
+    },
+    ding() {
+      this.dz = window.localStorage.getItem("site");
     }
   },
   mounted() {
@@ -485,16 +492,6 @@ export default {
   },
   components: {
     VueScroller
-  },
-  filters: {
-    getCaption(obj) {
-      // var obj = "河南省郑州市管城回族区商都路街道榆林北路升龙广场"
-      var index = obj.lastIndexOf("路");
-      obj = obj.substring(index + 1, obj.length);
-      var index = obj.lastIndexOf("道");
-      obj = obj.substring(index + 1, obj.length);
-      return obj;
-    }
   }
 };
 </script>

@@ -87,6 +87,8 @@ export default {
         this.$router.push({
           name: "seek"
         });
+      }else{
+        this.$router.go(-1)
       }
     },
     xiaoxi() {
