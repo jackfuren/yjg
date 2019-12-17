@@ -74,23 +74,19 @@
         <div class="xian"></div>
         <div class="nav-xx">
           <div @click="shangpin()" class="nav-conn">
-            <img src="../../assets/shoucang@3x.png" alt />
+            <img src="../../assets/shoucang.png" alt />
             <p>我的收藏</p>
           </div>
           <div @click="youhuijian()" class="nav-conn">
-<<<<<<< HEAD
-            <img src="../../assets/youhuiquan@3x.png" alt />
-=======
             <img src="../../assets/youhuiquan (2).png" alt />
->>>>>>> 91016ee77115a70e7cf79e9625ee7928a3d396e2
             <p>优惠券</p>
           </div>
           <div @click="help()" class="nav-conn">
-            <img src="../../assets/wentifankui@3x.png" alt />
+            <img src="../../assets/wentifankui.png" alt />
             <p>帮助中心</p>
           </div>
           <div @click="she()" class="nav-conn">
-            <img src="../../assets/shezhi@3x.png" alt />
+            <img src="../../assets/shezhi.png" alt />
             <p>设置</p>
           </div>
         </div>

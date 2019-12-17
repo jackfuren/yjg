@@ -65,11 +65,13 @@
             </div>
             <p>{{item.title}}</p>
             <p>品牌名称</p>
-            <p>
-              ￥
-              <span>{{item.price}}</span>
-            </p>
-            <p>￥{{item.original_price}}</p>
+            <div class="price">
+              <p>
+                ￥
+                <span>{{item.price}}</span>
+              </p>
+              <p>￥{{item.original_price}}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -266,14 +268,12 @@ export default {
 .nav-top-back {
   background-image: url(../../assets/shangjiaye_xialakuang.png);
   width: 2.9rem;
-  height: 3.6rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   position: fixed;
   right: 0.26rem;
-
   top: 0.6rem;
-  padding-top: 0.2rem;
+  padding: 0.35rem 0 0.2rem;
 }
 
 .nav-top-back p {
@@ -289,7 +289,7 @@ export default {
   background: white;
   position: fixed;
   top: 0.88rem;
-  z-index: 0;
+  z-index: 999;
 }
 
 .all div {
@@ -337,7 +337,7 @@ export default {
   margin-bottom: 0.2rem;
 }
 
-.product-div div {
+.product-div>div:nth-child(1) {
   width: 3.46rem;
   height: 3.46rem;
   display: table-cell;
@@ -351,7 +351,7 @@ export default {
   margin: auto;
 }
 
-.product-div p:nth-child(2) {
+.product-div>p:nth-child(2) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -376,25 +376,30 @@ export default {
   left: 0.2rem;
   bottom: 0.75rem;
 }
-
-.product-div p:nth-child(4) {
-  font-size: 0.24rem;
-  color: #ef0600;
-  position: absolute;
-  bottom: 0.2rem;
-  left: 0.2rem;
+.price{
+  width: 100%;
+  height: 0.55rem;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 0.12rem;
+  box-sizing: border-box;
+  position: relative;
+  top: 1.3rem;
 }
 
-.product-div p:nth-child(4) span {
+.price p:nth-child(1) {
+  font-size: 0.24rem;
+  color: #ef0600;
+  margin-right: 0.05rem;
+}
+
+.price>p:nth-child(1) span {
   font-size: 0.36rem;
 }
 
-.product-div p:nth-child(5) {
+.price>p:nth-child(2) {
   font-size: 0.2rem;
   color: #777777;
-  position: absolute;
-  bottom: 0.25rem;
-  left: 1.3rem;
   text-decoration: line-through;
 }
 

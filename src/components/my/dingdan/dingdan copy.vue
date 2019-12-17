@@ -6,267 +6,269 @@
         <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/> -->
         <p>我的订单</p>
       </div>
-      <van-tabs v-model="active" @click="onClickDisabled">
-        <van-tab title="全部">
-          <div class="concat-there" v-if="dataList.length == 0 ? true : false">
-            <img src="../../../assets/quangbu.png" alt />
-            <p>当前暂无订单</p>
-          </div>
-          <div class="concat" v-for="(item ,index) in dataList" :key="index">
-            <div>
-              <img src="../../../assets/gouwuche_icon.png" alt />
-              <span class="div-span">
-                {{item.name}}
-                <van-icon name="arrow" style="position:relative;top: 0.035rem" />
-              </span>
-              <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
-              <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
-              <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
-              <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
-              <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
-              <span v-show="item.status == 6? true:false" class="div-spantwo">交易关闭</span>
+      <section @touchstart="mouseD" id="allCont">
+        <van-tabs v-model="active" @click="onClickDisabled">
+          <van-tab title="全部">
+            <div class="concat-there" v-if="dataList.length == 0 ? true : false">
+              <img src="../../../assets/quangbu.png" alt />
+              <p>当前暂无订单</p>
+            </div>
+            <div class="concat" v-for="(item ,index) in dataList" :key="index">
+              <div>
+                <img src="../../../assets/gouwuche_icon.png" alt />
+                <span class="div-span">
+                  {{item.name}}
+                  <van-icon name="arrow" style="position:relative;top: 0.035rem" />
+                </span>
+                <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
+                <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
+                <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
+                <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
+                <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
+                <span v-show="item.status == 6? true:false" class="div-spantwo">交易关闭</span>
+              </div>
+              <div
+                class="concat-div"
+                v-for="(ite,index) in item.goods"
+                :key="index"
+                @click="All(item)"
+              >
+                <img :src="ite.headimg" alt />
+                <p>{{ite.gitle}}</p>
+                <p>{{ite.goods_attr}}</p>
+                <p>
+                  ￥
+                  <span>{{item.money}}</span>
+                </p>
+                <p>x{{ite.num}}</p>
+              </div>
+              <div class="concat-two">
+                <p>
+                  共{{ item.totalnum }}件商品 合计: ￥
+                  <span
+                    style="font-size: 0.3rem;font-weight: bold"
+                  >{{item.money}}</span>
+                </p>
+                <p @click="fukuai(item.oid)" v-show="item.status == 1? true:false">去付款</p>
+                <p @click="tixing()" v-show="item.status == 2? true:false">提醒发货</p>
+                <p @click="queren(item.oid)" v-show="item.status == 3? true:false">确认收货</p>
+                <p v-show="item.status == 3? true:false">查看物流</p>
+                <p @click="pingjia()" v-show="false">评价</p>
+                <p @click="Delete(item.oid)" v-show="item.status == 5? true:false">删除订单</p>
+                <p v-show="item.status == 4? true:false">申请售后</p>
+                <p @click="Delete(item.oid)" v-show="item.status == 6? true:false">删除订单</p>
+                <p class="mlo" v-show="item.send_type == 2? true:false">自取订单</p>
+                <p class="mlo" v-show="item.send_type == 1? true:false">配送订单</p>
+              </div>
+            </div>
+          </van-tab>
+          <van-tab title="待付款">
+            <div class="concat-there" v-if="arrList.length == 0 ? true : false">
+              <img src="../../../assets/daifukuan.png" alt />
+              <p>没有待付款订单</p>
             </div>
             <div
-              class="concat-div"
-              v-for="(ite,index) in item.goods"
+              class="concat"
+              v-if="arrList.length ==0 ? false : true"
+              v-for="(item ,index) in arrList"
               :key="index"
-              @click="All(item)"
             >
-              <img :src="ite.headimg" alt />
-              <p>{{ite.gitle}}</p>
-              <p>{{ite.goods_attr}}</p>
-              <p>
-                ￥
-                <span>{{item.money}}</span>
-              </p>
-              <p>x{{ite.num}}</p>
-            </div>
-            <div class="concat-two">
-              <p>
-                共{{ item.totalnum }}件商品 合计: ￥
-                <span
-                  style="font-size: 0.3rem;font-weight: bold"
-                >{{item.money}}</span>
-              </p>
-              <p @click="fukuai(item.oid)" v-show="item.status == 1? true:false">去付款</p>
-              <p @click="tixing()" v-show="item.status == 2? true:false">提醒发货</p>
-              <p @click="queren(item.oid)" v-show="item.status == 3? true:false">确认收货</p>
-              <p v-show="item.status == 3? true:false">查看物流</p>
-              <p @click="pingjia()" v-show="false">评价</p>
-              <p @click="Delete(item.oid)" v-show="item.status == 5? true:false">删除订单</p>
-              <p v-show="item.status == 4? true:false">申请售后</p>
-              <p @click="Delete(item.oid)" v-show="item.status == 6? true:false">删除订单</p>
-              <p class="mlo" v-show="item.send_type == 2? true:false">自取订单</p>
-              <p class="mlo" v-show="item.send_type == 1? true:false">配送订单</p>
-            </div>
-          </div>
-        </van-tab>
-        <van-tab title="待付款">
-          <div class="concat-there" v-if="arrList.length == 0 ? true : false">
-            <img src="../../../assets/daifukuan.png" alt />
-            <p>没有待付款订单</p>
-          </div>
-          <div
-            class="concat"
-            v-if="arrList.length ==0 ? false : true"
-            v-for="(item ,index) in arrList"
-            :key="index"
-          >
-            <div>
-              <img src="../../../assets/gouwuche_icon.png" alt />
-              <span class="div-span">
-                {{item.name}}
-                <van-icon name="arrow" style="position:relative;top: 0.035rem" />
-              </span>
-              <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
-              <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
-              <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
-              <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
-              <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
-              <!-- fukuai(item.oid) -->
-            </div>
-            <div
-              class="concat-div"
-              v-for="(ite,index) in item.goods"
-              :key="index"
-              @click="All(item)"
-            >
-              <img :src="ite.headimg" alt />
-              <p>{{ite.gitle}}</p>
-              <p>
-                ￥
-                <span>{{item.money}}</span>
-              </p>
-              <p>x{{ite.num}}</p>
-            </div>
+              <div>
+                <img src="../../../assets/gouwuche_icon.png" alt />
+                <span class="div-span">
+                  {{item.name}}
+                  <van-icon name="arrow" style="position:relative;top: 0.035rem" />
+                </span>
+                <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
+                <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
+                <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
+                <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
+                <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
+                <!-- fukuai(item.oid) -->
+              </div>
+              <div
+                class="concat-div"
+                v-for="(ite,index) in item.goods"
+                :key="index"
+                @click="All(item)"
+              >
+                <img :src="ite.headimg" alt />
+                <p>{{ite.gitle}}</p>
+                <p>
+                  ￥
+                  <span>{{item.money}}</span>
+                </p>
+                <p>x{{ite.num}}</p>
+              </div>
 
-            <div class="concat-tw">
-              <p>
-                共{{ item.totalnum }}件商品 合计: ￥
-                <span
-                  style="font-size: 0.3rem;font-weight: bold"
-                >{{item.money}}</span>
-              </p>
-              <p class="fir" @click="fukuai(item.oid)" v-show="item.status == 1? true:false">去付款</p>
-              <p class="mlo" v-show="item.send_type == 2? true:false">自取订单</p>
-              <p class="mlo" v-show="item.send_type == 1? true:false">配送订单</p>
+              <div class="concat-tw">
+                <p>
+                  共{{ item.totalnum }}件商品 合计: ￥
+                  <span
+                    style="font-size: 0.3rem;font-weight: bold"
+                  >{{item.money}}</span>
+                </p>
+                <p class="fir" @click="fukuai(item.oid)" v-show="item.status == 1? true:false">去付款</p>
+                <p class="mlo" v-show="item.send_type == 2? true:false">自取订单</p>
+                <p class="mlo" v-show="item.send_type == 1? true:false">配送订单</p>
+              </div>
             </div>
-          </div>
-        </van-tab>
-        <van-tab title="待发货">
-          <div class="concat-there" v-if="arrList.length == 0 ? true : false">
-            <img src="../../../assets/diafahuo.png" alt />
-            <p>没有待发货订单</p>
-          </div>
-          <div
-            class="concat"
-            v-if="arrList.length ==0 ? false : true"
-            v-for="(item ,index) in arrList"
-            :key="index"
-          >
-            <div>
-              <img src="../../../assets/gouwuche_icon.png" alt />
-              <span class="div-span">
-                {{item.name}}
-                <van-icon name="arrow" style="position:relative;top: 0.035rem" />
-              </span>
-              <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
-              <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
-              <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
-              <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
-              <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
-            </div>
-            <!-- @click="fahuo(ite.oid)" -->
-            <div
-              class="concat-div"
-              v-for="(ite,index) in item.goods"
-              :key="index"
-              @click="All(item)"
-            >
-              <img :src="ite.headimg" alt />
-              <p>{{ite.gitle}}</p>
-              <p>
-                ￥
-                <span>{{item.money}}</span>
-              </p>
-              <p>x{{ite.num}}</p>
-            </div>
-            <div class="concat-tw">
-              <p>
-                共{{ item.totalnum }}件商品 合计: ￥
-                <span
-                  style="font-size: 0.3rem;font-weight: bold"
-                >{{item.money}}</span>
-              </p>
-              <p class="fir" @click="tixing(index)" v-show="item.status == 2? true:false">提醒发货</p>
-              <p class="mlo" v-show="item.send_type == 2? true:false">自取订单</p>
-              <p class="mlo" v-show="item.send_type == 1? true:false">配送订单</p>
-            </div>
-          </div>
-        </van-tab>
-        <van-tab title="待收货">
-          <div class="concat-there" v-if="arrList.length == 0 ? true : false">
-            <img src="../../../assets/daishouhuo.png" alt />
-            <p>没有待收货订单</p>
-          </div>
-          <div
-            class="concat"
-            v-if="arrList.length ==0 ? false : true"
-            v-for="(item ,index) in arrList"
-            :key="index"
-          >
-            <div>
-              <img src="../../../assets/gouwuche_icon.png" alt />
-              <span class="div-span">
-                {{item.name}}
-                <van-icon name="arrow" style="position:relative;top: 0.035rem" />
-              </span>
-              <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
-              <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
-              <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
-              <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
-              <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
-            </div>@click="quern(item.oid)"
-            <div
-              class="concat-div"
-              v-for="(ite,index) in item.goods"
-              :key="index"
-              @click="All(item)"
-            >
-              <img :src="ite.headimg" alt />
-              <p>{{ite.gitle}}</p>
-              <p>
-                ￥
-                <span>{{item.money}}</span>
-              </p>
-              <p>x{{ite.num}}</p>
-            </div>
-            <div class="concat-tw">
-              <p>
-                共{{ item.totalnum }}件商品 合计: ￥
-                <span
-                  style="font-size: 0.3rem;font-weight: bold"
-                >{{item.money}}</span>
-              </p>
-              <p class="fir" @click="queren(item.oid)" v-show="item.status == 3? true:false">确认收货</p>
-              <p class="qpo" @click="wuliu(item.oid)" v-show="item.status == 3? true:false">查看物流</p>
-              <p class="mlo" v-show="item.send_type == 2? true:false">自取订单</p>
-              <p class="mlo" v-show="item.send_type == 1? true:false">配送订单</p>
-            </div>
-          </div>
-        </van-tab>
-        <van-tab title="待评价">
-          <div class="concat-there" v-if="arrList.length == 0 ? true : false">
-            <img src="../../../assets/daipingjia.png" alt />
-            <p>没有待评价订单</p>
-          </div>
-          <div
-            class="concat"
-            v-if="arrList.length ==0 ? false : true"
-            v-for="(item ,index) in arrList"
-            :key="index"
-          >
-            <div>
-              <img src="../../../assets/gouwuche_icon.png" alt />
-              <span class="div-span">
-                {{item.name}}
-                <van-icon name="arrow" style="position:relative;top: 0.035rem" />
-              </span>
-              <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
-              <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
-              <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
-              <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
-              <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
+          </van-tab>
+          <van-tab title="待发货">
+            <div class="concat-there" v-if="arrList.length == 0 ? true : false">
+              <img src="../../../assets/diafahuo.png" alt />
+              <p>没有待发货订单</p>
             </div>
             <div
-              class="concat-div"
-              v-for="(ite,index) in item.goods"
+              class="concat"
+              v-if="arrList.length ==0 ? false : true"
+              v-for="(item ,index) in arrList"
               :key="index"
-              @click="shouh(item.oid)"
             >
-              <img :src="ite.headimg" alt />
-              <p>{{ite.gitle}}</p>
-              <p>
-                ￥
-                <span>{{item.money}}</span>
-              </p>
-              <p>x{{ite.num}}</p>
-              <p @click="pingjia(ite)" class="pingjia">评价</p>
+              <div>
+                <img src="../../../assets/gouwuche_icon.png" alt />
+                <span class="div-span">
+                  {{item.name}}
+                  <van-icon name="arrow" style="position:relative;top: 0.035rem" />
+                </span>
+                <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
+                <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
+                <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
+                <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
+                <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
+              </div>
+              <!-- @click="fahuo(ite.oid)" -->
+              <div
+                class="concat-div"
+                v-for="(ite,index) in item.goods"
+                :key="index"
+                @click="All(item)"
+              >
+                <img :src="ite.headimg" alt />
+                <p>{{ite.gitle}}</p>
+                <p>
+                  ￥
+                  <span>{{item.money}}</span>
+                </p>
+                <p>x{{ite.num}}</p>
+              </div>
+              <div class="concat-tw">
+                <p>
+                  共{{ item.totalnum }}件商品 合计: ￥
+                  <span
+                    style="font-size: 0.3rem;font-weight: bold"
+                  >{{item.money}}</span>
+                </p>
+                <p class="fir" @click="tixing(index)" v-show="item.status == 2? true:false">提醒发货</p>
+                <p class="mlo" v-show="item.send_type == 2? true:false">自取订单</p>
+                <p class="mlo" v-show="item.send_type == 1? true:false">配送订单</p>
+              </div>
             </div>
-            <div class="concat-tw">
-              <p>
-                共{{ item.totalnum }}件商品 合计: ￥
-                <span
-                  style="font-size: 0.3rem;font-weight: bold"
-                >{{item.money}}</span>
-              </p>
-              <p class="qpo" @click="shouh(item.oid)" v-show="item.status == 4? true:false">申请售后</p>
-              <p class="mlo" v-show="item.send_type == 2? true:false">自取订单</p>
-              <p class="mlo" v-show="item.send_type == 1? true:false">配送订单</p>
+          </van-tab>
+          <van-tab title="待收货">
+            <div class="concat-there" v-if="arrList.length == 0 ? true : false">
+              <img src="../../../assets/daishouhuo.png" alt />
+              <p>没有待收货订单</p>
             </div>
-          </div>
-        </van-tab>
-      </van-tabs>
+            <div
+              class="concat"
+              v-if="arrList.length ==0 ? false : true"
+              v-for="(item ,index) in arrList"
+              :key="index"
+            >
+              <div>
+                <img src="../../../assets/gouwuche_icon.png" alt />
+                <span class="div-span">
+                  {{item.name}}
+                  <van-icon name="arrow" style="position:relative;top: 0.035rem" />
+                </span>
+                <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
+                <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
+                <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
+                <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
+                <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
+              </div>@click="quern(item.oid)"
+              <div
+                class="concat-div"
+                v-for="(ite,index) in item.goods"
+                :key="index"
+                @click="All(item)"
+              >
+                <img :src="ite.headimg" alt />
+                <p>{{ite.gitle}}</p>
+                <p>
+                  ￥
+                  <span>{{item.money}}</span>
+                </p>
+                <p>x{{ite.num}}</p>
+              </div>
+              <div class="concat-tw">
+                <p>
+                  共{{ item.totalnum }}件商品 合计: ￥
+                  <span
+                    style="font-size: 0.3rem;font-weight: bold"
+                  >{{item.money}}</span>
+                </p>
+                <p class="fir" @click="queren(item.oid)" v-show="item.status == 3? true:false">确认收货</p>
+                <p class="qpo" @click="wuliu(item.oid)" v-show="item.status == 3? true:false">查看物流</p>
+                <p class="mlo" v-show="item.send_type == 2? true:false">自取订单</p>
+                <p class="mlo" v-show="item.send_type == 1? true:false">配送订单</p>
+              </div>
+            </div>
+          </van-tab>
+          <van-tab title="待评价">
+            <div class="concat-there" v-if="arrList.length == 0 ? true : false">
+              <img src="../../../assets/daipingjia.png" alt />
+              <p>没有待评价订单</p>
+            </div>
+            <div
+              class="concat"
+              v-if="arrList.length ==0 ? false : true"
+              v-for="(item ,index) in arrList"
+              :key="index"
+            >
+              <div>
+                <img src="../../../assets/gouwuche_icon.png" alt />
+                <span class="div-span">
+                  {{item.name}}
+                  <van-icon name="arrow" style="position:relative;top: 0.035rem" />
+                </span>
+                <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
+                <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
+                <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
+                <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
+                <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
+              </div>
+              <div
+                class="concat-div"
+                v-for="(ite,index) in item.goods"
+                :key="index"
+                @click="shouh(item.oid)"
+              >
+                <img :src="ite.headimg" alt />
+                <p>{{ite.gitle}}</p>
+                <p>
+                  ￥
+                  <span>{{item.money}}</span>
+                </p>
+                <p>x{{ite.num}}</p>
+                <p @click="pingjia(ite)" class="pingjia">评价</p>
+              </div>
+              <div class="concat-tw">
+                <p>
+                  共{{ item.totalnum }}件商品 合计: ￥
+                  <span
+                    style="font-size: 0.3rem;font-weight: bold"
+                  >{{item.money}}</span>
+                </p>
+                <p class="qpo" @click="shouh(item.oid)" v-show="item.status == 4? true:false">申请售后</p>
+                <p class="mlo" v-show="item.send_type == 2? true:false">自取订单</p>
+                <p class="mlo" v-show="item.send_type == 1? true:false">配送订单</p>
+              </div>
+            </div>
+          </van-tab>
+        </van-tabs>
+      </section>
     </div>
   </div>
 </template>
@@ -304,6 +306,41 @@ export default {
     Tabs
   },
   methods: {
+    mouseD(event) {
+      console.log("SAAAAAAAAAAA");
+      this.startP = event.touches[0].pageX;
+      console.log(this.startP);
+      var that = this;
+      function move() {
+        that.change(event);
+      }
+      document.addEventListener("touchmove", move);
+      document.ontouchend = function() {
+        document.removeEventListener("mousemove", move);
+        that.startP = 0;
+        that.endP = 0;
+      };
+    },
+    // change(e) {
+    //   // console.log(event.touches[0].pageX);
+    //   this.endP = e.touches[0].pageX;
+    //   if (this.endP > this.startP) {
+    //     if (this.ind == 0) {
+    //       this.ind = 1;
+    //     } else if (this.ind == 1) {
+    //       this.ind = 2;
+    //     } else if (this.ind == 2) {
+    //       this.ind = 3;
+    //     } else {
+    //       this.ind = 4;
+    //     }
+    //   }
+    //   console.log(this.ind);
+    //   this.onClickDisabled(
+    //     this.changeList[this.ind].num,
+    //     this.changeList[this.ind].title
+    //   );
+    // },
     shouhuotwo(i) {
       this.$router.push({
         name: "qrsh",

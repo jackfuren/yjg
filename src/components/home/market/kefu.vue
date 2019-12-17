@@ -622,6 +622,7 @@ export default {
       // console.log(this.msag);
       if (this.fen == null) {
         this.chatB = this.msag;
+        this.chatB[0].showTime = false;
         // console.log(this.chatB);
       } else {
         for (var index = this.msag.length - 1; index >= 0; index--) {
@@ -629,6 +630,7 @@ export default {
             // console.log(index);
             this.chatS = this.msag.slice(0, index + 1);
             this.chatB = this.msag.slice(index + 1);
+            this.chatB[0].showTime = false;
             //判断聊天记录中是否存在商品链接
             for (var i in this.chatB) {
               if (
