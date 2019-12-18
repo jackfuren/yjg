@@ -365,7 +365,7 @@ export default {
           console.log(window.localStorage.getItem("site"));
           that.queP = true;
           that.formattedAddress = data.formattedAddress;
-          that.ding();
+          // that.ding();
         }
         function onError(data) {
           console.log(data);
