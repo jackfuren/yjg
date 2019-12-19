@@ -123,8 +123,9 @@ import areaList from "../../../config/area";
 import Swiper from "swiper";
 import request from "../utils/request.js";
 import Vue from "vue";
-import { List } from "vant";
+import { List, Toast } from "vant";
 Vue.use(List);
+Vue.use(Toast);
 import VueScroller from "vue-scroller";
 export default {
   name: "home",
@@ -187,7 +188,8 @@ export default {
       shuju: "",
       finished: false,
       token: this.$route.query.token,
-      queP: false
+      queP: false,
+      dw: true
     };
   },
   methods: {
@@ -371,6 +373,7 @@ export default {
           console.log(data);
           // 定位出错
           that.showw = true;
+          this.dw = false;
         }
       });
     },
@@ -402,8 +405,8 @@ export default {
       });
     },
     onLoad() {
-      console.log(window.localStorage.getItem("site"));
-      if (window.localStorage.getItem("site") != null) {
+      console.log(window.localStorage.getItem("lat"));
+      if (window.localStorage.getItem("lat") != null) {
         request({
           url: "api/index/goods",
           method: "post",
@@ -414,7 +417,7 @@ export default {
             lng: window.localStorage.getItem("lng")
           }
         }).then(res => {
-          console.log(res);
+          console.log(res.data.code);
           let myData = [];
           myData = res.data.data;
           for (let i = 0; i < myData.length; i++) {
@@ -428,13 +431,16 @@ export default {
           this.page = this.page + 1;
         });
       } else {
-        setTimeout(
-          function() {
-            console.log("sdsdsdsdsdsd");
-            this.onLoad();
-          }.bind(this),
-          2000
-        );
+        if (this.dw == false) {
+          Toast("获取当前位置失败");
+        } else {
+          setTimeout(
+            function() {
+              this.onLoad();
+            }.bind(this),
+            2000
+          );
+        }
       }
     },
     que() {

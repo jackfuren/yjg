@@ -6,8 +6,8 @@
         <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem"/> -->
         <p>我的订单</p>
       </div>
-      <van-tabs v-model="active" @click="onClickDisabled">
-        <van-tab title="全部">
+      <van-tabs v-model="active" @click="onClickDisabled" swipeable class="tabs">
+        <van-tab title="全部" class="tabsCon">
           <div class="concat-there" v-if="dataList.length == 0 ? true : false">
             <img src="../../../assets/quangbu.png" alt />
             <p>当前暂无订单</p>
@@ -61,7 +61,7 @@
             </div>
           </div>
         </van-tab>
-        <van-tab title="待付款">
+        <van-tab title="待付款" class="tabsCon">
           <div class="concat-there" v-if="arrList.length == 0 ? true : false">
             <img src="../../../assets/daifukuan.png" alt />
             <p>没有待付款订单</p>
@@ -113,7 +113,7 @@
             </div>
           </div>
         </van-tab>
-        <van-tab title="待发货">
+        <van-tab title="待发货" class="tabsCon">
           <div class="concat-there" v-if="arrList.length == 0 ? true : false">
             <img src="../../../assets/diafahuo.png" alt />
             <p>没有待发货订单</p>
@@ -164,7 +164,7 @@
             </div>
           </div>
         </van-tab>
-        <van-tab title="待收货">
+        <van-tab title="待收货" class="tabsCon">
           <div class="concat-there" v-if="arrList.length == 0 ? true : false">
             <img src="../../../assets/daishouhuo.png" alt />
             <p>没有待收货订单</p>
@@ -287,16 +287,7 @@ export default {
       essn: "",
       escom: "",
       iid: "",
-      changeList: [
-        { num: 0, title: "全部" },
-        { num: 1, title: "待付款" },
-        { num: 2, title: "待发货" },
-        { num: 3, title: "待收货" },
-        { num: 4, title: "待评价" }
-      ],
-      ind: 1, // 状态栏索引值,
-      startP: 0, //接触的坐标
-      endP: 0
+      changeTitle: ["全部", "待付款", "待发货", "待收货", "待评价"]
     };
   },
   components: {
@@ -596,6 +587,12 @@ export default {
     this.beg();
     this.active = this.$route.query.id;
     this.begg();
+  },
+  watch: {
+    active() {
+      console.log(this.active);
+      this.onClickDisabled(this.active, this.changeTitle[this.active]);
+    }
   }
 };
 </script>
@@ -917,9 +914,11 @@ export default {
   bottom: 0.05rem;
   z-index: 88888;
 }
-#allCont {
-  height: 95vh;
-  border: 1px solid red;
+.tabs {
+  min-height: 94vh;
   margin-top: 5vh;
+}
+.tabsCon {
+  min-height: 94vh;
 }
 </style>

@@ -62,4 +62,5 @@ export default {
 
    height: 14px;
 }
+
 </style>

@@ -868,7 +868,7 @@ export default {
         }).then(res => {
           console.log(res);
           this.dataList = res.data.data;
-          console.log(this.dataList.tag.length);
+          // console.log(this.dataList.tag.length);
           this.pr = res.data.data.goods_sttr;
           this.shou = res.data.data.is_collectiongoods;
           this.chang = res.data.data.comment.length;

@@ -1,8 +1,5 @@
 <template>
   <div class="wind">
-    <!-- <transition name="fade"> -->
-    <!-- <loading v-if="isLoading"></loading> -->
-    <!-- </transition> -->
     <div class="box-container">
       <div class="nav">
         <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt />

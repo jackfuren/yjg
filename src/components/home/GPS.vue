@@ -108,6 +108,8 @@ export default {
             console.log(lng, lat);
             window.sessionStorage.setItem("lat", lat);
             window.sessionStorage.setItem("lng", lng);
+            window.localStorage.setItem("lat", lat);
+            window.localStorage.setItem("lng", lng);
           } else {
             log.error("根据地址查询位置失败");
           }
@@ -189,9 +191,8 @@ export default {
             }
           } else if (data.addressComponent.township != "") {
             if (
-              data.formattedAddress.split(
-                data.addressComponent.township
-              )[1] == ""
+              data.formattedAddress.split(data.addressComponent.township)[1] ==
+              ""
             ) {
               that.dzz = data.addressComponent.township;
             } else {
@@ -201,9 +202,7 @@ export default {
             }
           } else {
             if (
-              data.formattedAddress.split(
-                data.addressComponent.street
-              )[1] == ""
+              data.formattedAddress.split(data.addressComponent.street)[1] == ""
             ) {
               that.dzz = data.addressComponent.street;
             } else {
@@ -254,6 +253,8 @@ export default {
             console.log(lng, lat);
             window.sessionStorage.setItem("lat", lat);
             window.sessionStorage.setItem("lng", lng);
+            window.localStorage.setItem("lat", lat);
+            window.localStorage.setItem("lng", lng);
             window.localStorage.setItem("site", val);
             window.sessionStorage.setItem("site", val);
             that.$router.push({
@@ -290,13 +291,15 @@ export default {
                   console.log(data.regeocode.addressComponent);
                   let b = data.regeocode.addressComponent.district;
                   window.localStorage.setItem("site", b);
+                  window.sessionStorage.setItem("site", b);
                   that.a = "定位成功";
-                  that.$router.push({
-                    name: "home",
-                    query: {
-                      token: 56
-                    }
-                  });
+                  console.log(window.localStorage.getItem("site"));
+                  // that.$router.push({
+                  //   name: "home",
+                  //   query: {
+                  //     token: 56
+                  //   }
+                  // });
                 }
               });
             });

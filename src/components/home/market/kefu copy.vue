@@ -355,9 +355,6 @@ export default {
             }
           }
           this.msag = res.data.data;
-          if (this.msag.length > 10) {
-            this.productShow = false;
-          }
           // 屏幕滚动
           this.scrollBottom();
           // 时间戳判断 超过5分钟 时间戳出现
@@ -627,9 +624,9 @@ export default {
     // 进入时滚动到底部
     scrollBottom: function() {
       var content = document.getElementById("chatContent");
-      content.scrollTop = content.scrollHeight + 600;
-      console.log(content.scrollHeight);
-      console.log(content.scrollTop);
+      content.scrollTop = content.scrollHeight + 300;
+      // console.log(content.scrollHeight);
+      // console.log(content.scrollTop);
     },
     hos() {
       if (this.msag.length > 0) {
@@ -648,7 +645,11 @@ export default {
         console.log(this.chatB);
         console.log(this.msag);
         for (var index = i; index >= 0; index--) {
-          if (this.msag[index].id == this.fen.id) {
+          if (this.chatB != 0 && this.msag[i].content == this.fen.content) {
+            index = i - this.chatB.length;
+          }
+          if (this.msag[index].content == this.fen.content) {
+            // console.log(index);
             this.chatS = this.msag.slice(0, index + 1);
             this.chatB = this.msag.slice(index + 1);
             if (this.chatB.length != 0) {
