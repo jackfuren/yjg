@@ -50,6 +50,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
 
 // 移动端调试器
+
 // import Vconsole from 'vconsole'
 // const vConsole = new Vconsole()
 // Vue.use(vConsole)

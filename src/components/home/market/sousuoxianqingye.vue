@@ -17,7 +17,7 @@
               size="0.4rem"
               style="position: absolute;top: 0.15rem;left: 0.18rem"
             />
-            <span style="margin-left: 0.5rem">搜索</span>
+            <span style="margin-left: 0.5rem">{{search}}</span>
           </div>
           <img src="../../../assets/img/cai.png" @click="back =!back" class="cai" alt />
           <!-- <van-icon @click="back =!back" color="#333333" name="wap-nav"
@@ -25,7 +25,7 @@
           size="0.6rem"/>-->
         </div>
         <div v-show="back" class="nav-top-back">
-          <p  @click="xiaoxi">
+          <p @click="xiaoxi">
             <img
               style="width: 0.4rem;height: 0.4rem;position: relative;top: 0.09rem;right: 0.3rem"
               src="../../../assets/shangjiaye_wuxiaoxi.png"
@@ -170,7 +170,7 @@
             @click="onClick"
           >
             <van-tab title="全部">
-              <div class="dianpu" v-for="(item,index) in dataList">
+              <div class="dianpu" v-for="(item,index) in dataList" :key="index">
                 <img :src="item.shoplogo" alt />
                 <span>{{item.name}}</span>
                 <p @click="jindian(item.sid)">进店</p>
@@ -181,7 +181,7 @@
               </div>
             </van-tab>
             <van-tab title="销量">
-              <div class="dianpu" v-for="(item,index) in arList">
+              <div class="dianpu" v-for="(item,index) in arList" :key="index">
                 <img :src="item.shoplogo" alt />
                 <span>{{item.name}}</span>
                 <p @click="jindian(item.sid)">进店</p>
@@ -191,7 +191,17 @@
                 </div>
               </div>
             </van-tab>
-            <van-tab title="信用">内容 3</van-tab>
+            <van-tab title="信用">
+              <div class="dianpu" v-for="(item,index) in arList" :key="index">
+                <img :src="item.shoplogo" alt />
+                <span>{{item.name}}</span>
+                <p @click="jindian(item.sid)">进店</p>
+                <div class="dianpu-div">
+                  <img :src="item.headimg" alt />
+                  <img :src="item.sheadimg" alt />
+                </div>
+              </div>
+            </van-tab>
             <div v-show="a" class="sanjiao">
               <img src="../../../assets/shangjiaye_jiage.png" alt />
             </div>
@@ -238,7 +248,8 @@ export default {
       xiao: 1,
       jia: 1,
       arrList: [],
-      arList: []
+      arList: [],
+      search: "搜索"
     };
   },
   methods: {
@@ -293,31 +304,31 @@ export default {
         }
       }
     },
-	xiaoxi() {
-	  if (this.$store.state.username == null) {
-	    this.$router.push({
-	      name: "regi"
-	    });
-	  } else {
-	    this.$router.push({
-	      name: "news",
-	      query: {
-	        token: 80,
-	        id: this.goods_id
-	      }
-	    });
-	  }
-	},
-	shop() {
-	  this.$router.push({
-	    name: "Shop"
-	  });
-	},
-	homm() {
-	  this.$router.push({
-	    name: "home"
-	  });
-	},
+    xiaoxi() {
+      if (this.$store.state.username == null) {
+        this.$router.push({
+          name: "regi"
+        });
+      } else {
+        this.$router.push({
+          name: "news",
+          query: {
+            token: 80,
+            id: this.goods_id
+          }
+        });
+      }
+    },
+    shop() {
+      this.$router.push({
+        name: "Shop"
+      });
+    },
+    homm() {
+      this.$router.push({
+        name: "home"
+      });
+    },
     wuping(i) {
       this.$router.push({
         name: "wpxq",
@@ -355,6 +366,7 @@ export default {
   mounted() {
     this.dataList = this.$route.query.List;
     this.arrayList = this.$route.query.LIst;
+    this.search = this.$route.query.sear;
     this.jiagej();
     this.xiaoj();
   }
@@ -406,7 +418,6 @@ export default {
   margin-right: 0.55rem;
   margin-top: 0.1rem;
   width: 0.4rem;
-  
 }
 
 .nav-top div {
@@ -567,9 +578,10 @@ export default {
   width: 0.5rem !important;
   height: 0.5rem !important;
   position: absolute;
-  top: -0.15rem;
+  top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0) !important;
+  margin: 0 !important;
 }
 
 .ph-rei span {

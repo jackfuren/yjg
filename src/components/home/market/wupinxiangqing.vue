@@ -466,13 +466,13 @@ export default {
       prce: "",
       fist: "",
       senne: "",
-      qq: 1,
+      qq: 0,
       fen: 0, //判断分享
       jiian: [],
       jiann: "",
       address: "",
       you: 0,
-	  op:''
+      op: ""
     };
   },
   methods: {
@@ -592,26 +592,26 @@ export default {
             mo: this.mo
           }
         });
-      }else if (this.token == 112) {
-		  this.op=this.$route.query.brandid;
+      } else if (this.token == 112) {
+        this.op = this.$route.query.brandid;
         this.$router.push({
           name: "pinpaixq",
           query: {
             token: this.token,
-			pinpai:this.op
+            pinpai: this.op
           }
         });
       } else if (this.token == 122) {
-		  this.op=this.$route.query.brandid;
+        this.op = this.$route.query.brandid;
         this.$router.push({
           name: "pinpaixq",
           query: {
             token: this.token,
-			pinpai:this.op
+            pinpai: this.op
           }
         });
       } else {
-        this.$router.go(-1)
+        this.$router.go(-1);
       }
     },
     shareApp() {
@@ -620,7 +620,7 @@ export default {
       // this.wxShareTimeline()
     },
     wei() {
-    //   this.wxShareAppMessage();
+      //   this.wxShareAppMessage();
     },
     // wxRegCallback() {
     //   // 用于微信JS-SDK回调
@@ -868,7 +868,7 @@ export default {
         }).then(res => {
           console.log(res);
           this.dataList = res.data.data;
-          // console.log(this.dataList.tag.length);
+          console.log(this.dataList.tag);
           this.pr = res.data.data.goods_sttr;
           this.shou = res.data.data.is_collectiongoods;
           this.chang = res.data.data.comment.length;
@@ -884,7 +884,7 @@ export default {
     dianpu() {
       window.sessionStorage.setItem("DP", JSON.stringify(this.dataList.sid));
       window.localStorage.setItem("DP", JSON.stringify(this.dataList.sid));
-      console.log(this.dataList.sid)
+      console.log(this.dataList.sid);
       this.$router.push({
         name: "dpxq",
         query: {
@@ -896,6 +896,7 @@ export default {
       });
     },
     youhui() {
+      console.log(this.$store.state.username);
       request({
         url: "api/coupon/shop", //优惠券
         method: "post",
@@ -915,7 +916,8 @@ export default {
           this.jiian.sort(compare);
           this.jiann = this.jiian[0];
         }
-        if (this.youu == "") {
+        console.log(this.youu);
+        if (this.youu.length == 0) {
           this.qq = 0;
           this.fist = "";
           this.senne = "";
@@ -1139,7 +1141,7 @@ export default {
     this.goodsid = this.$route.query.id;
     this.mo = this.$route.query.mo;
     this.idd();
-    console.log(this.$route.query)
+    console.log(this.$route.query);
     setTimeout(
       function() {
         this.youhui();

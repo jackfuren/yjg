@@ -151,6 +151,10 @@ input::-webkit-input-placeholder {
   /* placeholder字体大小  */
   font-size: 0.26rem;
 }
+/* 消除输入内容后的背景色 */
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px #fff inset !important;
+}
 
 .box {
   position: relative;

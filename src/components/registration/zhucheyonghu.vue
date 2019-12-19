@@ -102,7 +102,7 @@ export default {
           Toast("该手机号已经注册过");
           this.zhen = false;
           this.jia = true;
-          this.disabled=true
+          this.disabled = true;
         } else if (res.data.msg == "请传过来密码") {
           this.zhen = true;
           this.jia = false;
@@ -240,6 +240,10 @@ input::-webkit-input-placeholder {
   color: #cccccc;
   /* placeholder字体大小  */
   font-size: 0.26rem;
+}
+/* 消除输入内容后的背景色 */
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px #fff inset !important;
 }
 .box {
   position: relative;
