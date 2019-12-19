@@ -163,9 +163,9 @@
       <van-row class="shu" type="flex" justify="center">
         <!-- 此处如果需要左侧语音输入按钮，将此处注释解开，把输入框中18改为15，换掉中间图标 -->
         <van-col span="1" class="flexBox">&nbsp;</van-col>
-        <!-- <van-col span="3" class="flexBox" id="yuyin">
-          <img src="../../../assets/biaoq.png" alt />
-        </van-col>-->
+        <van-col span="3" class="flexBox" id="yuyin">
+           <img @touchstart="luzhi()" @touchend="jieshu()" src="../../../assets/yuyin.png" alt />
+        </van-col>
         <van-col v-if="text === ''" span="20" class="inputTxt">
           <div id="text">
             <textarea type="text" v-model="text" @focus="huoqu" rows="1"></textarea>
@@ -203,6 +203,9 @@
 </template>
 
 <script>
+	import axios from "axios";
+	import Recorderx, { ENCODE_TYPE } from "recorderx";
+	const rc = new Recorderx();
 import Vue from "vue";
 import { Toast } from "vant";
 const appData = require("../../utils/emojis.json");
@@ -320,6 +323,57 @@ export default {
         this.mag.push(qq);
       }
     },
+		//录制语音
+		luzhi() {
+			console.log("1111")
+		  let that = this
+		  // that.news_img = !that.news_img
+		 rc.start()
+		  .then(() => {
+			that.news_img = !that.news_img
+			console.log("start recording");
+		  })
+		  .catch(error => {
+			alert('获取麦克风失败')
+			console.log("Recording failed.", error);
+		  });
+		 },
+		 //录制结束发送语音
+		 jieshu(){
+			 let that = this
+			 var wav = rc.getRecord({
+			   encodeTo: ENCODE_TYPE.WAV,
+			   compressible: true
+			 });
+			  var uuid = this.uuid;
+			  if (this.chatList != "") {
+			 		var end_time = this.chatList[this.chatList.length - 1].addtime;
+			 	}
+			  var formData = new FormData();
+			 // formData.append('file',wav);
+			 formData.append('topic_id',uuid);
+			 formData.append('last_time',end_time);
+			 formData.append('type',4);
+			 formData.append("file", wav,Date.parse(new Date())+".wav");
+			 let headers = {headers: {"Content-Type": "multipart/form-data"}}
+			 
+			 axios.defaults.withCredentials=true
+			   this.$request({
+			          url: "api/base/base64video",
+			          method: "post",
+			          data:{
+						  file: formData,
+					  },
+			         headers: {"Content-Type": "multipart/form-data"}
+			        }).then(res => {
+						console.log(res)
+			            that.news_img = !that.news_img
+			            this.content = "";
+			          })
+			          .catch(err => {
+			            console.log(err);
+			          });
+		 },
     // 获取历史就聊天记录
     msglog(num) {
       request({
@@ -725,6 +779,12 @@ export default {
   width: 100%;
   height: 99vh;
   background: #f7f7f7;
+}
+#yuyin{
+	width: 0.5rem;
+}
+#yuyin img{
+	width: 100%;
 }
 .nav {
   z-index: 100;

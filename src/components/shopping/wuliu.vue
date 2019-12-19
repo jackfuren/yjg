@@ -7,10 +7,9 @@
       <p>物流详情</p>
     </div>
     <div class="dz">
-      <img alt="" src="../../assets/shentong.png">
       <div class="dz-a">
-        <p>申通快递 <span>官方电话 <span style="color: #00A0E9">95543</span></span></p>
-        <p>申通快递 2221560335911
+        <p>{{name}}快递 </p>
+        <p>{{name}}快递 {{hao}}
           <button class="fz" type="button"
                   v-clipboard:copy="message"
                   v-clipboard:error="onError"
@@ -40,7 +39,9 @@
 				user_id: "",//用户编码
 				expresscom:this.$route.query.expresscom,
 				expresssn:this.$route.query.dan,
-				wuliu:''
+				wuliu:'',
+				hao:'',
+				name:''
       }
     },
 		created(){
@@ -55,6 +56,8 @@
 			  }).then(res => {
 					console.log(res)
 					this.wuliu=res.data.data.data
+					this.hao=res.data.data.nu
+					this.name=res.data.data.name
 			  })
 				
 		},
@@ -124,7 +127,7 @@
   .dz-a {
     width: 5.9rem;
     height: 1.4rem;
-    float: right;
+	padding-top: 0.2rem;
     margin-top: 0.15rem;
     text-align: left;
   }
@@ -161,7 +164,6 @@
     font-size: 0.24px;
     list-style: none;
     border: 0;
-    float: right;
     margin-right: 0.5rem;
   }
 
