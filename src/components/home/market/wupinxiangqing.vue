@@ -845,8 +845,8 @@ export default {
           method: "post",
           data: {
             goods_id: this.goods_id,
-            lat: window.sessionStorage.getItem("lat"),
-            lng: window.sessionStorage.getItem("lng")
+            lat: window.localStorage.getItem("lat"),
+            lng: window.localStorage.getItem("lng")
           }
         }).then(res => {
           this.dataList = res.data.data;
@@ -862,8 +862,8 @@ export default {
           data: {
             goods_id: this.goods_id,
             user_id: this.$store.state.username.id,
-            lat: window.sessionStorage.getItem("lat"),
-            lng: window.sessionStorage.getItem("lng")
+            lat: window.localStorage.getItem("lat"),
+            lng: window.localStorage.getItem("lng")
           }
         }).then(res => {
           console.log(res);
@@ -1139,6 +1139,7 @@ export default {
     this.goodsid = this.$route.query.id;
     this.mo = this.$route.query.mo;
     this.idd();
+    console.log(this.$route.query)
     setTimeout(
       function() {
         this.youhui();
@@ -1163,8 +1164,8 @@ export default {
         method: "post",
         data: {
           goods_id: to.query.goods_id,
-          lat: window.sessionStorage.getItem("lat"),
-          lng: window.sessionStorage.getItem("lng"),
+          lat: window.localStorage.getItem("lat"),
+          lng: window.localStorage.getItem("lng"),
           user_id: this.$store.state.username.id
         }
       }).then(res => {

@@ -176,7 +176,7 @@ export default {
       page: 1, //当前的页码，默认是1
       total: 4, //每页显示的条数，默认是10条
       chang: "",
-      dz: window.sessionStorage.getItem("site") || "正在获取",
+      dz: window.localStorage.getItem("site") || "正在获取",
       dj: "",
       show: false,
       showw: false,
@@ -235,6 +235,9 @@ export default {
       }
     },
     xianqing(i) {
+      console.log(i)
+      console.log(this.dataList[i].id)
+      console.log(this.dataList[i].price)
       this.$router.push({
         name: "wpxq",
         query: {

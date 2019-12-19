@@ -153,8 +153,8 @@ export default {
         method: "post",
         data: {
           type: this.num,
-          lat: window.sessionStorage.getItem("lat"),
-          lng: window.sessionStorage.getItem("lng")
+          lat: window.localStorage.getItem("lat"),
+          lng: window.localStorage.getItem("lng")
         }
       }).then(res => {
         console.log(this.$store.state.lat, this.$store.state.lng);
@@ -198,8 +198,8 @@ export default {
       method: "post",
       data: {
         type: 1,
-        lat: window.sessionStorage.getItem("lat"),
-        lng: window.sessionStorage.getItem("lng")
+        lat: window.localStorage.getItem("lat"),
+        lng: window.localStorage.getItem("lng")
       }
     }).then(res => {
       this.contents = res.data.data;
