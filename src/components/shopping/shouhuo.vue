@@ -50,7 +50,7 @@
       </div>
       <p class="jia">
         订单价格
-        <span>￥{{listData.oldmoney}}</span>
+        <span>￥{{listData.money}}</span>
       </p>
       <p class="concat-e">
         已付款:

@@ -45,7 +45,7 @@
         </div>
         <p class="jia">
           订单价格
-          <span>￥{{dataList.oldmoney}}</span>
+          <span>￥{{dataList.money}}</span>
         </p>
         <p class="concat-e">
           已付款:

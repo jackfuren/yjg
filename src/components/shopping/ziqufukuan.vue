@@ -36,7 +36,7 @@
         <div class="concat-d">
           订单备注 <input placeholder="暂无备注" type="text" v-model="dataList.remark_member">
         </div>
-        <p class="jia">订单价格 <span>￥{{dataList.oldmoney}}</span></p>
+        <p class="jia">订单价格 <span>￥{{dataList.money}}</span></p>
         <p class="concat-e"> 需付款: <span> ￥{{dataList.money}}</span></p>
       </div>
       <div class="xin">

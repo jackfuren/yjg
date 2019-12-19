@@ -620,46 +620,46 @@ export default {
       // this.wxShareTimeline()
     },
     wei() {
-      this.wxShareAppMessage();
+    //   this.wxShareAppMessage();
     },
-    wxRegCallback() {
-      // 用于微信JS-SDK回调
-      this.wxShareTimeline();
-      this.wxShareAppMessage();
-    },
-    wxShareTimeline() {
-      // 微信自定义分享到朋友圈
-      let option = {
-        title: this.dataList.title, // 分享标题, 请自行替换
-        link: window.location.href, // 分享链接，根据自身项目决定是否需要split
-        imgUrl: this.dataList.headimg[0], // 分享图标, 请自行替换，需要绝对路径
-        success: () => {
-          Toast("分享成功");
-        },
-        error: () => {
-          Toast("已取消分享");
-        }
-      };
-      // 将配置注入通用方法
-      wxapi.ShareTimeline(option);
-    },
-    wxShareAppMessage() {
-      // 微信自定义分享给朋友
-      let option = {
-        title: this.dataList.title, // 分享标题,
-        link: window.location.href, // 分享链接，
-        imgUrl: this.dataList.headimg[0], // 分享图标,需要绝对路径
-        success: () => {
-          Toast("分享成功");
-        },
-        error: () => {
-          Toast("已取消分享");
-        }
-      };
-      console.log(option);
-      // 将配置注入通用方法
-      wxapi.ShareAppMessage(option);
-    },
+    // wxRegCallback() {
+    //   // 用于微信JS-SDK回调
+    //   this.wxShareTimeline();
+    //   this.wxShareAppMessage();
+    // },
+    // wxShareTimeline() {
+    //   // 微信自定义分享到朋友圈
+    //   let option = {
+    //     title: this.dataList.title, // 分享标题, 请自行替换
+    //     link: window.location.href, // 分享链接，根据自身项目决定是否需要split
+    //     imgUrl: this.dataList.headimg[0], // 分享图标, 请自行替换，需要绝对路径
+    //     success: () => {
+    //       Toast("分享成功");
+    //     },
+    //     error: () => {
+    //       Toast("已取消分享");
+    //     }
+    //   };
+    //   // 将配置注入通用方法
+    //   wxapi.ShareTimeline(option);
+    // },
+    // wxShareAppMessage() {
+    //   // 微信自定义分享给朋友
+    //   let option = {
+    //     title: this.dataList.title, // 分享标题,
+    //     link: window.location.href, // 分享链接，
+    //     imgUrl: this.dataList.headimg[0], // 分享图标,需要绝对路径
+    //     success: () => {
+    //       Toast("分享成功");
+    //     },
+    //     error: () => {
+    //       Toast("已取消分享");
+    //     }
+    //   };
+    //   console.log(option);
+    //   // 将配置注入通用方法
+    //   wxapi.ShareAppMessage(option);
+    // },
     kefu() {
       if (this.$store.state.username == null) {
         this.$router.push({
