@@ -162,12 +162,14 @@
     <div class="tabBar">
       <van-row class="shu" type="flex" justify="center">
         <!-- 此处如果需要左侧语音输入按钮，将此处注释解开，把输入框中18改为15，换掉中间图标 -->
-        <van-col span="1" class="flexBox">&nbsp;</van-col>
+        
         <van-col span="3" class="flexBox" id="yuyin">
-           <img @touchstart="luzhi()" @touchend="jieshu()" src="../../../assets/yuyin.png" alt />
+           <img @click="yu()" v-if="yuyin==0?true:false" src="../../../assets/yuyin.png" alt />
+		   <img @click="jian()" v-if="yuyin==1?true:false" src="../../../assets/jianpan.png" alt />
         </van-col>
-        <van-col v-if="text === ''" span="20" class="inputTxt">
-          <div id="text">
+        <van-col  v-if="text === ''" span="20" class="inputTxt">
+			<div @touchstart="luzhi()" @touchend="jieshu()" class="an" v-if="yuyin==1?true:false">按住说话</div>
+          <div id="text" v-if="yuyin==0?true:false">
             <textarea type="text" v-model="text" @focus="huoqu" rows="1"></textarea>
           </div>
           <img src="../../../assets/biaoq.png" @click="faceContent()" alt />
@@ -215,6 +217,7 @@ export default {
   data() {
     return {
       user_id: this.$store.state.username.id,
+	  yuyin:0,//判断麦克风的显示
       name: this.$route.query.name,
       path: "ws://121.199.17.119:8282",
       socket: "",
@@ -274,6 +277,13 @@ export default {
     fh() {
       this.$router.go(-1);
     },
+	yu(){
+		this.yuyin=1
+		console.log(this.yuyin)
+	},
+	jian(){
+		this.yuyin=0
+	},
     init: function() {
       if (typeof WebSocket === "undefined") {
         alert("您的浏览器不支持socket");
@@ -782,6 +792,8 @@ export default {
 }
 #yuyin{
 	width: 0.5rem;
+	margin-left: 0.15rem;
+	margin-right: 0.15rem;
 }
 #yuyin img{
 	width: 100%;
@@ -809,6 +821,11 @@ export default {
 }
 .nav-left {
   width: 0.55rem;
+}
+.an{
+	width: 100%;
+	text-align: center;
+	font-size: 0.25rem;
 }
 .pu {
   display: inline-block;
@@ -970,7 +987,7 @@ export default {
   float: left;
   display: block;
   margin: 0.05rem 0.1rem 0 0.1rem;
-  height: 0.5rem;
+  height: 0.4rem;
 }
 .flexBox {
   display: flex;
@@ -979,7 +996,7 @@ export default {
 }
 .flexBoxImg {
   width: auto;
-  height: 0.5rem;
+  height: 0.4rem;
   margin: 0.05rem 0.1rem 0 0.1rem;
 }
 /* 聊天框部分样式 */
