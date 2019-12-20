@@ -1,82 +1,86 @@
 <template>
   <div class="wind">
     <div class="box-container">
-      <div class="One1">
-        <span class="One1sp1">购物车</span>
-        <span @click="ment" v-if="bol" class="One1sp3">管理</span>
-        <span @click="ments" v-else class="One1sp2">完成</span>
-        <img class="ld" @click="xiaoxi" src="../../assets/gouwuche_xiaoxi_normal.png" />
+      <div class="nav">
+        <div class="One1">
+          <span class="One1sp1">购物车</span>
+          <span @click="ment" v-if="bol" class="One1sp3">管理</span>
+          <span @click="ments" v-else class="One1sp2">完成</span>
+          <img class="ld" @click="xiaoxi" src="../../assets/gouwuche_xiaoxi_normal.png" />
+        </div>
+        <div class="scroll">
+          <van-notice-bar
+            mode="link"
+            background="#FAB69A"
+            color="#FFFEFE"
+            @click="dt"
+          >阿迪达斯特卖会将在5-15日开始，可提前加入购物车抢购！</van-notice-bar>
+        </div>
       </div>
-      <div class="scroll">
-        <!--        <p>阿迪达斯特卖会将在5-15日开始，可提前加入购物车抢购！</p>-->
-        <van-notice-bar
-          mode="link"
-          background="#FAB69A"
-          color="#FFFEFE"
-          @click="dt"
-        >阿迪达斯特卖会将在5-15日开始，可提前加入购物车抢购！</van-notice-bar>
-      </div>
-      <div class="boxes" v-show="dataList.length > 0">
-        <div class="boxes-div" v-for="(item,shop_index) in dataList" :key="shop_index">
-          <div class="chevkbox">
-            <van-checkbox
-              v-model="item.check"
-              @click="shop_all_check(shop_index)"
-              style="width: 0.4rem;display: inline-block;position: relative;top: 0.17rem"
-            ></van-checkbox>
-            <img class="pj" src="../../../src/assets/gouwuche_icon.png" alt />
-            <span
-              style="font-size: 0.24rem;font-weight: bold;z-index: 99999;position: relative"
-            >{{item.name}}</span>
-            <img class="pjj" src="../../../src/assets/gouwuche_button_xiayibu.png" alt />
-          </div>
-
-          <div
-            class="boxes-div-one"
-            v-for="(ite ,product_index) in  item.goods "
-            :key="product_index"
-          >
-            <van-checkbox
-              v-model="ite.check"
-              class="boxes-div-one-check"
-              @click="product_checked_click(shop_index,product_index)"
-            ></van-checkbox>
-            <div @click="xian(ite.goods_id)" class="boxes-div-two">
-              <img :src="ite.headimg" alt />
+      <section id="cart">
+        <div class="boxes" v-show="dataList.length > 0">
+          <div class="boxes-div" v-for="(item,shop_index) in dataList" :key="shop_index">
+            <div class="chevkbox">
+              <van-checkbox
+                v-model="item.check"
+                @click="shop_all_check(shop_index)"
+                style="width: 0.4rem;display: inline-block;position: relative;top: 0.17rem"
+              ></van-checkbox>
+              <img class="pj" src="../../../src/assets/gouwuche_icon.png" alt />
+              <span
+                style="font-size: 0.24rem;font-weight: bold;z-index: 99999;position: relative"
+              >{{item.name}}</span>
+              <img class="pjj" src="../../../src/assets/gouwuche_button_xiayibu.png" alt />
             </div>
-            <div class="boxes-div-there">
-              <p @click="xian(ite.goods_id)">{{ite.title}}</p>
-              <p @click="xian(ite.goods_id)">{{ite.goods_attr}}</p>
-              <p @click="xian(ite.goods_id)">
-                ￥
-                <span style="font-weight: bold">{{ite.price}}</span>
-              </p>
 
-              <div class="product_number_content">
-                <div class="product_number_buttonn">
-                  <button
-                    v-if="ite.num > 1"
-                    @click.stop="product_reduce(shop_index,product_index)"
-                  >-</button>
-                </div>
-                <div class="product_number_input">
-                  <input
-                    type="number"
-                    v-model="ite.num"
-                    @input="inFunction(shop_index,product_index)"
-                  />
-                </div>
-                <div
-                  class="product_number_button"
-                  @click.stop="product_add(shop_index,product_index)"
-                >
-                  <button>+</button>
+            <div
+              class="boxes-div-one"
+              v-for="(ite ,product_index) in  item.goods "
+              :key="product_index"
+            >
+              <van-checkbox
+                v-model="ite.check"
+                class="boxes-div-one-check"
+                @click="product_checked_click(shop_index,product_index)"
+              ></van-checkbox>
+              <div @click="xian(ite.goods_id)" class="boxes-div-two">
+                <img :src="ite.headimg" alt />
+              </div>
+              <div class="boxes-div-there">
+                <p @click="xian(ite.goods_id)">{{ite.title}}</p>
+                <p @click="xian(ite.goods_id)">{{ite.goods_attr}}</p>
+                <p @click="xian(ite.goods_id)">
+                  ￥
+                  <span style="font-weight: bold">{{ite.price}}</span>
+                </p>
+
+                <div class="product_number_content">
+                  <div class="product_number_buttonn">
+                    <button
+                      v-if="ite.num > 1"
+                      @click.stop="product_reduce(shop_index,product_index)"
+                    >-</button>
+                  </div>
+                  <div class="product_number_input">
+                    <input
+                      type="number"
+                      v-model="ite.num"
+                      @input="inFunction(shop_index,product_index)"
+                    />
+                  </div>
+                  <div
+                    class="product_number_button"
+                    @click.stop="product_add(shop_index,product_index)"
+                  >
+                    <button>+</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
       <div class="kong" v-show="dataList.length == 0">
         <img src="../../assets/zhu.png" alt />
         <p>你的购物车还没有商品哦</p>
@@ -629,13 +633,19 @@ export default {
   font-size: 0.24rem;
   color: white;
 }
+#cart {
+  width: 7.1rem;
+  margin: 0 auto;
+  overflow: hidden;
+}
 .boxes {
   width: 7.1rem;
-  height: 100%;
-  margin: 0 auto;
+  height: 74.5vh;
+  overflow: scroll;
   text-align: left;
   position: relative;
   top: 0.15rem;
+  padding-right:0.1rem;
 }
 .boxes-div {
   width: 7.1rem;
@@ -766,7 +776,7 @@ export default {
   display: flex;
   padding-left: 0.2rem;
   position: fixed;
-  bottom: 1.15rem;
+  bottom: 0.89rem;
   left: 0;
   right: 0;
   z-index: 999;

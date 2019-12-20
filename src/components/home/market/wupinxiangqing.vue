@@ -90,7 +90,7 @@
           <span>{{address}} | 快递：{{you==0?'免运费':'不包邮'}}</span>
           <span>销量{{dataList.sold}}</span>
         </p>
-        <div v-show="qq == 1 ? true :false">
+        <div v-show="qq == 1 ? true :false" @click="Lyou">
           <p>
             优惠
             <van-icon
@@ -143,7 +143,7 @@
             <van-icon color="#777777" name="arrow" style="position: relative;top: 0.03rem" />
           </span>
         </p>
-        <p>
+        <p @click="can()">
           尺码表&参数
           <van-icon
             color="#777777"
@@ -288,6 +288,25 @@
           @buy-clicked="onBuyClicked"
         />
       </div>
+      <!-- 商品参数 -->
+      <van-popup
+        v-model="canS"
+        position="bottom"
+        :style="{ height: '50%' }"
+        closeable
+        close-icon="close"
+        close-icon-position="top-left"
+        class="canshu"
+      >
+        <h2>尺码表&参数</h2>
+
+        <table class="chima">
+          <tr v-for="(item,index) in canList" :key="index">
+            <td>{{item.paraName}}</td>
+            <td>{{item.para}}</td>
+          </tr>
+        </table>
+      </van-popup>
       <!-- 屏幕监听-->
       <div class="navbar" v-show="bar">
         <div>
@@ -322,7 +341,7 @@
         </div>
       </div>
       <!-- 优惠券-->
-      <van-popup v-model="show" position="bottom">
+      <van-popup position="bottom" v-model="lyou">
         <div class="pop">
           <div class="pop-div">
             <p>店铺优惠券</p>
@@ -367,6 +386,7 @@ import { Toast } from "vant";
 Vue.use(Toast);
 import { Rate, Sku, Popup } from "vant";
 import { Tab, Tabs } from "vant";
+
 import request from "../../utils/request";
 import wx from "weixin-js-sdk";
 import wxapi from "../../utils/fenxiang.js";
@@ -472,12 +492,16 @@ export default {
       jiann: "",
       address: "",
       you: 0,
-      op: ""
+      op: "",
+      canS: false,
+      lyou: false,
+      canA: {},
+      canList: [],
+      f: ""
     };
   },
   methods: {
     onBuyClicked(data) {
-      console.log(this.youu);
       this.nmm = document.getElementsByClassName("van-stepper__input")[0].value;
       this.colorid = this.sku.tree[0].v;
 
@@ -500,11 +524,9 @@ export default {
           this.iidi = this.sku.list[k].id;
         }
       }
-      console.log(data);
       this.Joinn();
     },
     onAddCartClicked(data) {
-      console.log(this.youu);
       this.nmm = document.getElementsByClassName("van-stepper__input")[0].value;
       this.colorid = this.sku.tree[0].v;
       for (var j = 0; j < this.colorid.length; j++) {
@@ -519,18 +541,15 @@ export default {
         }
       }
       for (var k in this.sku.list) {
-        console.log(data.selectedSkuComb.s1, data.selectedSkuComb.s2);
         if (
           data.selectedSkuComb.s1 == this.sku.list[k].s1 &&
           data.selectedSkuComb.s2 == this.sku.list[k].s2
         ) {
           this.iidi = this.sku.list[k].id;
-          console.log(this.pr);
           for (var i = 0; i < this.pr.length; i++) {
             if (this.iidi == this.pr[i].id) {
               this.sku.price = this.pr[i].price;
             }
-            console.log(this.pr[i]);
           }
         }
       }
@@ -541,6 +560,13 @@ export default {
     xuanze() {
       this.showBase = true;
       this.idd();
+    },
+    can() {
+      this.canS = true;
+      this.idd();
+    },
+    Lyou() {
+      this.lyou = !this.lyou;
     },
     fh() {
       if (this.token == 2) {
@@ -666,7 +692,6 @@ export default {
           name: "regi"
         });
       } else {
-        // console.log(this.goods_id)
         this.$router.push({
           name: "kf",
           query: {
@@ -682,7 +707,6 @@ export default {
       }
     },
     sypj() {
-      console.log(this.dataList);
       this.$router.push({
         name: "sypj",
         query: {
@@ -823,7 +847,7 @@ export default {
             }
           })
             .then(res => {
-              //console.log(res)
+
               if (res.data.code == 200) {
                 Toast("取消收藏");
                 // this.$toast('取消收藏');
@@ -851,7 +875,6 @@ export default {
         }).then(res => {
           this.dataList = res.data.data;
           this.pr = res.data.data.goods_sttr;
-          console.log(res.data.data);
           this.goods.picture = res.data.data.headimg;
           this.sku.price = res.data.data.price;
         });
@@ -866,9 +889,19 @@ export default {
             lng: window.localStorage.getItem("lng")
           }
         }).then(res => {
-          console.log(res);
+          this.canA = JSON.stringify(res.data.data.parameter);
+          this.canA = this.canA
+            .split("{")[1]
+            .split("}")[0]
+            .split(",");
+          for (var i in this.canA) {
+            var canArr = {
+              paraName: this.canA[i].split(":")[0].split('"')[1],
+              para: this.canA[i].split(":")[1].split('"')[1]
+            };
+            this.canList.push(canArr);
+          }
           this.dataList = res.data.data;
-          console.log(this.dataList.tag);
           this.pr = res.data.data.goods_sttr;
           this.shou = res.data.data.is_collectiongoods;
           this.chang = res.data.data.comment.length;
@@ -881,10 +914,10 @@ export default {
         });
       }
     },
+
     dianpu() {
       window.sessionStorage.setItem("DP", JSON.stringify(this.dataList.sid));
       window.localStorage.setItem("DP", JSON.stringify(this.dataList.sid));
-      console.log(this.dataList.sid);
       this.$router.push({
         name: "dpxq",
         query: {
@@ -896,7 +929,6 @@ export default {
       });
     },
     youhui() {
-      console.log(this.$store.state.username);
       request({
         url: "api/coupon/shop", //优惠券
         method: "post",
@@ -905,9 +937,7 @@ export default {
           user_id: this.$store.state.username.id
         }
       }).then(res => {
-        console.log(res);
         this.youu = res.data.data;
-        console.log(this.youu);
         for (var i in this.youu) {
           this.jiian.push(this.youu[i].sub_price);
           function compare(val1, val2) {
@@ -916,7 +946,6 @@ export default {
           this.jiian.sort(compare);
           this.jiann = this.jiian[0];
         }
-        console.log(this.youu);
         if (this.youu.length == 0) {
           this.qq = 0;
           this.fist = "";
@@ -938,7 +967,6 @@ export default {
           user_id: this.$store.state.username.id
         }
       }).then(res => {
-        console.log(res);
         if (res.data.code == 200) {
           this.youhui();
         }
@@ -953,7 +981,6 @@ export default {
     },
     //加入购物车
     Join() {
-      console.log(this.no);
       if (this.$store.state.username == null) {
         this.$router.push({
           name: "regi"
@@ -969,7 +996,6 @@ export default {
             sku_id: 0
           }
         }).then(res => {
-          console.log(res);
           if (res.data.code == 200) {
             Toast("加入购物车成功");
           }
@@ -992,7 +1018,6 @@ export default {
               sku_id: this.iidi
             }
           }).then(res => {
-            // console.log(res)
             if (res.data.code == 200) {
               Toast("加入购物车成功");
             }
@@ -1010,7 +1035,6 @@ export default {
           name: "regi"
         });
       } else if (this.no == "没有属性") {
-        console.log("000");
         request({
           url: "api/goods/addcart",
           method: "post",
@@ -1042,10 +1066,8 @@ export default {
         if (!this.color || !this.size) {
           this.showBase = true;
         } else {
-          console.log(this.color, this.size);
           this.skku.push("尺码:" + this.size);
           this.skku.push("颜色:" + this.color);
-          console.log(this.skku);
           request({
             url: "api/goods/addcart",
             method: "post",
@@ -1057,7 +1079,6 @@ export default {
               is_new: 1
             }
           }).then(res => {
-            console.log(res);
             if (res.data.code == 200) {
               this.$router.push({
                 name: "js",
@@ -1141,7 +1162,6 @@ export default {
     this.goodsid = this.$route.query.id;
     this.mo = this.$route.query.mo;
     this.idd();
-    console.log(this.$route.query);
     setTimeout(
       function() {
         this.youhui();
@@ -1888,5 +1908,34 @@ export default {
 }
 #concat-tuijian-div p {
   width: 100% !important;
+}
+.canshu {
+  color: #333333;
+  
+  box-sizing: border-box;
+}
+.canshu h2 {
+  font-size: 0.4rem;
+  font-size: 400;
+  margin: 0.1rem 0;
+}
+.chima {
+  width: 100%;
+  font-size: 0.27rem;
+  text-align: left;
+  margin-top: 0.3rem;
+}
+.chima tr{
+  border-bottom: 1px solid #EEEEEE;
+}
+.chima tr td:nth-child(1){
+  width: 40%;
+}
+
+.chima tr td {
+  padding:  0.15rem 0.5rem;
+}
+.chima tr td:nth-child(2){
+  padding: 0;
 }
 </style>

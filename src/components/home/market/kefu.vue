@@ -34,7 +34,7 @@
                           <p>{{item.content}}</p>
                         </div>
                         <div v-if="item.type === 1" class="masgContent masgContentMyImg">
-                          <img :src="item.content" alt />
+                          <img :src="item.content" alt @click="yulan(item.yuLanInd)" />
                         </div>
                         <div v-if="item.content===infooUid" @click="link">
                           <div class="comm">
@@ -67,7 +67,7 @@
                           class="masgContent masgContentYou"
                         >{{item.content}}</div>
                         <div v-if="item.type===1" class="masgContent masgContentYouImg">
-                          <img :src="item.content" alt />
+                          <img :src="item.content" alt @click="yulan(item.yuLanInd)" />
                         </div>
                       </van-col>
                       <van-col span="4">&nbsp;</van-col>
@@ -112,7 +112,7 @@
                           <p>{{item.content}}</p>
                         </div>
                         <div v-if="item.type === 1" class="masgContent masgContentMyImg">
-                          <img :src="item.content" alt />
+                          <img :src="item.content" alt @click="yulan(item.yuLanInd)" />
                         </div>
                         <div v-if="item.content===infooUid" @click="link">
                           <div class="comm">
@@ -145,7 +145,7 @@
                           class="masgContent masgContentYou"
                         >{{item.content}}</div>
                         <div v-if="item.type===1" class="masgContent masgContentYouImg">
-                          <img :src="item.content" alt />
+                          <img :src="item.content" alt @click="yulan(item.yuLanInd)" />
                         </div>
                       </van-col>
                       <van-col span="4">&nbsp;</van-col>
@@ -163,9 +163,9 @@
       <van-row class="shu" type="flex" justify="center">
         <!-- 此处如果需要左侧语音输入按钮，将此处注释解开，把输入框中18改为15，换掉中间图标 -->
         <van-col span="1" class="flexBox">&nbsp;</van-col>
-        <!-- <van-col span="3" class="flexBox" id="yuyin">
-          <img src="../../../assets/biaoq.png" alt />
-        </van-col>-->
+        <van-col span="3" class="flexBox" id="yuyin">
+          <img @touchstart="luzhi()" @touchend="jieshu()" src="../../../assets/yuyin.png" alt />
+        </van-col>
         <van-col v-if="text === ''" span="20" class="inputTxt">
           <div id="text">
             <textarea type="text" v-model="text" @focus="huoqu" rows="1"></textarea>
@@ -203,8 +203,12 @@
 </template>
 
 <script>
+import axios from "axios";
+import Recorderx, { ENCODE_TYPE } from "recorderx";
+const rc = new Recorderx();
 import Vue from "vue";
-import { Toast } from "vant";
+import { Toast, ImagePreview } from "vant";
+Vue.use(ImagePreview);
 const appData = require("../../utils/emojis.json");
 import { getNowTime } from "../../utils/getNowTime";
 import request from "../../utils/request";
@@ -239,7 +243,8 @@ export default {
       fen: {},
       listId: "",
       showH: false,
-      upload: ""
+      upload: "",
+      yulanImg: []
     };
   },
   mounted() {
@@ -261,10 +266,10 @@ export default {
           function() {
             this.scrollBottom();
           }.bind(this),
-          200
+         400
         );
       }.bind(this),
-      900
+    800
     );
   },
   methods: {
@@ -319,6 +324,58 @@ export default {
         qq.ud = "shop" + this.infoUid;
         this.mag.push(qq);
       }
+    },
+    //录制语音
+    luzhi() {
+      console.log("1111");
+      let that = this;
+      // that.news_img = !that.news_img
+      rc.start()
+        .then(() => {
+          that.news_img = !that.news_img;
+          console.log("start recording");
+        })
+        .catch(error => {
+          Toast("获取麦克风失败");
+          console.log("Recording failed.", error);
+        });
+    },
+    //录制结束发送语音
+    jieshu() {
+      let that = this;
+      var wav = rc.getRecord({
+        encodeTo: ENCODE_TYPE.WAV,
+        compressible: true
+      });
+      var uuid = this.uuid;
+      if (this.chatList != "") {
+        var end_time = this.chatList[this.chatList.length - 1].addtime;
+      }
+      var formData = new FormData();
+      // formData.append('file',wav);
+      formData.append("topic_id", uuid);
+      formData.append("last_time", end_time);
+      formData.append("type", 4);
+      formData.append("file", wav, Date.parse(new Date()) + ".wav");
+      let headers = { headers: { "Content-Type": "multipart/form-data" } };
+
+      axios.defaults.withCredentials = true;
+      this.$request({
+        url: "api/base/base64video",
+        method: "post",
+        data: {
+          file: formData
+        },
+        headers: { "Content-Type": "multipart/form-data" }
+      })
+        .then(res => {
+          console.log(res);
+          that.news_img = !that.news_img;
+          this.content = "";
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     // 获取历史就聊天记录
     msglog(num) {
@@ -431,6 +488,19 @@ export default {
           }
           this.scrollBottom();
           this.chatHos();
+          // 预览图集合
+          var yuLanInd = 1;
+          this.yulanImg=[]
+          for (var i = 0; i < this.msag.length; i++) {
+            console.log(this.msag[i].type);
+            if (this.msag[i].type == 1) {
+              this.yulanImg.push(this.msag[i].content);
+              this.msag[i].yuLanInd = yuLanInd;
+              console.log(this.msag[i]);
+              yuLanInd++;
+            }
+          }
+          console.log(this.msag);
         }
       });
     },
@@ -711,6 +781,19 @@ export default {
         txt.style.height = "0.6rem";
         this.showH = false;
       }
+    },
+    yulan(ind) {
+      console.log(ind);
+      console.log(this.yulanImg);
+      const instance = ImagePreview({
+        images: this.yulanImg,
+        asyncClose: true,
+        startPosition: ind - 1,
+        showIndex: false,
+        onClose() {
+          instance.close();
+        }
+      });
     }
   },
   destroyed() {
@@ -725,6 +808,12 @@ export default {
   width: 100%;
   height: 99vh;
   background: #f7f7f7;
+}
+#yuyin {
+  width: 0.5rem;
+}
+#yuyin img {
+  width: 100%;
 }
 .nav {
   z-index: 100;
@@ -1004,12 +1093,12 @@ export default {
 }
 #chatContent {
   width: 100%;
-  height: 89vh;
+  height: 88vh;
   overflow-y: scroll;
   padding-top: 0.88rem;
 }
 .showF {
-  height: 70vh !important;
+  height: 68vh !important;
 }
 .showH {
   height: 87vh !important;

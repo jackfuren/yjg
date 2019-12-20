@@ -65,7 +65,6 @@
           </li>
         </div>
       </div>
-
       <div :key="index" class="concat" v-for="(item ,index) in listData">
         <div style="background: #fff;">
           <div class="concat-a">
@@ -108,7 +107,9 @@
           </div>
           <p v-if="song !=2 ? true : false" class="concat-e">
             共{{item.totalnum}}件 小计: ￥
-            <span id="pop">{{item.totalprice-item.coupon_price}}</span>
+            <span
+              id="pop"
+            >{{item.totalprice-item.coupon_price}}</span>
           </p>
           <p v-if="song ===2 ? true : false" class="concat-e">
             共{{item.totalnum}}件 小计: ￥
@@ -193,7 +194,6 @@
 </template>
 
 <script>
-import request from "../utils/request";
 import Vue from "vue";
 import timepicker from "@/components/shopping/timepicker.vue";
 import { Toast } from "vant";
@@ -308,7 +308,11 @@ export default {
       };
     },
     shuju(data) {
+      // console.log(data);
       this.tim = data;
+      // setTimeout(function(){
+      //   this.meti=0
+      // }.bind(this), 100);
     },
     time() {
       this.meti = 1;
@@ -316,6 +320,7 @@ export default {
     guan() {
       this.meti = 0;
       this.timm = this.tim;
+      // console.log(this.timm)
     },
     fh() {
       if (this.token == 55) {
@@ -334,7 +339,10 @@ export default {
     },
     kuai(index) {
       this.ti = 0;
+      // console.log(this.youfei, this.youyo);
+      // console.log(this.song)
       if (this.listData.length > 1) {
+        // this.song=index
         if (index == 2) {
           Toast("不在同一个商家不可以选择自取");
         } else {
@@ -385,8 +393,7 @@ export default {
       this.show1 = false;
     },
     Fast() {
-      // console.log(this.$store.state.username.id);
-      request({
+      this.request({
         url: "api/order/index",
         method: "post",
         data: {
@@ -400,6 +407,16 @@ export default {
           this.location = true;
           this.locationn = false;
           this.youfei = 0;
+          window.localStorage.setItem("lijitoken", JSON.stringify(1));
+          var list = {
+            A: this.cart_id,
+            B: this.total_amount,
+            C: this.selected_products,
+            D: this.token,
+            E: this.id,
+            F: this.idd
+          };
+          window.localStorage.setItem("llll", JSON.stringify(list));
           this.listData = res.data.data.shop;
           this.dhao = res.data.data.origin_id;
           this.sAdd = res.data.data.shopaddr;
@@ -408,6 +425,16 @@ export default {
         } else {
           this.location = false;
           this.locationn = true;
+          window.localStorage.setItem("lijitoken", JSON.stringify(1));
+          var list = {
+            A: this.cart_id,
+            B: this.total_amount,
+            C: this.selected_products,
+            D: this.token,
+            E: this.id,
+            F: this.idd
+          };
+          window.localStorage.setItem("llll", JSON.stringify(list));
           this.listData = res.data.data.shop;
           this.dhao = res.data.data.origin_id;
           this.sAdd = res.data.data.shopaddr;
@@ -438,7 +465,7 @@ export default {
           // this.con=res.data.data.shop[0].coupons//领取的全部优惠券
           this.pd();
           this.ptmoney(); //邮费
-          //
+          // console.log(this.listData);
           // this.isLoading=false
         }
       });
@@ -453,140 +480,117 @@ export default {
     },
     //邮费接口
     ptmoney() {
-      var that = this;
       if (this.song === 0) {
         this.youyo = [];
         this.youfei = [];
         this.heji = [];
-        console.log(this.heji);
         for (let i = 0; i < this.listData.length; i++) {
-          unYou();
-          function unYou() {
-            request({
-              url: "api/order/ptyf",
-              method: "post",
-              data: {
-                user_id: that.$store.state.username.id,
-                shop_id: that.listData[i].id,
-                cart_id: that.listData[i].cart_id
-              }
-            }).then(res => {
-              console.log(res);
-              if (that.location != false) {
-                that.youfei.push(0);
-              } else {
-                that.youyo.push(res.data.data);
-                for (let m in that.youyo) {
-                  that.total_amount = 0;
-                  if (that.listData[i].id == that.youyo[m].shop_id) {
-                    console.log(that.youyo[m].dispatchprice);
-                    that.youfei.push(that.youyo[m].dispatchprice * 1);
-                  }
+          this.request({
+            url: "api/order/ptyf",
+            method: "post",
+            data: {
+              user_id: this.$store.state.username.id,
+              shop_id: this.listData[i].id,
+              cart_id: this.listData[i].cart_id
+            }
+          }).then(res => {
+            // console.log(res);
+            if (this.location != false) {
+              this.youfei.push(0);
+            } else {
+              this.youyo.push(res.data.data);
+              for (let m in this.youyo) {
+                this.total_amount = 0;
+                if (this.listData[i].id == this.youyo[m].shop_id) {
+                  this.youfei.push(Number(this.youyo[m].dispatchprice));
+                  // console.log(this.youfei);
                 }
               }
-              if (that.youfei[i] != undefined) {
-                that.heji.push(
-                  that.listData[i].totalprice * 1 -
-                    that.listData[i].coupon_price * 1 +
-                    that.youfei[i]
-                );
-                for (let j = 0; j < that.heji.length; j++) {
-                  that.total_amount = that.total_amount + that.heji[j];
-                }
-                if (that.listData[i].totalprice > that.pinyou.ji) {
-                  that.total_amount = that.total_amount - that.pinyou.price;
-                } else {
-                  that.total_amount = that.total_amount;
-                }
-              } else {
-                unYou();
-              }
-            });
-          }
+            }
+            this.heji.push(
+              this.listData[i].totalprice -
+                this.listData[i].coupon_price +
+                this.youfei[i]
+            );
+            for (let j = 0; j < this.heji.length; j++) {
+              this.total_amount = this.total_amount + this.heji[j];
+            }
+            if (this.listData[i].totalprice > this.pinyou.ji) {
+              this.total_amount = this.total_amount - this.pinyou.price;
+            } else {
+              this.total_amount = this.total_amount;
+            }
+          });
         }
       } else if (this.song === 1) {
-        console.log("我是1");
         this.youyo = [];
         this.youfei = [];
         this.heji = [];
         for (let i = 0; i < this.listData.length; i++) {
-          request({
+          this.request({
             url: "api/order/delivery",
             method: "post",
             data: {
-              origin_id: that.dhao,
+              origin_id: this.dhao,
               from_address:
-                that.listData[i].province +
-                that.listData[i].city +
-                that.listData[i].area,
+                this.listData[i].province +
+                this.listData[i].city +
+                this.listData[i].area,
               to_address:
-                that.listarr.province +
-                that.listarr.city +
-                that.listarr.area +
-                that.listarr.address,
-              city_name: that.listarr.city,
+                this.listarr.province +
+                this.listarr.city +
+                this.listarr.area +
+                this.listarr.address,
+              city_name: this.listarr.city,
               send_type: 0,
-              shop_id: that.listData[i].id,
+              shop_id: this.listData[i].id,
               to_lat: window.localStorage.getItem("lat"),
               to_lng: window.localStorage.getItem("lng")
             }
           }).then(res => {
-            that.youyo.push(JSON.parse(res.data.msg));
-            for (let m in that.youyo) {
-              that.total_amount = 0; //总计
-              unFei();
-              function unFei() {
-                if (that.listData[i].id == that.youyo[m].shop_id) {
-                  // console.log(this.youyo[m].need_paymoney);
-                  if (that.youyo[m].need_paymoney != undefined) {
-                    that.ti = 0;
-                    that.youfei.push(Number(that.youyo[m].need_paymoney)); //所有的邮费
-                    that.price_token.push(that.youyo[m].price_token);
-                    that.order_price.push(Number(that.youyo[m].total_money));
-                    console.log(that.youfei);
-                    that.heji.push(
-                      that.listData[i].totalprice -
-                        that.listData[i].coupon_price +
-                        that.youfei[i]
-                    ); //每个商家的合计
-                    for (let j = 0; j < that.heji.length; j++) {
-                      that.total_amount += that.heji[j];
-                    }
-                    if (that.listData[i].totalprice > that.pinyou.ji) {
-                      that.total_amount = that.total_amount - that.pinyou.price;
-                    } else {
-                      that.total_amount = that.total_amount;
-                    }
+            // console.log(res);
+            this.youyo.push(JSON.parse(res.data.msg));
+            for (let m in this.youyo) {
+              this.total_amount = 0; //总计
+              if (this.listData[i].id == this.youyo[m].shop_id) {
+                // console.log(this.youyo[m].need_paymoney);
+                if (this.youyo[m].need_paymoney != undefined) {
+                  this.ti = 0;
+                  this.youfei.push(Number(this.youyo[m].need_paymoney)); //所有的邮费
+                  this.price_token.push(this.youyo[m].price_token);
+                  this.order_price.push(Number(this.youyo[m].total_money));
+                  this.heji.push(
+                    this.listData[i].totalprice -
+                      this.listData[i].coupon_price +
+                      this.youfei[i]
+                  ); //每个商家的合计
+                  for (let j = 0; j < this.heji.length; j++) {
+                    this.total_amount += this.heji[j];
+                  }
+                  if (this.listData[i].totalprice > this.pinyou.ji) {
+                    this.total_amount = this.total_amount - this.pinyou.price;
                   } else {
-                    that.ti = 2;
-                    that.youyo[m].need_paymoney = 0;
-                    that.youfei.push(Number(that.youyo[m].need_paymoney)); //所有的邮费
-                    that.price_token.push(that.youyo[m].price_token);
-                    that.order_price.push(Number(that.youyo[m].total_money));
-                    console.log(that.heji);
-                    console.log(that.listData[i].totalprice);
-                    console.log(that.listData[i].coupon_price);
-                    console.log(that.youfei[i]);
-                    if (that.youfei[i] != undefined) {
-                      that.heji.push(
-                        that.listData[i].totalprice -
-                          that.listData[i].coupon_price +
-                          that.youfei[i]
-                      ); //每个商家的合计
-                      for (let j = 0; j < that.heji.length; j++) {
-                        that.total_amount += that.heji[j];
-                      }
-                      if (that.listData[i].totalprice > that.pinyou.ji) {
-                        that.total_amount =
-                          that.total_amount - that.pinyou.price;
-                      } else {
-                        that.total_amount = that.total_amount;
-                      }
-                    } else {
-                      console.log("我是undefined");
-                      that.total_amount = 0;
-                      unFei();
-                    }
+                    this.total_amount = this.total_amount;
+                  }
+                } else {
+                  this.ti = 2;
+
+                  this.youyo[m].need_paymoney = 0;
+                  this.youfei.push(Number(this.youyo[m].need_paymoney)); //所有的邮费
+                  this.price_token.push(this.youyo[m].price_token);
+                  this.order_price.push(Number(this.youyo[m].total_money));
+                  this.heji.push(
+                    this.listData[i].totalprice -
+                      this.listData[i].coupon_price +
+                      this.youfei[i]
+                  ); //每个商家的合计
+                  for (let j = 0; j < this.heji.length; j++) {
+                    this.total_amount += this.heji[j];
+                  }
+                  if (this.listData[i].totalprice > this.pinyou.ji) {
+                    this.total_amount = this.total_amount - this.pinyou.price;
+                  } else {
+                    this.total_amount = this.total_amount;
                   }
                 }
               }
@@ -594,25 +598,31 @@ export default {
           });
         }
         // console.log(this.youfei);
-      } else if (this.song == 2) {
+      } else if (this.song === 2) {
         this.youyo = [];
         this.youfei = [];
         this.heji = [];
-        this.total_amount = this.listData[0].totalprice;
-        console.log(this.listData[0].totalprice);
+        // for (let i = 0; i < this.listData.length; i++) {
+        //   this.heji.push(
+        //     this.listData[i].totalprice - this.listData[i].coupon_price + 0
+        //   ); //每个商家的合计
+        //   if (this.listData[i].totalprice > this.pinyou.ji) {
+        //     this.total_amount = this.heji[0] - this.pinyou.price;
+        //   } else {
+        //     this.total_amount = this.heji[0];
+        //   }
+        // }
       }
     },
     Submit() {
       this.ti = 1;
+      // console.log(this.arrList);
       if (this.msg == "-1") {
         Toast("您还没有设置地址");
       }
-
       this.arrList = [];
       for (var i = 0; i < this.listData.length; i++) {
-        if (this.youfei[i] == undefined) {
-          this.youfei[i] = 0;
-        }
+        // console.log(this.youfei);
         this.arrList.push({
           shop_id: this.listData[i].id,
           cart_id: this.listData[i].cart_id,
@@ -624,8 +634,9 @@ export default {
           remark_member: this.listData[i].remark_member //不确定是什么
         });
       }
-      console.log(this.arrList);
-      request({
+      // console.log(this.timm, this.vaue, this.song);
+      // console.log(JSON.stringify(this.arrList))
+      this.request({
         url: "api/order/ordersub",
         method: "post",
         data: {
@@ -639,10 +650,10 @@ export default {
           takes_mobile: this.vaue
         }
       }).then(res => {
-        console.log(res);
+        // console.log(res);
         if (res.data.code == 200) {
           if (this.show == 1) {
-            request({
+            this.request({
               url: "api/payment/pay",
               method: "post",
               data: {
@@ -651,6 +662,7 @@ export default {
                 out_trade_no: res.data.data.out_trade_no
               }
             }).then(res => {
+              // console.log(res);
               this.datadorm = res.data;
               const div = document.createElement("div");
               div.innerHTML = this.datadorm;
@@ -658,8 +670,7 @@ export default {
               document.forms["alipaysubmit"].submit();
             });
           } else if (this.show == 2) {
-            console.log("22222222222222222");
-            request({
+            this.request({
               url: "api/payment/pay",
               method: "post",
               data: {
@@ -668,7 +679,6 @@ export default {
                 out_trade_no: res.data.data.out_trade_no
               }
             }).then(res => {
-              console.log(res.data);
               window.location.href = res.data;
             });
           }
@@ -701,20 +711,16 @@ export default {
   },
   created() {},
   mounted() {
-    // this.getUserIP(ip => {
-    //   this.ip = ip;
-    //   console.log(this.ip);
-    // });
+    this.getUserIP(ip => {
+      this.ip = ip;
+      // console.log(this.ip);
+    });
     this.vaue = this.$store.state.username.mobile;
     this.timm = "60分钟";
     this.cart_id = this.$route.query.cart_id;
     this.token = this.$route.query.token;
-    if (this.token == 55) {
-      this.id = this.$route.query.id;
-      this.idd = this.$route.query.idd;
-    }
-
-    console.log(this.$route.query);
+    this.id = this.$route.query.id;
+    this.idd = this.$route.query.idd;
     this.Fast();
   },
   computed: {},

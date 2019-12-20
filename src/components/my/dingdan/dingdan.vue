@@ -916,7 +916,6 @@ export default {
 }
 .tabs {
   min-height: 94vh;
-  margin-top: 5vh;
 }
 .tabsCon {
   min-height: 94vh;

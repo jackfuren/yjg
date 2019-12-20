@@ -62,5 +62,10 @@ export default {
 
    height: 14px;
 }
+.van-image-preview__image{
+	width: 100%;
+	height: auto;
+	margin: auto 0;
+}
 
 </style>

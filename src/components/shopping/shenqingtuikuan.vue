@@ -17,7 +17,7 @@
       </div>
       <div class="concat-bottom">
         <ul>
-          <li><span>*</span>{{title}} <span @click="show =true" style="position: absolute;right: 0rem;color: #CCCCCC">请选择 <van-icon
+          <li><span></span>退款原因 <span @click="show =true" style="position: absolute;right: 0rem;color: #CCCCCC"> {{title}}<van-icon
             name="arrow" style="position: relative;bottom: -0.07rem;left: -0.3rem" size="0.3rem"/></span></li>
           <li>退款金额：<span>￥{{id.ogprice}}</span></li>
           <li>退款说明：<input type="text" placeholder="可选填" v-model="text"></li>
@@ -63,7 +63,7 @@ Vue.use(Toast);
         id: "",
 		iid:'',
         order_id: "",
-        title: "退款原因",
+        title: "请选择",
         columns: [],
         show: false,
         postData: [],
