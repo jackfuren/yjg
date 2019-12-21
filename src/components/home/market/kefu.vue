@@ -339,17 +339,17 @@ export default {
     },
     //录制语音
     luzhi() {
-      console.log("1111");
       let that = this;
       // that.news_img = !that.news_img
-      that.$nextTick(()=>{
+      // that.$nextTick(()=>{
           rc.start()
           .then(() => {
               console.log("start recording");
           }).catch(error => {
+			  Toast("获取麦克风失败")
               console.log("Recording failed.", error);
           });
-      })
+      // })
     },
     //录制结束发送语音
     jieshu() {
