@@ -517,9 +517,8 @@ export default {
 }
 
 .fz {
-  /* width: 0.67rem; */
+  width: 0.6rem;
   height: 0.3rem;
-  padding: 0 0.1rem 0 0.1rem;
   border-radius: 10px;
   line-height: 0.3rem;
   background: #ef0600;

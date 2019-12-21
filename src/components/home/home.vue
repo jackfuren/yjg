@@ -235,9 +235,9 @@ export default {
       }
     },
     xianqing(i) {
-      console.log(i)
-      console.log(this.dataList[i].id)
-      console.log(this.dataList[i].price)
+      console.log(i);
+      console.log(this.dataList[i].id);
+      console.log(this.dataList[i].price);
       this.$router.push({
         name: "wpxq",
         query: {
@@ -275,6 +275,7 @@ export default {
     },
     Site() {
       if (this.token != 56) {
+        console.log("aaaaaaaaaaaaaaaaa");
         this.getLocation();
       }
       if (this.dz == "正在获取") {
@@ -313,70 +314,77 @@ export default {
         AMap.event.addListener(geolocation, "error", onError);
         function onComplete(data) {
           console.log(data);
-          this.shuju = data;
+          that.shuju = data;
           // 经纬度
-          this.lat = data.position.lat;
-          this.lng = data.position.lng;
-          window.sessionStorage.setItem("lat", this.lat);
-          window.sessionStorage.setItem("lng", this.lng);
-          window.localStorage.setItem("lat", this.lat);
-          window.localStorage.setItem("lng", this.lng);
-          console.log(this.lat, this.lng);
-          console.log(this.shuju);
-          console.log(this.dzz);
+          that.lat = data.position.lat;
+          that.lng = data.position.lng;
+          window.sessionStorage.setItem("lat", that.lat);
+          window.sessionStorage.setItem("lng", that.lng);
+          window.localStorage.setItem("lat", that.lat);
+          window.localStorage.setItem("lng", that.lng);
+          window.localStorage.setItem("city", data.addressComponent.city);
+          console.log(data.addressComponent.city)
+
+          console.log(that.lat, that.lng);
+          console.log(that.shuju);
+          console.log(that.dzz);
+          if (that.dzz == undefined) {
+            that.getLocation();
+          }
           //  显示位置判断
-          if (this.shuju.addressComponent.building != "") {
+          if (that.shuju.addressComponent.building != "") {
             that.dzz = this.shuju.addressComponent.building; //楼信息列表
-          } else if (this.shuju.addressComponent.neighborhood != "") {
+          } else if (that.shuju.addressComponent.neighborhood != "") {
             if (
-              this.shuju.formattedAddress.split(
-                this.shuju.addressComponent.neighborhood
+              that.shuju.formattedAddress.split(
+                that.shuju.addressComponent.neighborhood
               )[1] == ""
             ) {
-              that.dzz = this.shuju.addressComponent.neighborhood;
+              that.dzz = that.shuju.addressComponent.neighborhood;
             } else {
-              that.dzz = this.shuju.formattedAddress.split(
-                this.shuju.addressComponent.neighborhood
+              that.dzz = that.shuju.formattedAddress.split(
+                that.shuju.addressComponent.neighborhood
               )[1];
             }
-          } else if (this.shuju.addressComponent.township != "") {
+          } else if (that.shuju.addressComponent.township != "") {
             if (
-              this.shuju.formattedAddress.split(
-                this.shuju.addressComponent.township
+              that.shuju.formattedAddress.split(
+                that.shuju.addressComponent.township
               )[1] == ""
             ) {
-              that.dzz = this.shuju.addressComponent.township;
+              that.dzz = that.shuju.addressComponent.township;
             } else {
-              that.dzz = this.shuju.formattedAddress.split(
-                this.shuju.addressComponent.township
+              that.dzz = that.shuju.formattedAddress.split(
+                that.shuju.addressComponent.township
               )[1];
             }
           } else {
             if (
-              this.shuju.formattedAddress.split(
-                this.shuju.addressComponent.street
+              that.shuju.formattedAddress.split(
+                that.shuju.addressComponent.street
               )[1] == ""
             ) {
-              that.dzz = this.shuju.addressComponent.street;
+              that.dzz = that.shuju.addressComponent.street;
             } else {
-              that.dzz = this.shuju.formattedAddress.split(
-                this.shuju.addressComponent.street
+              that.dzz = that.shuju.formattedAddress.split(
+                that.shuju.addressComponent.street
               )[1];
             }
           }
-          console.log(this.dzz);
+          console.log(that.dzz);
           window.localStorage.setItem("site", that.dzz);
           window.sessionStorage.setItem("site", that.dzz);
           console.log(window.localStorage.getItem("site"));
           that.queP = true;
           that.formattedAddress = data.formattedAddress;
-          // that.ding();
+          that.ding();
         }
+
         function onError(data) {
           console.log(data);
           // 定位出错
           that.showw = true;
-          this.dw = false;
+          that.dw = false;
         }
       });
     },

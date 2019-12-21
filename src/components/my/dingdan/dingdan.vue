@@ -186,7 +186,8 @@
               <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
               <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
               <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
-            </div>@click="quern(item.oid)"
+            </div>
+            <!-- @click="quern(item.oid)" -->
             <div
               class="concat-div"
               v-for="(ite,index) in item.goods"

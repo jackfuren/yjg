@@ -373,14 +373,8 @@ export default {
             arrayList: this.x
           }
         });
-      } else if (this.token == null) {
-        this.$router.push({
-          name: "home"
-        });
-      } else {
-        this.$router.push({
-          name: "mar"
-        });
+      }else{
+        this.$router.go(-1)
       }
     },
     jubao() {
@@ -537,8 +531,8 @@ export default {
     Tabs
   },
   mounted() {
-    this.shop_id = JSON.parse(window.localStorage.getItem("DP"));
-    console.log(this.shop_id);
+    this.shop_id = JSON.parse(window.localStorage.getItem("DP")) || this.$route.query.shop_id;
+    console.log(this.$route.query);
     this.token = this.$route.query.token;
     if (this.token == 36) {
       window.sessionStorage.setItem("DDP", 36);

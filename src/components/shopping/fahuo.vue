@@ -3,7 +3,7 @@
     <div class="box-container">
       <div class="nav-top">
         <div class="nav">
-			<img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+          <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt />
           <!-- <van-icon @click="fh()" class="nav-left" color="#FFFFFF" name="arrow-left" size="0.5rem" /> -->
           <p style="color: white">订单详情</p>
           <p class="nav-top-p">买家已付款</p>
@@ -17,21 +17,23 @@
               </p>
               <p>{{listData.province + listData.city + listData.area + listData.address}}</p>
             </div>
-            <img alt class="dz-img" src="../../assets/dingdan_xiayibu.png" />
           </div>
         </div>
       </div>
       <div class="concat">
-        <div class="concat-a">
+        <div class="concat-a" @click="dpLink">
           <img alt src="../../assets/dingdan_dianpu.png" />
           <p>{{listData.sname}}</p>
         </div>
         <div class="concat-b" v-for="(item ,index) in listData.goods" :key="index">
-          <img :src="item.headimg" alt />
-          <p class="concat-b-a">{{item.gtitle}}</p>
-          <p class="concat-b-b">{{item.specification}}</p>
-          <p class="concat-b-c">￥{{item.ogprice}}</p>
-          <p class="concat-b-d">x{{item.num}}</p>
+          <div @click="spLink(index)">
+            <img :src="item.headimg" alt />
+            <p class="concat-b-a">{{item.gtitle}}</p>
+            <p class="concat-b-b">{{item.specification}}</p>
+            <p class="concat-b-c">￥{{item.ogprice}}</p>
+            <p class="concat-b-d">x{{item.num}}</p>
+          </div>
+
           <p @click="tui(item)" class="tui">退款</p>
         </div>
 
@@ -39,7 +41,7 @@
           运费(快递)
           <span>￥{{listData.freight}}</span>
         </p>
-        <div class="concat-d">
+        <div class="concat-d" v-if="listData.remark_member!=''">
           订单备注
           <input placeholder="暂无备注" type="text" v-model="listData.remark_member" />
         </div>
@@ -189,6 +191,25 @@ export default {
         .catch(() => {
           //点击取消按钮后的调用
         });
+    },
+    spLink(i) {
+      this.$router.push({
+        name: "wpxq",
+        query: {
+          goods_id: this.listData.goods[i].gid,
+          price: this.listData.goods[i].price,
+          token: 100
+        }
+      });
+    },
+    dpLink() {
+      console.log("aaaaaaaaaaaa");
+      this.$router.push({
+        name: "dpxq",
+        query: {
+          shop_id: this.listData.shop_id
+        }
+      });
     }
   },
   mounted() {
@@ -241,7 +262,7 @@ export default {
 }
 
 .nav-left {
-	width: 0.55rem;
+  width: 0.55rem;
   position: absolute;
   left: 0.25rem;
   top: 0.2rem;
@@ -548,9 +569,8 @@ export default {
 }
 
 .fz {
-  /* width: 0.67rem; */
+  width: 0.6rem;
   height: 0.3rem;
-  padding: 0 0.1rem 0 0.1rem;
   border-radius: 6px;
   line-height: 0.3rem;
   background: #ef0600;

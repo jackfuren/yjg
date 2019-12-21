@@ -12,27 +12,26 @@
       <div class="swiper-pagination swiper_dot" id="pagination"></div>
       <div class="allow"></div>
       <div class="category_list">
-        <section class="wai">
-          <section class="titleList">
-            <div class="nei">
-              <ul>
-                <li
-                  :class="{active:index === num}"
-                  :key="index"
-                  @click="tab(item,index)"
-                  v-for="(item,index) in titleItem"
-                >
-                  <p>
-                    <span>{{item.title}}</span>
-                  </p>
-                </li>
-              </ul>
-              <div id="acti"></div>
-            </div>
-          </section>
-        </section>
+        <ul>
+          <li
+            :class="{active:index === num}"
+            :key="index"
+            @click="tab(item,index)"
+            v-for="(item,index) in titleItem"
+          >
+            <a href="#">
+              <span>
+                <img :src="item.img_url" alt />
+              </span>
+              <span>{{item.title}}</span>
+            </a>
+          </li>
+        </ul>
         <div class="category_list_items">
           <div class="category_list_items-div">
+            <div class="category_list_item_top">
+              <span>{{title}}</span>
+            </div>
             <div class="category_list_content">
               <div class="category_list_content1">
                 <div
@@ -62,7 +61,6 @@
           </div>
         </div>
       </div>
-
       <van-tabbar v-model="active4" active-color="#EF0600" inactive-color="#333333">
         <van-tabbar-item to="/">
           <span>首页</span>
@@ -93,7 +91,7 @@ export default {
   data() {
     return {
       title: "热销",
-      num: 0, //活动下标
+      num: 1, //活动下标
       active4: 1,
       icon: {
         active: require("../../assets/tab_shouye_press.png"),
@@ -114,24 +112,31 @@ export default {
       carselist: [],
       titleItem: [
         {
+          img_url: require("../../assets/img/activity_leftbar_rexiao.png"),
           title: "热销"
         },
         {
+          img_url: require("../../assets/img/activity_leftbar_zhekou.png"),
           title: "折扣"
         },
         {
+          img_url: require("../../assets/img/activity_leftbar_xinpin.png"),
           title: "新品"
         },
         {
+          img_url: require("../../assets/img/activity_leftbar_tuangou.png"),
           title: "团购"
         },
         {
+          img_url: require("../../assets/img/activity_leftbar_cuxiao.png"),
           title: "促销"
         },
         {
+          img_url: require("../../assets/img/activity_leftbar_youxuan.png"),
           title: "优选"
         },
         {
+          img_url: require("../../assets/img/activity_leftbar_tejia.png"),
           title: "特价"
         }
       ],
@@ -140,9 +145,9 @@ export default {
   },
   methods: {
     tab(item, index) {
-      document.getElementById("acti").style.left = 0.7 + index * 1.885 + "rem";
       this.num = index;
       this.title = item.title;
+      //console.log(this.num)
       request({
         url: "api/activity/index",
         method: "post",
@@ -236,20 +241,25 @@ export default {
 .index .index_carsel {
   background: #fff;
   position: relative;
+  // padding:15px;
   padding: 0.3rem;
   top: 0.88rem;
   padding-bottom: 0.52rem;
 }
 
 .swiper_ses {
+  /*// margin:0 auto;*/
   text-align: center;
+  /*// width:330px !important;*/
   height: 3.2rem;
+  /*margin:0 7px !important;*/
   border-radius: 5px;
   overflow: hidden;
 }
 
 .swiper-slide-active {
   transform: scale(1.08);
+  /*// box-shadow: 0 0 10px 2px rgb(252, 228, 228);*/
 }
 
 .swiper_ses .main-img {
@@ -290,90 +300,91 @@ export default {
 
 .category_list {
   width: 100%;
-  background: #f7f7f7;
-}
-.wai {
-  height: 0.8rem;
-  overflow: hidden;
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-  border-bottom: 2px solid rgb(247, 247, 247);
-  background-color: white;
-}
-.titleList {
-  width: 100%;
-  overflow-x: scroll;
-  padding-bottom: 0.1rem;
-}
-.nei {
-  width: 13.2rem;
-  position: relative;
-}
-.category_list ul {
-  width: 100%;
-  height: 100%;
   display: flex;
+  justify-content: space-between;
+  background: #f7f7f7;
+  padding-bottom: 50px;
+}
+
+.category_list ul {
+  display: inline-block;
+  width: 1.6rem;
+  list-style: none;
+  height: 8rem;
+  // background: #F7F7F7;
 }
 
 .category_list ul li {
-  height: 100%;
-  width: 2rem;
+  width: 100%;
+  height: 0.8rem;
   text-align: center;
 }
 
-.category_list ul li p {
+.category_list ul li.active {
+  background: #fff;
+}
+
+.category_list ul li a {
   vertical-align: -webkit-baseline-middle;
   line-height: 0.8rem;
   width: 100%;
   height: 100%;
 }
-.category_list ul li p span {
+
+.category_list ul li a span:first-child {
+  margin-right: 6px;
+  vertical-align: -webkit-baseline-middle;
+}
+
+.category_list ul li a span:last-child {
   display: inline-block;
   vertical-align: -webkit-baseline-middle;
   margin-top: -5px;
-  font-size: 0.25rem;
-}
-#acti {
-  width: 0.5rem;
-  height: 0.03rem;
-  position: absolute;
-  background-color: red;
-  bottom: 0rem;
-  left: 0.7rem;
-  transition: all 0.2s;
-}
-.category_list ul li.active {
-  color: red !important;
-  background: #fff;
+  font-size: 12px;
+  color: #333;
 }
 
 .category_list_items {
   display: inline-block;
-  width: 100%;
+  width: 6rem;
   height: 100%;
   background: #fff;
-  padding: 0 0.2rem;
-  box-sizing: border-box;
+  position: relative;
 }
 .category_list_items-div {
-  width: 100%;
-  margin-bottom: 1rem;
-  height: 20rem;
+  width: 6rem;
+  height: 8.3rem;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 .category_list_items-div::-webkit-scrollbar {
   display: none;
 }
 
 .category_list_content {
-  width: 100%;
+  width: 6rem;
 }
 
 .category_list_content > div {
-  width: 100%;
+  width: 6rem;
 }
+
+.category_list_item_top {
+  width: 6rem;
+  height: 0.8rem;
+  line-height: 0.8rem;
+  text-align: left;
+}
+
+.category_list_item_top span {
+  font-size: 15px;
+  color: #333;
+  padding-left: 10px;
+}
+
 .category_list_item {
-  width: 100%;
+  width: 6rem;
   display: flex;
   justify-content: space-between;
   padding: 10px 15px 10px 10px;
@@ -398,7 +409,7 @@ export default {
 }
 
 .category_list_items_right {
-  width: 60%;
+  width: 3.6rem;
   position: absolute;
   right: 0.9rem;
   text-align: left;

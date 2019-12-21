@@ -3,7 +3,7 @@
     <div class="box-container">
       <div class="nav-top">
         <div class="nav">
-			<img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+          <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt />
           <!-- <van-icon @click="fh()" class="nav-left" color="#FFFFFF" name="arrow-left" size="0.5rem" /> -->
           <p style="color: white">订单详情</p>
           <p class="nav-top-p">交易成功</p>
@@ -21,6 +21,7 @@
           </div>
         </div>
       </div>
+
       <div class="concat">
         <div class="concat-a">
           <img alt src="../../assets/dingdan_dianpu.png" />
@@ -264,7 +265,7 @@ export default {
 }
 
 .nav-left {
-	width: 0.55rem;
+  width: 0.55rem;
   position: absolute;
   left: 0.25rem;
   top: 0.2rem;
@@ -344,7 +345,8 @@ export default {
   border-radius: 10px;
   background: #ffffff;
   margin: 0 auto;
-  margin-top: 0.2rem;
+  position: relative;
+  top: 0.2rem;
 }
 
 .concat-a {
@@ -594,9 +596,8 @@ export default {
 }
 
 .fz {
-  /* width: 0.67rem; */
+  width: 0.6rem;
   height: 0.3rem;
-  padding: 0 0.1rem 0 0.1rem;
   border-radius: 10px;
   line-height: 0.3rem;
   background: #ef0600;

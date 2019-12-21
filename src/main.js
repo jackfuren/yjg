@@ -63,6 +63,8 @@ import request from '../src/components/utils/request'
 Vue.prototype.request = request
 Vue.config.productionTip = true
 import '../static/vantRe.css'
+
+
 //引入store
 import store from '@/store'
 /* eslint-disable no-new */

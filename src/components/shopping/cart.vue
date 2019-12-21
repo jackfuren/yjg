@@ -26,11 +26,13 @@
                 @click="shop_all_check(shop_index)"
                 style="width: 0.4rem;display: inline-block;position: relative;top: 0.17rem"
               ></van-checkbox>
-              <img class="pj" src="../../../src/assets/gouwuche_icon.png" alt />
-              <span
-                style="font-size: 0.24rem;font-weight: bold;z-index: 99999;position: relative"
-              >{{item.name}}</span>
-              <img class="pjj" src="../../../src/assets/gouwuche_button_xiayibu.png" alt />
+              <div class="dp" @click="dp(item.id)">
+                <img class="pj" src="../../assets/gouwuche_icon.png" alt />
+                <span
+                  style="font-size: 0.24rem;font-weight: bold;z-index: 99999;position: relative"
+                >{{item.name}}</span>
+                <img class="pjj" src="../../../src/assets/gouwuche_button_xiayibu.png" alt />
+              </div>
             </div>
 
             <div
@@ -502,6 +504,16 @@ export default {
           token: 3
         }
       });
+    },
+    dp(id) {
+      console.log();
+      this.$router.push({
+        name: "dpxq",
+        query: {
+          token: this.token,
+          shop_id: id
+        }
+      });
     }
   },
   computed: {
@@ -645,7 +657,7 @@ export default {
   text-align: left;
   position: relative;
   top: 0.15rem;
-  padding-right:0.1rem;
+  padding-right: 0.1rem;
 }
 .boxes-div {
   width: 7.1rem;
@@ -963,5 +975,11 @@ export default {
   height: 0.4rem;
   margin-bottom: 0.1rem;
   line-height: 0.4rem;
+  display: flex;
+}
+.dp {
+  position: relative;
+  top: 0.17rem;
+  left: 0.15rem;
 }
 </style>

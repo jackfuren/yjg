@@ -563,7 +563,9 @@ export default {
     },
     can() {
       this.canS = true;
-      this.idd();
+      if (JSON.stringify(this.canA) == "{}") {
+        this.canS = false;
+      }
     },
     Lyou() {
       this.lyou = !this.lyou;
@@ -847,7 +849,6 @@ export default {
             }
           })
             .then(res => {
-
               if (res.data.code == 200) {
                 Toast("取消收藏");
                 // this.$toast('取消收藏');
@@ -889,18 +890,24 @@ export default {
             lng: window.localStorage.getItem("lng")
           }
         }).then(res => {
-          this.canA = JSON.stringify(res.data.data.parameter);
-          this.canA = this.canA
-            .split("{")[1]
-            .split("}")[0]
-            .split(",");
-          for (var i in this.canA) {
-            var canArr = {
-              paraName: this.canA[i].split(":")[0].split('"')[1],
-              para: this.canA[i].split(":")[1].split('"')[1]
-            };
-            this.canList.push(canArr);
+          console.log(this.canA);
+          if (JSON.stringify(this.canA) != "{}") {
+            console.log("ssss");
+            this.canA = JSON.stringify(res.data.data.parameter);
+            this.canA = this.canA
+              .split("{")[1]
+              .split("}")[0]
+              .split(",");
+
+            for (var i in this.canA) {
+              var canArr = {
+                paraName: this.canA[i].split(":")[0].split('"')[1],
+                para: this.canA[i].split(":")[1].split('"')[1]
+              };
+              this.canList.push(canArr);
+            }
           }
+
           this.dataList = res.data.data;
           this.pr = res.data.data.goods_sttr;
           this.shou = res.data.data.is_collectiongoods;
@@ -1911,7 +1918,7 @@ export default {
 }
 .canshu {
   color: #333333;
-  
+
   box-sizing: border-box;
 }
 .canshu h2 {
@@ -1925,17 +1932,17 @@ export default {
   text-align: left;
   margin-top: 0.3rem;
 }
-.chima tr{
-  border-bottom: 1px solid #EEEEEE;
+.chima tr {
+  border-bottom: 1px solid #eeeeee;
 }
-.chima tr td:nth-child(1){
+.chima tr td:nth-child(1) {
   width: 40%;
 }
 
 .chima tr td {
-  padding:  0.15rem 0.5rem;
+  padding: 0.15rem 0.5rem;
 }
-.chima tr td:nth-child(2){
+.chima tr td:nth-child(2) {
   padding: 0;
 }
 </style>

@@ -9,13 +9,7 @@
             <img src="../../assets/dddd.png" alt />
             <p>{{dz}}</p>
           </div>
-          <van-search
-            placeholder="搜索"
-            shape="round"
-            v-model="value"
-            @input="onSearch"
-            @clear="clear"
-          />
+          <van-search placeholder="搜索" shape="round" v-model="value" @search="onSearch" />
         </div>
         <div id="container1" style="display:none"></div>
       </div>
@@ -56,19 +50,6 @@
           <p @click="dian(item)">{{item.area_name}}</p>
         </div>
       </div>
-
-      <div id="searchM" v-if="searchShow">
-        <section class="wu" v-if="searchList==undefined">无搜索结果</section>
-        <ul>
-          <li v-for="(item,index) in searchList" :key="index" @click="queding(index)">
-            <div>{{item.name}}</div>
-            <div v-if="item.district!=''">
-              {{item.district}}
-              <span v-if="item.address.length!=0">{{item.address}}</span>
-            </div>
-          </li>
-        </ul>
-      </div>
     </div>
   </div>
 </template>
@@ -91,9 +72,7 @@ export default {
       dataList: [],
       jingwei: "",
       ss: false,
-      aqw: "",
-      searchList: "",
-      searchShow: false
+      aqw: ""
     };
   },
   methods: {
@@ -105,7 +84,6 @@ export default {
       window.localStorage.setItem("site", this.place);
       let b = window.localStorage.getItem("site");
       window.sessionStorage.setItem("site", b);
-
       const that = this;
       window.init = function() {
         var map = new AMap.Map("container", {
@@ -132,7 +110,6 @@ export default {
             window.sessionStorage.setItem("lng", lng);
             window.localStorage.setItem("lat", lat);
             window.localStorage.setItem("lng", lng);
-            window.localStorage.setItem("city", result.geocodes[0].city);
           } else {
             log.error("根据地址查询位置失败");
           }
@@ -195,10 +172,8 @@ export default {
         AMap.event.addListener(geolocation, "error", onError);
         function onComplete(data) {
           console.log(data);
-          window.localStorage.setItem("lat", data.position.lat);
-          window.localStorage.setItem("lng", data.position.lng);
-          window.localStorage.setItem("city", data.addressComponent.city);
-
+          window.sessionStorage.setItem("lat", data.position.lat);
+          window.sessionStorage.setItem("lng", data.position.lng);
           //  显示位置判断
           if (data.addressComponent.building != "") {
             that.dzz = data.addressComponent.building; //楼信息列表
@@ -255,30 +230,46 @@ export default {
     },
     onSearch() {
       const that = this;
-      var val = this.value;
-      if (this.value == "") {
-        that.searchShow = false;
-      }
-      console.log(this.value);
-      var map = new AMap.Map("container", {
-        resizeEnable: true
-      });
-      AMap.plugin("AMap.Autocomplete", function() {
-        // 实例化Autocomplete
-        var autoOptions = {
-          //city 限定城市，默认全国
-          city: window.localStorage.getItem("city") || "",
-          output: "cac"
-        };
-        console.log(window.localStorage.getItem("city"));
-        var autoComplete = new AMap.Autocomplete(autoOptions);
-        autoComplete.search(val, function(status, result) {
-          that.searchShow = true;
-          console.log(result.tips);
-          that.searchList = result.tips;
-          // 搜索成功时，result即是对应的匹配数据
+      window.init = function() {
+        var map = new AMap.Map("container", {
+          resizeEnable: true
+        });
+      };
+      var geocoder;
+      AMap.plugin("AMap.Geocoder", function() {
+        geocoder = new AMap.Geocoder({
+          city: "" //城市设为北京，默认：“全国”
         });
       });
+      var marker = new AMap.Marker();
+      var val = this.value;
+      console.log(this.value);
+      function geoCode() {
+        geocoder.getLocation(val, function(status, result) {
+          console.log(status, result);
+          if (status === "complete" && result.geocodes.length) {
+            var lng = result.geocodes[0].location.lng;
+            var lat = result.geocodes[0].location.lat;
+            console.log(lng, lat);
+            window.sessionStorage.setItem("lat", lat);
+            window.sessionStorage.setItem("lng", lng);
+            window.localStorage.setItem("lat", lat);
+            window.localStorage.setItem("lng", lng);
+            window.localStorage.setItem("site", val);
+            window.sessionStorage.setItem("site", val);
+            that.$router.push({
+              name: "home",
+              query: {
+                token: 56
+              }
+            });
+          } else {
+            Toast("获取位置信息失败");
+            // log.error("根据地址查询位置失败");
+          }
+        });
+      }
+      geoCode();
     },
     getLatLngLocation() {
       const that = this;
@@ -321,7 +312,6 @@ export default {
       window.localStorage.setItem("site", i.area_name);
       let b = window.localStorage.getItem("site");
       window.sessionStorage.setItem("site", b);
-
       this.$router.push({
         name: "home",
         query: {
@@ -331,22 +321,6 @@ export default {
     },
     more() {
       this.show = true;
-    },
-    queding(index) {
-      console.log(index);
-      console.log(this.searchList[index]);
-      window.localStorage.setItem("lat", this.searchList[index].location.lat);
-      window.localStorage.setItem("lng", this.searchList[index].location.lng);
-      window.localStorage.setItem("site", this.searchList[index].name);
-      this.$router.push({
-        name: "home",
-        query: {
-          token: 56
-        }
-      });
-    },
-    clear() {
-      this.searchShow = false;
     }
   },
   mounted() {
@@ -359,6 +333,31 @@ export default {
       // console.log(res.data.data)
       this.list = res.data.data;
     });
+  },
+  //  watch: {
+  //    value: function (i) {
+  // 	// console.log(i)
+  //      if (i.length == 0) {
+  //        this.ss = false
+  //      } else {
+  //       geoCode();
+  // console.log(this.jingwei)
+  //      }
+
+  //    }
+  //  },
+  filters: {
+    getCaption(obj) {
+      // console.log(obj)
+      // var obj = "河南省郑州市管城回族区商都路街道榆林北路升龙广场"
+      var index = obj.lastIndexOf("路");
+      obj = obj.substring(index + 1, obj.length);
+
+      var index = obj.lastIndexOf("道");
+      obj = obj.substring(index + 1, obj.length);
+
+      return obj;
+    }
   }
 };
 </script>
@@ -599,30 +598,5 @@ export default {
 }
 .city::-webkit-scrollbar {
   display: none;
-}
-#searchM {
-  width: 100%;
-  background-color: white;
-  min-height: 1rem;
-  position: absolute;
-  top: 1.8rem;
-  font-size: 0.25rem;
-}
-.wu {
-  line-height: 1rem;
-}
-#searchM ul {
-  padding-bottom: 0.1rem;
-}
-#searchM li {
-  padding: 0.07rem 0.2rem;
-  text-align: left;
-  border-bottom: 1px solid #ccc9c9;
-}
-#searchM li div {
-  padding: 0.05rem;
-}
-#searchM li div:nth-child(1) {
-  font-size: 0.28rem;
 }
 </style>

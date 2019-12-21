@@ -162,15 +162,13 @@
     <div class="tabBar">
       <van-row class="shu" type="flex" justify="center">
         <!-- 此处如果需要左侧语音输入按钮，将此处注释解开，把输入框中18改为15，换掉中间图标 -->
-        
+
         <van-col span="3" class="flexBox" id="yuyin">
-
-           <img @click="yu()" v-if="yuyin==0?true:false" src="../../../assets/yuyin.png" alt />
-		   <img @click="jian()" v-if="yuyin==1?true:false" src="../../../assets/jianpan.png" alt />
-
+          <img @click="yu()" v-if="yuyin==0?true:false" src="../../../assets/yuyin.png" alt />
+          <img @click="jian()" v-if="yuyin==1?true:false" src="../../../assets/jianpan.png" alt />
         </van-col>
-        <van-col  v-if="text === ''" span="20" class="inputTxt">
-			<div @touchstart="luzhi()" @touchend="jieshu()" class="an" v-if="yuyin==1?true:false">按住说话</div>
+        <van-col v-if="text === ''" span="20" class="inputTxt">
+          <div @touchstart="luzhi()" @touchend="jieshu()" class="an" v-if="yuyin==1?true:false">按住说话</div>
           <div id="text" v-if="yuyin==0?true:false">
             <textarea type="text" v-model="text" @focus="huoqu" rows="1"></textarea>
           </div>
@@ -220,7 +218,7 @@ export default {
   data() {
     return {
       user_id: this.$store.state.username.id,
-	  yuyin:0,//判断麦克风的显示
+      yuyin: 0, //判断麦克风的显示
       name: this.$route.query.name,
       path: "ws://121.199.17.119:8282",
       socket: "",
@@ -271,23 +269,30 @@ export default {
           function() {
             this.scrollBottom();
           }.bind(this),
-         400
+          400
         );
       }.bind(this),
-    800
+      800
     );
+    // 每个5秒调用一次,用来获取商家发送的消息
+    // setInterval(
+    //   function() {
+    //     this.msglog(this.num);
+    //   }.bind(this),
+    //   5000
+    // );
   },
   methods: {
     fh() {
       this.$router.go(-1);
     },
-	yu(){
-		this.yuyin=1
-		console.log(this.yuyin)
-	},
-	jian(){
-		this.yuyin=0
-	},
+    yu() {
+      this.yuyin = 1;
+      console.log(this.yuyin);
+    },
+    jian() {
+      this.yuyin = 0;
+    },
     init: function() {
       if (typeof WebSocket === "undefined") {
         alert("您的浏览器不支持socket");
@@ -370,7 +375,6 @@ export default {
       formData.append("type", 4);
       formData.append("file", wav, Date.parse(new Date()) + ".wav");
       let headers = { headers: { "Content-Type": "multipart/form-data" } };
-
       axios.defaults.withCredentials = true;
       this.$request({
         url: "api/base/base64video",
@@ -502,7 +506,7 @@ export default {
           this.chatHos();
           // 预览图集合
           var yuLanInd = 1;
-          this.yulanImg=[]
+          this.yulanImg = [];
           for (var i = 0; i < this.msag.length; i++) {
             console.log(this.msag[i].type);
             if (this.msag[i].type == 1) {
@@ -541,6 +545,7 @@ export default {
       }).then(res => {
         this.socket.send(this.text);
         this.msglog(this.num);
+        this.jieshou = !this.jieshou;
       });
     },
     // 下拉刷新，数据待修改
@@ -822,10 +827,10 @@ export default {
   background: #f7f7f7;
 }
 
-#yuyin{
-	width: 0.5rem;
-	margin-left: 0.15rem;
-	margin-right: 0.15rem;
+#yuyin {
+  width: 0.5rem;
+  margin-left: 0.15rem;
+  margin-right: 0.15rem;
 }
 #yuyin img {
   width: 100%;
@@ -854,10 +859,10 @@ export default {
 .nav-left {
   width: 0.55rem;
 }
-.an{
-	width: 100%;
-	text-align: center;
-	font-size: 0.25rem;
+.an {
+  width: 100%;
+  text-align: center;
+  font-size: 0.25rem;
 }
 .pu {
   display: inline-block;
@@ -1071,7 +1076,7 @@ export default {
   display: inline-block;
 }
 .masgContentMy {
-  height: auto;
+  min-height: 0.4rem;
   background-color: #fc6957;
   max-width: 4rem;
   padding: 0.2rem;
@@ -1081,6 +1086,7 @@ export default {
   margin-right: 0.1rem;
   word-wrap: break-word;
 }
+
 .masgContentMyImg {
   float: right;
   margin-right: 0.1rem;
@@ -1094,6 +1100,7 @@ export default {
   max-height: 5rem;
 }
 .masgContentYou {
+  min-height: 0.4rem;
   background-color: #fff;
   padding: 0.2rem;
   border-radius: 0 0.4rem 0.4rem 0.4rem;
