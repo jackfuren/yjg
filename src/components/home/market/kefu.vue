@@ -293,6 +293,13 @@ export default {
     jian() {
       this.yuyin = 0;
     },
+    yu() {
+      this.yuyin = 1;
+      // console.log(this.yuyin)
+    },
+    jian() {
+      this.yuyin = 0;
+    },
     init: function() {
       if (typeof WebSocket === "undefined") {
         alert("您的浏览器不支持socket");
@@ -344,22 +351,24 @@ export default {
     },
     //录制语音
     luzhi() {
-      console.log("1111");
       let that = this;
       // that.news_img = !that.news_img
+      // that.$nextTick(()=>{
       rc.start()
         .then(() => {
-          that.news_img = !that.news_img;
           console.log("start recording");
         })
         .catch(error => {
           Toast("获取麦克风失败");
           console.log("Recording failed.", error);
         });
+      // })
     },
     //录制结束发送语音
     jieshu() {
       let that = this;
+      rc.pause();
+      //获取pcm录音
       var wav = rc.getRecord({
         encodeTo: ENCODE_TYPE.WAV,
         compressible: true
@@ -388,6 +397,33 @@ export default {
           console.log(res);
           that.news_img = !that.news_img;
           this.content = "";
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      this.uplode(wav);
+    },
+    //上传音频
+    uplode(wav) {
+      var formData = new FormData();
+      var name = Date.parse(new Date()) + ".wav";
+      console.log(name);
+      formData.append("file", wav, name); // 'file' 这个名字要和后台获取文件的名字一样;
+      //formData.append('user_key', this.returnUserKey())
+      console.log(wav);
+      console.log(formData);
+      request({
+        url: "api/base/base64video",
+        method: "post",
+        data: {
+          file: formData
+        }
+      })
+        .then(res => {
+          console.log(res);
+          if (res.data.code == "0") {
+            Toast("没有说话");
+          }
         })
         .catch(err => {
           console.log(err);
@@ -879,7 +915,7 @@ export default {
 .time {
   background: #cccccc;
   color: #ffffff;
-  width: 1.5rem;
+  width: 1.75rem;
   font-size: 0.19rem;
   text-align: center;
   margin: 0.3rem auto 0.3rem auto;

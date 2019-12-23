@@ -394,7 +394,7 @@ export default {
           cart_id: this.cart_id
         }
       }).then(res => {
-        console.log(res);
+        // console.log(res);
         if (res.data.code == -1) {
           this.msg = res.data.code;
           this.location = true;
@@ -458,7 +458,7 @@ export default {
         this.youyo = [];
         this.youfei = [];
         this.heji = [];
-        console.log(this.heji);
+        // console.log(this.heji);
         for (let i = 0; i < this.listData.length; i++) {
           unYou();
           function unYou() {
@@ -471,15 +471,16 @@ export default {
                 cart_id: that.listData[i].cart_id
               }
             }).then(res => {
-              console.log(res);
+              // console.log(res);
               if (that.location != false) {
                 that.youfei.push(0);
               } else {
                 that.youyo.push(res.data.data);
                 for (let m in that.youyo) {
                   that.total_amount = 0;
+
                   if (that.listData[i].id == that.youyo[m].shop_id) {
-                    console.log(that.youyo[m].dispatchprice);
+                    // console.log(that.youyo[m].dispatchprice);
                     that.youfei.push(that.youyo[m].dispatchprice * 1);
                   }
                 }
@@ -509,6 +510,7 @@ export default {
         this.youyo = [];
         this.youfei = [];
         this.heji = [];
+        // console.log(this.listData);
         for (let i = 0; i < this.listData.length; i++) {
           request({
             url: "api/order/delivery",
@@ -537,18 +539,26 @@ export default {
               unFei();
               function unFei() {
                 if (that.listData[i].id == that.youyo[m].shop_id) {
-                  // console.log(this.youyo[m].need_paymoney);
+                  // console.log(that.youyo);
                   if (that.youyo[m].need_paymoney != undefined) {
                     that.ti = 0;
                     that.youfei.push(Number(that.youyo[m].need_paymoney)); //所有的邮费
                     that.price_token.push(that.youyo[m].price_token);
                     that.order_price.push(Number(that.youyo[m].total_money));
-                    console.log(that.youfei);
-                    that.heji.push(
-                      that.listData[i].totalprice -
-                        that.listData[i].coupon_price +
-                        that.youfei[i]
-                    ); //每个商家的合计
+                    na();
+                    function na() {
+                      that.heji.push(
+                        that.listData[i].totalprice -
+                          that.listData[i].coupon_price +
+                          that.youfei[i]
+                      );
+                      if (that.heji[i] == NaN) {
+                        console.log("我是na");
+                        na();
+                      }
+                    }
+                    console.log(that.listData[i]); //每个商家的合计
+                    console.log(that.heji);
                     for (let j = 0; j < that.heji.length; j++) {
                       that.total_amount += that.heji[j];
                     }
@@ -563,10 +573,7 @@ export default {
                     that.youfei.push(Number(that.youyo[m].need_paymoney)); //所有的邮费
                     that.price_token.push(that.youyo[m].price_token);
                     that.order_price.push(Number(that.youyo[m].total_money));
-                    console.log(that.heji);
-                    console.log(that.listData[i].totalprice);
-                    console.log(that.listData[i].coupon_price);
-                    console.log(that.youfei[i]);
+
                     if (that.youfei[i] != undefined) {
                       that.heji.push(
                         that.listData[i].totalprice -
@@ -599,7 +606,7 @@ export default {
         this.youfei = [];
         this.heji = [];
         this.total_amount = this.listData[0].totalprice;
-        console.log(this.listData[0].totalprice);
+        // console.log(this.listData[0].totalprice);
       }
     },
     Submit() {
@@ -624,7 +631,7 @@ export default {
           remark_member: this.listData[i].remark_member //不确定是什么
         });
       }
-      console.log(this.arrList);
+      // console.log(this.arrList);
       request({
         url: "api/order/ordersub",
         method: "post",
@@ -639,7 +646,7 @@ export default {
           takes_mobile: this.vaue
         }
       }).then(res => {
-        console.log(res);
+        // console.log(res);
         if (res.data.code == 200) {
           if (this.show == 1) {
             request({
@@ -658,7 +665,6 @@ export default {
               document.forms["alipaysubmit"].submit();
             });
           } else if (this.show == 2) {
-            console.log("22222222222222222");
             request({
               url: "api/payment/pay",
               method: "post",
@@ -668,7 +674,7 @@ export default {
                 out_trade_no: res.data.data.out_trade_no
               }
             }).then(res => {
-              console.log(res.data);
+              // console.log(res.data);
               window.location.href = res.data;
             });
           }
@@ -714,7 +720,7 @@ export default {
       this.idd = this.$route.query.idd;
     }
 
-    console.log(this.$route.query);
+    // console.log(this.$route.query);
     this.Fast();
   },
   computed: {},
