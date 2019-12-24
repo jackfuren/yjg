@@ -5,46 +5,51 @@
       <p>帮助中心</p>
     </div>
     <div class="concat">
-      <p>
+      <p @click="dingdan">
         订单查询
-        <van-icon size="0.3rem" style="float: right;position: relative;top: 0.35rem;color:#CCCCCC;" name="arrow" />
-      </p>
-      <p>
-        配送服务
-        <van-icon size="0.3rem" style="color:#CCCCCC;float: right;position: relative;top: 0.35rem" name="arrow" />
-      </p>
-      <p>
-        发货时间
         <van-icon
           size="0.3rem"
-          style="float: right;position: relative;top: 0.35rem"
+          style="float: right;position: relative;top: 0.35rem;color:#CCCCCC;"
           name="arrow"
         />
       </p>
-      <p>
+      <p @click="peisong">
+        配送服务
+        <van-icon
+          size="0.3rem"
+          style="color:#CCCCCC;float: right;position: relative;top: 0.35rem"
+          name="arrow"
+        />
+      </p>
+      <p @click="shijian">
+        发货时间
+        <van-icon size="0.3rem" style="float: right;position: relative;top: 0.35rem" name="arrow" />
+      </p>
+      <p @click="tuihuo">
         如何退货
         <van-icon size="0.3rem" style="float: right;position: relative;top: 0.35rem" name="arrow" />
       </p>
-      <p>
+      <p @click="wenti">
         问题商品
         <van-icon size="0.3rem" style="float: right;position: relative;top: 0.35rem" name="arrow" />
       </p>
-	  <p>
-	    商品错发/漏发
-	    <van-icon size="0.3rem" style="float: right;position: relative;top: 0.35rem" name="arrow" />
-	  </p>
-	  <p>
-	    假货投诉
-	    <van-icon size="0.3rem" style="float: right;position: relative;top: 0.35rem" name="arrow" />
-	  </p>
-	  <p>
-	    账号申诉
-	    <van-icon size="0.3rem" style="float: right;position: relative;top: 0.35rem" name="arrow" />
-	  </p>
+      <p @click="shangpinH">
+        商品错发/漏发
+        <van-icon size="0.3rem" style="float: right;position: relative;top: 0.35rem" name="arrow" />
+      </p>
+      <p @click="jiahuo">
+        假货投诉
+        <van-icon size="0.3rem" style="float: right;position: relative;top: 0.35rem" name="arrow" />
+      </p>
     </div>
-    <p class="box-p">联系客服</p>
+    <p class="box-p" @click="kefu">联系客服</p>
   </div>
 </template>
+
+
+
+
+
 
 <script>
 export default {
@@ -57,6 +62,58 @@ export default {
       this.$router.push({
         name: "My"
       });
+    },
+    dingdan() {
+      this.$router.push({
+        name: "dingdan"
+      });
+    },
+    peisong() {
+      console.log("aaaaaaaa");
+      this.$router.push({
+        name: "peisong"
+      });
+    },
+    shijian() {
+      this.$router.push({
+        name: "shijian"
+      });
+    },
+    tuihuo() {
+      this.$router.push({
+        name: "tuihuo"
+      });
+    },
+    wenti() {
+      this.$router.push({
+        name: "wenti"
+      });
+    },
+    shangpinH() {
+      this.$router.push({
+        name: "shangpinH"
+      });
+    },
+    jiahuo() {
+      this.$router.push({
+        name: "jiahuo"
+      });
+    },
+    kefu() {
+      if (this.$store.state.username == null) {
+        this.$router.push({
+          name: "regi"
+        });
+      } else {
+        this.$router.push({
+          name: "kf",
+          query: {
+            sid: 5,
+            name: "沿街购",
+            token: 91
+          }
+        });
+      }
     }
   }
 };
@@ -85,8 +142,8 @@ export default {
   font-weight: 500;
   color: rgba(51, 51, 51, 1);
 }
-.concat .van-icon{
-	color: #CCCCCC;
+.concat .van-icon {
+  color: #cccccc;
 }
 .nav-left {
   position: absolute;

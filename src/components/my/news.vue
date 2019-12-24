@@ -97,8 +97,9 @@ export default {
       });
     },
     xi(index) {
-      console.log(index);
       console.log(this.resList[index].uid.split("shop")[1]);
+      console.log(this.resList[index].id)
+
       this.$router.push({
         name: "kf",
         query: {

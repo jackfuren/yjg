@@ -166,7 +166,10 @@ export default {
     },
     market(i) {
       this.$router.push({
-        name: "mar"
+        name: "mar",
+        query:{
+          token:""
+        }
       });
       window.sessionStorage.setItem("SQ", JSON.stringify(i));
     },

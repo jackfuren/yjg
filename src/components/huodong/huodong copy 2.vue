@@ -13,19 +13,23 @@
       <div class="allow"></div>
       <div class="category_list">
         <section class="wai">
-          <ul>
-            <li
-              :class="{active:index === num}"
-              :key="index"
-              @click="tab(item.title,item.code,index)"
-              v-for="(item,index) in titleItem"
-            >
-              <p>
-                <span>{{item.title}}</span>
-              </p>
-            </li>
-          </ul>
-          <div id="acti"></div>
+          <section class="titleList">
+            <div class="nei">
+              <ul>
+                <li
+                  :class="{active:index === num}"
+                  :key="index"
+                  @click="tab(item,index)"
+                  v-for="(item,index) in titleItem"
+                >
+                  <p>
+                    <span>{{item.title}}</span>
+                  </p>
+                </li>
+              </ul>
+              <div id="acti"></div>
+            </div>
+          </section>
         </section>
         <div class="category_list_items">
           <div class="category_list_items-div">
@@ -109,30 +113,46 @@ export default {
       },
       carselist: [],
       titleItem: [
-        { title: "新品", code: 2 },
-        { title: "热销", code: 3 },
-        { title: "促销", code: 5 },
-        { title: "清仓", code: 1 }
+        {
+          title: "热销"
+        },
+        {
+          title: "折扣"
+        },
+        {
+          title: "新品"
+        },
+        {
+          title: "团购"
+        },
+        {
+          title: "促销"
+        },
+        {
+          title: "优选"
+        },
+        {
+          title: "特价"
+        }
       ],
-      contents: [],
-      code: 1
+      contents: []
     };
   },
   methods: {
-    tab(item, code, index) {
-      document.getElementById("acti").style.left = 0.68 + index * 1.885 + "rem";
+    tab(item, index) {
+      document.getElementById("acti").style.left = 0.7 + index * 1.885 + "rem";
       this.num = index;
-      this.code = code;
       this.title = item.title;
       request({
         url: "api/activity/index",
         method: "post",
         data: {
-          type: this.code,
+          type: this.num,
           lat: window.localStorage.getItem("lat"),
           lng: window.localStorage.getItem("lng")
         }
       }).then(res => {
+        console.log(this.$store.state.lat, this.$store.state.lng);
         this.contents = res.data.data;
         console.log(res);
       });
@@ -280,8 +300,15 @@ export default {
   z-index: 9999;
   border-bottom: 2px solid rgb(247, 247, 247);
   background-color: white;
+}
+.titleList {
   width: 100%;
+  overflow-x: scroll;
   padding-bottom: 0.1rem;
+}
+.nei {
+  width: 13.2rem;
+  position: relative;
 }
 .category_list ul {
   width: 100%;
@@ -313,7 +340,7 @@ export default {
   position: absolute;
   background-color: red;
   bottom: 0rem;
-  left: 0.68rem;
+  left: 0.7rem;
   transition: all 0.2s;
 }
 .category_list ul li.active {

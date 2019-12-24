@@ -66,26 +66,26 @@ export default {
     fh() {
       var tokrnn = window.sessionStorage.getItem("lijitoken");
       var list = JSON.parse(window.sessionStorage.getItem("llll"));
-
-      if (tokrnn == 1) {
-        this.$router.push({
-          name: "js",
-          query: {
-            cart_id: list.A,
-            total_amount: list.B,
-            selected_products: list.C,
-            token: list.D,
-            id: list.E,
-            idd: list.F
-          }
-        });
-      } else if (tokrnn == 2) {
-        this.$router.push({
-          name: "set"
-        });
-      } else {
-        this.$router.go(-1);
-      }
+      this.$router.go(-1);
+      // if (tokrnn == 1) {
+      //   this.$router.push({
+      //     name: "js",
+      //     query: {
+      //       cart_id: list.A,
+      //       total_amount: list.B,
+      //       selected_products: list.C,
+      //       token: list.D,
+      //       id: list.E,
+      //       idd: list.F
+      //     }
+      //   });
+      // } else if (tokrnn == 2) {
+      //   this.$router.push({
+      //     name: "set"
+      //   });
+      // } else {
+      //   this.$router.go(-1);
+      // }
     },
     xj() {
       this.$router.push({

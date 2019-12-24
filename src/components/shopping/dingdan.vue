@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="concat">
-        <div class="concat-a">
+        <div class="concat-a" @click="dpLink(dataList.shop_id)">
           <img alt src="../../assets/dingdan_dianpu.png" />
           <p>{{dataList.sname}}</p>
         </div>
@@ -281,6 +281,14 @@ export default {
         .catch(() => {
           //点击取消按钮后的调用
         });
+    },
+    dpLink(sid) {
+      this.$router.push({
+        name: "dpxq",
+        query: {
+          shop_id: sid
+        }
+      });
     }
   },
   mounted() {
@@ -679,7 +687,6 @@ export default {
 .fz {
   width: 0.6rem;
   height: 0.3rem;
-  /* padding: 0 0.1rem 0 0.1rem; */
   border-radius: 10px;
   line-height: 0.3rem;
   background: #ef0600;

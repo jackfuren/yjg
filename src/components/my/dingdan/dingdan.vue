@@ -14,11 +14,13 @@
           </div>
           <div class="concat" v-for="(item ,index) in dataList" :key="index">
             <div>
-              <img src="../../../assets/gouwuche_icon.png" alt />
-              <span class="div-span">
-                {{item.name}}
-                <van-icon name="arrow" style="position:relative;top: 0.035rem" />
-              </span>
+              <div @click="dpLink(item.sid)">
+                <img src="../../../assets/gouwuche_icon.png" alt />
+                <span class="div-span">
+                  {{item.name}}
+                  <van-icon name="arrow" style="position:relative;top: 0.035rem" />
+                </span>
+              </div>
               <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
               <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
               <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
@@ -63,8 +65,10 @@
         </van-tab>
         <van-tab title="待付款" class="tabsCon">
           <div class="concat-there" v-if="arrList.length == 0 ? true : false">
-            <img src="../../../assets/daifukuan.png" alt />
-            <p>没有待付款订单</p>
+            <div>
+              <img src="../../../assets/daifukuan.png" alt />
+              <p>没有待付款订单</p>
+            </div>
           </div>
           <div
             class="concat"
@@ -73,11 +77,13 @@
             :key="index"
           >
             <div>
-              <img src="../../../assets/gouwuche_icon.png" alt />
-              <span class="div-span">
-                {{item.name}}
-                <van-icon name="arrow" style="position:relative;top: 0.035rem" />
-              </span>
+              <div @click="dpLink(item.sid)">
+                <img src="../../../assets/gouwuche_icon.png" alt />
+                <span class="div-span">
+                  {{item.name}}
+                  <van-icon name="arrow" style="position:relative;top: 0.035rem" />
+                </span>
+              </div>
               <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
               <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
               <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
@@ -115,8 +121,10 @@
         </van-tab>
         <van-tab title="待发货" class="tabsCon">
           <div class="concat-there" v-if="arrList.length == 0 ? true : false">
-            <img src="../../../assets/diafahuo.png" alt />
-            <p>没有待发货订单</p>
+            <div>
+              <img src="../../../assets/diafahuo.png" alt />
+              <p>没有待发货订单</p>
+            </div>
           </div>
           <div
             class="concat"
@@ -125,11 +133,13 @@
             :key="index"
           >
             <div>
-              <img src="../../../assets/gouwuche_icon.png" alt />
-              <span class="div-span">
-                {{item.name}}
-                <van-icon name="arrow" style="position:relative;top: 0.035rem" />
-              </span>
+              <div @click="dpLink(item.sid)">
+                <img src="../../../assets/gouwuche_icon.png" alt />
+                <span class="div-span">
+                  {{item.name}}
+                  <van-icon name="arrow" style="position:relative;top: 0.035rem" />
+                </span>
+              </div>
               <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
               <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
               <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
@@ -166,8 +176,10 @@
         </van-tab>
         <van-tab title="待收货" class="tabsCon">
           <div class="concat-there" v-if="arrList.length == 0 ? true : false">
-            <img src="../../../assets/daishouhuo.png" alt />
-            <p>没有待收货订单</p>
+            <div>
+              <img src="../../../assets/daishouhuo.png" alt />
+              <p>没有待收货订单</p>
+            </div>
           </div>
           <div
             class="concat"
@@ -176,11 +188,13 @@
             :key="index"
           >
             <div>
-              <img src="../../../assets/gouwuche_icon.png" alt />
-              <span class="div-span">
-                {{item.name}}
-                <van-icon name="arrow" style="position:relative;top: 0.035rem" />
-              </span>
+              <div @click="dpLink(item.sid)">
+                <img src="../../../assets/gouwuche_icon.png" alt />
+                <span class="div-span">
+                  {{item.name}}
+                  <van-icon name="arrow" style="position:relative;top: 0.035rem" />
+                </span>
+              </div>
               <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
               <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
               <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
@@ -210,16 +224,22 @@
                 >{{item.money}}</span>
               </p>
               <p class="fir" @click="queren(item.oid)" v-show="item.status == 3? true:false">确认收货</p>
-              <p class="qpo" @click="wuliu(item.oid)" v-show="item.status == 3? true:false">查看物流</p>
-              <p class="mlo" v-show="item.send_type == 2? true:false">自取订单</p>
+              <p
+                class="qpo"
+                @click="wuliu(item.oid)"
+                v-show="item.status == 3  && item.send_type !=0? true:false"
+              >查看物流</p>
+              <p class="mlo" v-show="item.send_type == 0? true:false">自取订单</p>
               <p class="mlo" v-show="item.send_type == 1? true:false">配送订单</p>
             </div>
           </div>
         </van-tab>
         <van-tab title="待评价">
           <div class="concat-there" v-if="arrList.length == 0 ? true : false">
-            <img src="../../../assets/daipingjia.png" alt />
-            <p>没有待评价订单</p>
+            <div>
+              <img src="../../../assets/daipingjia.png" alt />
+              <p>没有待评价订单</p>
+            </div>
           </div>
           <div
             class="concat"
@@ -228,11 +248,13 @@
             :key="index"
           >
             <div>
-              <img src="../../../assets/gouwuche_icon.png" alt />
-              <span class="div-span">
-                {{item.name}}
-                <van-icon name="arrow" style="position:relative;top: 0.035rem" />
-              </span>
+              <div @click="dpLink(item.sid)">
+                <img src="../../../assets/gouwuche_icon.png" alt />
+                <span class="div-span">
+                  {{item.name}}
+                  <van-icon name="arrow" style="position:relative;top: 0.035rem" />
+                </span>
+              </div>
               <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
               <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
               <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
@@ -440,9 +462,9 @@ export default {
       });
     },
     All(item) {
-      //1快递2配送3自取
+      //1快递2配送0自取
       console.log(item.send_type);
-      if (item.send_type == 0) {
+      if (item.send_type == 1) {
         //快递
         if (item.status == 1) {
           this.$router.push({
@@ -485,7 +507,7 @@ export default {
             }
           });
         }
-      } else if (item.send_type == 1) {
+      } else if (item.send_type == 2) {
         //配送
         if (item.status == 1) {
           this.$router.push({
@@ -505,7 +527,7 @@ export default {
             }
           });
         }
-      } else if (item.send_type == 2) {
+      } else if (item.send_type == 0) {
         //自取
         if (item.status == 1) {
           this.$router.push({
@@ -580,6 +602,16 @@ export default {
         name: "sqsh",
         query: {
           id: i
+        }
+      });
+    },
+    dpLink(sid) {
+      console.log("aaaaaaaaaaaaaaaa");
+      console.log(sid);
+      this.$router.push({
+        name: "dpxq",
+        query: {
+          shop_id: sid
         }
       });
     }
@@ -890,10 +922,13 @@ export default {
   margin-right: 0.2rem;
 }
 .concat-there {
-  position: relative;
-  top: 4.5rem;
+  height: 90vh;
   font-size: 0.28rem;
   color: #333333;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0 2rem;
 }
 
 .concat-there img {

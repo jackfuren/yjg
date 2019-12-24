@@ -2,7 +2,7 @@
   <div class="box">
     <div class="nav-top">
       <div class="nav">
-		  <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+        <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt />
         <!-- <van-icon @click="fh()" class="nav-left" color="#FFFFFF" name="arrow-left" size="0.5rem" /> -->
         <p style="color: white">订单详情</p>
         <p class="nav-top-p">买家已发货</p>
@@ -85,7 +85,7 @@
       </p>
       <div class="liann">
         <div>
-          <p>
+          <p @click="kefu">
             <img alt src="../../assets/kehufuwu.png" />联系客服
           </p>
         </div>
@@ -175,6 +175,16 @@ export default {
         .catch(() => {
           //点击取消按钮后的调用
         });
+    },
+    kefu() {
+      this.$router.push({
+        name: "kf",
+        query: {
+          sid: this.listData.shop_id,
+          name: this.listData.sname,
+          token: 90
+        }
+      });
     }
   },
   mounted() {
@@ -215,7 +225,7 @@ export default {
 }
 
 .nav-left {
-	width: 0.55rem;
+  width: 0.55rem;
   position: absolute;
   left: 0.25rem;
   top: 0.2rem;

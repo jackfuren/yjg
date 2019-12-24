@@ -49,18 +49,27 @@
         </div>
         <div class="nav-wl" v-show="shou.length>0 ? true : false">
           <p>最近物流</p>
-          <div class="nav-qs" @click="wuliu()">
-            <div class="nav-qsp" v-for="(imet,index) in shou" :key="index">
+          <div class="nav-qs">
+            <div
+              class="nav-qsp"
+              v-for="(imet,index) in shou"
+              :key="index"
+              v-if="imet.send_type==1"
+              @click="wuliu(imet.expresscom,imet.expresssn)"
+            >
               <img :src="imet.goods[0].headimg" alt />
               <div class="nav-right">
-                <van-checkbox
-                  checked-color="#EF0600"
-                  disabled
-                  class="dian"
-                  label-position="right"
-                  v-model="item"
-                ></van-checkbox>
-                <p class="dsd">您的快件已经发货</p>
+                <div>
+                  <van-checkbox
+                    checked-color="#EF0600"
+                    disabled
+                    class="dian"
+                    label-position="right"
+                    v-model="item"
+                  ></van-checkbox>
+                  <span class="tit">{{imet.goods[0].gitle}}</span>
+                </div>
+                <p class="dsd">您的快件已经{{imet.wul.status}}</p>
               </div>
             </div>
           </div>
@@ -90,7 +99,7 @@
             <p>设置</p>
           </div>
         </div>
-		<div style="height: 0.15rem;"></div>
+        <div style="height: 0.15rem;"></div>
       </div>
       <div class="nav-hy">
         <img src="../../assets/huiyuan.png" alt />
@@ -153,7 +162,8 @@ export default {
       shop: 0, //商品长度
       stor: 0, //店铺长度
       coupon: 0, //优惠券
-      ddd: []
+      ddd: [],
+      wul: []
     };
   },
   methods: {
@@ -180,9 +190,15 @@ export default {
         name: "ddd"
       });
     },
-    wuliu() {
+    wuliu(expresscom, expresssn) {
+      console.log(expresscom);
+      console.log(expresssn);
       this.$router.push({
-        name: "wl"
+        name: "wl",
+        query: {
+          expresscom: expresscom,
+          dan: expresssn
+        }
       });
     },
     xiaoxi() {
@@ -270,6 +286,7 @@ export default {
       window.sessionStorage.setItem("reg", 4);
     },
     Name() {
+      console.log(this.$store.state.username.username);
       if (this.$store.state.username == null) {
         this.name = "点击登录/注册";
       } else {
@@ -287,6 +304,7 @@ export default {
       }
     },
     dingdan() {
+      var that = this;
       request({
         //我的订单
         url: "api/users/order",
@@ -311,7 +329,23 @@ export default {
             this.ping.push(res.data.data[i]);
           }
         }
+        this.request({
+          url: "api/users/logistics",
+          method: "post",
+          data: {
+            user_id: this.$store.state.username.id
+          }
+        }).then(res => {
+          that.wul = JSON.parse(res.data.msg);
+          for (var ind = that.wul.length; ind >= 0; ind--) {
+            for (var i in that.shou) {
+              that.shou[i].wul = that.wul[ind];
+            }
+          }
+          console.log(that.shou);
+        });
       });
+
       this.request({
         url: "api/order/aftersale",
         method: "post",
@@ -550,10 +584,11 @@ export default {
 }
 
 .dsd {
-  position: relative;
-  top: 0.5rem;
-  right: 1.25rem;
+  text-align: left;
   color: black;
+  position: relative;
+  top: 0.1rem;
+  left: 0.65rem;
   font-size: 0.2rem;
 }
 
@@ -619,5 +654,20 @@ export default {
   height: 0.3rem;
   line-height: 0.3rem;
   font-size: 0.24rem;
+}
+
+.nav-right > div {
+  display: flex;
+  align-items: center;
+}
+.tit {
+  margin-left: 0.1rem;
+  width: 4.5rem;
+  display: inline-block;
+  text-align: left;
+  font-size: 0.28rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

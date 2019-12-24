@@ -144,7 +144,7 @@
           </span>
         </p>
         <p @click="can()">
-          尺码表&参数
+          商品参数
           <van-icon
             color="#777777"
             name="arrow"
@@ -298,7 +298,7 @@
         close-icon-position="top-left"
         class="canshu"
       >
-        <h2>尺码表&参数</h2>
+        <h2>商品参数</h2>
 
         <table class="chima">
           <tr v-for="(item,index) in canList" :key="index">
@@ -1111,7 +1111,7 @@ export default {
         name: "wpxq",
         query: {
           goods_id: i,
-          token: this.token,
+          token: 5,
           id: this.goods_id
         }
       });

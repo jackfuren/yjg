@@ -23,7 +23,7 @@
         </div>
         <div class="dz" v-if="locationn">
           <img alt src="../../assets/dingdan_dizhi.png" />
-          <div class="dz-a" v-if="song!=2">
+          <div class="dz-a" v-if="song!=2" @click="site()">
             <p>
               {{listarr.consignee}}
               <span>{{listarr.phone}}</span>
@@ -176,7 +176,7 @@
         <div>
           共{{selected_products}}件
           <span>合计:</span>
-          <span>￥{{total_amount.toFixed(2)}}</span>
+          <span>￥{{total_amount}}</span>
         </div>
         <div v-show="ti ===0 ? true : false" @click="Submit()">提交订单</div>
         <div style="background: #CCCCCC;" v-show="ti ===1 ? true : false">提交订单</div>
@@ -422,6 +422,7 @@ export default {
           for (var j = 0; j < this.pu.length; j++) {
             a += this.pu[j];
           }
+
           //通过判断每个店铺的is_public相加是否等于0，不是0则代表有店铺同意平台优惠券。此时判断平台是否有优惠券
           if (a != 0 && res.data.data.ping_coupon.length != 0) {
             this.is_public = 1;
@@ -546,13 +547,28 @@ export default {
                     that.youfei.push(Number(that.youyo[m].need_paymoney)); //所有的邮费
                     that.price_token.push(that.youyo[m].price_token);
                     that.order_price.push(Number(that.youyo[m].total_money));
-                    that.heji.push(
-                      that.listData[i].totalprice -
-                        that.listData[i].coupon_price +
-                        that.youfei[i]
-                    );
+                    na();
+                    function na() {
+                      that.heji.push(
+                        that.listData[i].totalprice -
+                          that.listData[i].coupon_price +
+                          that.youfei[i]
+                      );
+                      if (that.heji[i] == null) {
+                        console.log("我是na");
+                        // that.heji=[];
+                        console.log(that.heji);
+                        unFei();
+                      }
+                    }
                     console.log(that.listData[i]); //每个商家的合计
-                    console.log(that.heji);
+                    var heji = that.heji;
+                    that.heji = [];
+                    for (var ind in heji) {
+                      if (heji[ind] != null) {
+                        that.heji.push(heji[ind]);
+                      }
+                    }
                     for (let j = 0; j < that.heji.length; j++) {
                       that.total_amount += that.heji[j];
                     }
@@ -608,14 +624,12 @@ export default {
       if (this.msg == "-1") {
         Toast("您还没有设置地址");
       }
-      console.log(this.tim);
-      if (this.tim == "请选择自取时间") {
+
+      if (this.show == 2 && this.tim == "请选择自取时间") {
         Toast("请选择自取时间");
         this.ti = 0;
-        
         return;
       }
-
       this.arrList = [];
       for (var i = 0; i < this.listData.length; i++) {
         if (this.youfei[i] == undefined) {

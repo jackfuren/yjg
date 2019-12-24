@@ -85,7 +85,7 @@
         </p>
         <div class="liann">
           <div>
-            <p>
+            <p @click="kefu">
               <img alt src="../../assets/kehufuwu.png" />联系客服
             </p>
           </div>
@@ -181,6 +181,16 @@ export default {
         .catch(() => {
           //点击取消按钮后的调用
         });
+    },
+    kefu() {
+      this.$router.push({
+        name: "kf",
+        query: {
+          sid: this.listData.shop_id,
+          name: this.listData.sname,
+          token: 90
+        }
+      });
     }
   },
   mounted() {

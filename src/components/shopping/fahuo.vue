@@ -81,7 +81,7 @@
           <span>{{listData.paytime}}</span>
         </p>
         <div class="liann">
-          <div>
+          <div @click="kefu">
             <p>
               <img alt src="../../assets/kehufuwu.png" />联系客服
             </p>
@@ -138,9 +138,12 @@ export default {
           s_id: this.listData.shop_id
         }
       }).then(res => {
-        console.log(res);
-        if (res.data.data.code == 200) {
+        console.log(res.data);
+        if (res.data.code == 200) {
           Toast("已提醒商家尽快发货");
+        } else {
+          console.log("aaa");
+          Toast(res.data.msg);
         }
       });
       // Toast("已提醒商家尽快发货")
@@ -203,11 +206,20 @@ export default {
       });
     },
     dpLink() {
-      console.log("aaaaaaaaaaaa");
       this.$router.push({
         name: "dpxq",
         query: {
           shop_id: this.listData.shop_id
+        }
+      });
+    },
+    kefu() {
+      this.$router.push({
+        name: "kf",
+        query: {
+          sid: this.listData.shop_id,
+          name: this.listData.sname,
+          token: 90
         }
       });
     }

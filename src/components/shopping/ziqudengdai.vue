@@ -87,7 +87,7 @@
           <span>{{listData.paytime}}</span>
         </p>
         <div class="liann">
-          <div>
+          <div @click="kefu">
             <p>
               <img alt src="../../assets/kehufuwu.png" />联系客服
             </p>
@@ -183,6 +183,16 @@ export default {
         .catch(() => {
           //点击取消按钮后的调用
         });
+    },
+    kefu() {
+      this.$router.push({
+        name: "kf",
+        query: {
+          sid: this.listData.shop_id,
+          name: this.listData.sname,
+          token: 90
+        }
+      });
     }
   },
   mounted() {

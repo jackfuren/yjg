@@ -65,7 +65,7 @@ export default {
       this.selectDay = this.nowDay;
       //使用 this.$emit('input',data)改变父组件中v-model绑定的属性值
       this.$emit("sendmsg", this.deliveryTimeList[this.selectDay].day + text);
-      this.cansel();
+      this.cansel()
       // conso
       this.$emit("select-time");
     },
@@ -131,17 +131,49 @@ export default {
       function getTimeList(hour, minut) {
         let timeList = [];
         let startTime = hour < 9 ? 9 : hour;
-
-        for (let i = 0; i < 21 - startTime; i++) {
-          timeList.push(
-            startTime + i + ":00" + "-" + (startTime + i + 1) + ":00"
-          );
+        if (minut < 30) {
+          for (let i = 0; i < 21 - startTime; i++) {
+            for (let j = 0; j < 2; j++) {
+              if (j % 2 === 0) {
+                timeList.push(
+                  startTime + i + ":00" + "-" + (startTime + i) + ":30"
+                );
+              } else {
+                timeList.push(
+                  startTime + i + ":30" + "-" + (startTime + i + 1) + ":00"
+                );
+              }
+            }
+          }
+        } else {
+          for (let i = 0; i < 21 - startTime; i++) {
+            for (let j = 0; j < 2; j++) {
+              if (j % 2) {
+                if (i !== 20 - startTime) {
+                  timeList.push(
+                    startTime +
+                      1 +
+                      i +
+                      ":00" +
+                      "-" +
+                      (startTime + 1 + i) +
+                      ":30"
+                  );
+                }
+              } else {
+                timeList.push(
+                  startTime + i + ":30" + "-" + (startTime + i + 1) + ":00"
+                );
+              }
+            }
+          }
         }
         return timeList;
       }
     },
-    cansel() {
-      this.$emit("cansel");
+    cansel(){
+      console.log('sadas')
+      this.$emit('cansel')
     }
   }
 };
@@ -156,10 +188,9 @@ export default {
   background-color: white;
   z-index: 10000;
 }
-.select,
-.cansel {
+.select,.cansel{
   font-size: 0.3rem;
-  padding: 0.2rem 0;
+  padding:0.2rem 0;
 }
 .cansel {
   width: 100%;

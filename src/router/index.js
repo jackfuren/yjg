@@ -3,126 +3,126 @@ import Router from 'vue-router'
 import store from "../store"
 
 //使用reqiure.ensure路由懒加载
-const  home = resolve=>{
-  require.ensure(['@/components/home/home'],()=>{
+const home = resolve => {
+  require.ensure(['@/components/home/home'], () => {
     resolve(require('@/components/home/home'));
   })
 }
-const  pinpaixq = resolve=>{
-  require.ensure(['@/components/home/market/pinpaixiangqing'],()=>{
+const pinpaixq = resolve => {
+  require.ensure(['@/components/home/market/pinpaixiangqing'], () => {
     resolve(require('@/components/home/market/pinpaixiangqing'));
   })
 }
-const  fujin = resolve=>{
-  require.ensure(['@/components/home/market/julizuijinquanbu'],()=>{
+const fujin = resolve => {
+  require.ensure(['@/components/home/market/julizuijinquanbu'], () => {
     resolve(require('@/components/home/market/julizuijinquanbu'));
   })
 }
-const  gps = resolve=>{
-  require.ensure(['@/components/home/GPS'],()=>{
+const gps = resolve => {
+  require.ensure(['@/components/home/GPS'], () => {
     resolve(require('@/components/home/GPS'));
   })
 }
-const  seek = resolve=>{
-  require.ensure(['@/components/home/seek'],()=>{
+const seek = resolve => {
+  require.ensure(['@/components/home/seek'], () => {
     resolve(require('@/components/home/seek'));
   })
 }
-const  qd = resolve=>{
-  require.ensure(['@/components/home/qiandao/qiandao'],()=>{
+const qd = resolve => {
+  require.ensure(['@/components/home/qiandao/qiandao'], () => {
     resolve(require('@/components/home/qiandao/qiandao'));
   })
 }
-const wdqd = resolve=>{
-  require.ensure(['@/components/home/qiandao/wodeqiandao'],()=>{
+const wdqd = resolve => {
+  require.ensure(['@/components/home/qiandao/wodeqiandao'], () => {
     resolve(require('@/components/home/qiandao/wodeqiandao'));
   })
 }
-const  mar = resolve=>{
-  require.ensure(['@/components/home/market/market'],()=>{
+const mar = resolve => {
+  require.ensure(['@/components/home/market/market'], () => {
     resolve(require('@/components/home/market/market'));
   })
 }
-const dpxq = resolve=>{
-  require.ensure(['@/components/home/market/dianpuxianqing'],()=>{
+const dpxq = resolve => {
+  require.ensure(['@/components/home/market/dianpuxianqing'], () => {
     resolve(require('@/components/home/market/dianpuxianqing'));
   })
 }
-const wpxq = resolve=>{
-  require.ensure(['@/components/home/market/wupinxiangqing'],()=>{
+const wpxq = resolve => {
+  require.ensure(['@/components/home/market/wupinxiangqing'], () => {
     resolve(require('@/components/home/market/wupinxiangqing'));
   })
 }
-const sypj = resolve=>{
-  require.ensure(['@/components/home/market/suoyoupingjia'],()=>{
+const sypj = resolve => {
+  require.ensure(['@/components/home/market/suoyoupingjia'], () => {
     resolve(require('@/components/home/market/suoyoupingjia'));
   })
 }
-const jb = resolve=>{
-  require.ensure(['@/components/home/market/jubao'],()=>{
+const jb = resolve => {
+  require.ensure(['@/components/home/market/jubao'], () => {
     resolve(require('@/components/home/market/jubao'));
   })
 }
 
 
-const shops = resolve=>{
-  require.ensure(['@/components/home/market/shops'],()=>{ //商家信息
+const shops = resolve => {
+  require.ensure(['@/components/home/market/shops'], () => { //商家信息
     resolve(require('@/components/home/market/shops'));
   })
 }
-const ssxqy = resolve=>{
-  require.ensure(['@/components/home/market/sousuoxianqingye'],()=>{
+const ssxqy = resolve => {
+  require.ensure(['@/components/home/market/sousuoxianqingye'], () => {
     resolve(require('@/components/home/market/sousuoxianqingye'));
   })
 }
-const kf = resolve=>{
-  require.ensure(['@/components/home/market/kefu'],()=>{
+const kf = resolve => {
+  require.ensure(['@/components/home/market/kefu'], () => {
     resolve(require('@/components/home/market/kefu'));
   })
 }
 
-const reimai = resolve=>{
-  require.ensure(['@/components/home/reima/reimai'],()=>{
+const reimai = resolve => {
+  require.ensure(['@/components/home/reima/reimai'], () => {
     resolve(require('@/components/home/reima/reimai'));
   })
 }
-const com = resolve=>{
-  require.ensure(['@/components/home/reima/complete'],()=>{
+const com = resolve => {
+  require.ensure(['@/components/home/reima/complete'], () => {
     resolve(require('@/components/home/reima/complete'));
   })
 }
-const dm = resolve=>{
-  require.ensure(['@/components/home/duanma'],()=>{
+const dm = resolve => {
+  require.ensure(['@/components/home/duanma'], () => {
     resolve(require('@/components/home/duanma'));
   })
 }
-const tj = resolve=>{
-  require.ensure(['@/components/home/tejia'],()=>{
+const tj = resolve => {
+  require.ensure(['@/components/home/tejia'], () => {
     resolve(require('@/components/home/tejia'));
   })
 }
-const ph = resolve=>{
-  require.ensure(['@/components/home/paihang'],()=>{
+const ph = resolve => {
+  require.ensure(['@/components/home/paihang'], () => {
     resolve(require('@/components/home/paihang'));
   })
 }
 
 // 活动
-const hd = resolve=>{
-  require.ensure(['@/components/huodong/huodong'],()=>{
+const hd = resolve => {
+  require.ensure(['@/components/huodong/huodong'], () => {
     resolve(require('@/components/huodong/huodong'));
   })
 }
 
 //购物车
 
-const Shop = resolve=>{
-  require.ensure(['@/components/shopping/cart'],()=>{
+const Shop = resolve => {
+  require.ensure(['@/components/shopping/cart'], () => {
     resolve(require('@/components/shopping/cart'));
   })
 }
-const js = resolve=>{
-  require.ensure(['@/components/shopping/jiesuan'],()=>{
+const js = resolve => {
+  require.ensure(['@/components/shopping/jiesuan'], () => {
     resolve(require('@/components/shopping/jiesuan'));
   })
 }
@@ -131,249 +131,298 @@ const js = resolve=>{
 //     resolve(require('@/components/shopping/timePicker'));
 //   })
 // }
-const dd = resolve=>{
-  require.ensure(['@/components/shopping/dingdan'],()=>{
+const dd = resolve => {
+  require.ensure(['@/components/shopping/dingdan'], () => {
     resolve(require('@/components/shopping/dingdan'));
   })
 }
 
-const qx = resolve=>{
-  require.ensure(['@/components/shopping/quxiaodiangdan'],()=>{
+const qx = resolve => {
+  require.ensure(['@/components/shopping/quxiaodiangdan'], () => {
     resolve(require('@/components/shopping/quxiaodiangdan'));
   })
 }
-const fh = resolve=>{
-  require.ensure(['@/components/shopping/fahuo'],()=>{
+const fh = resolve => {
+  require.ensure(['@/components/shopping/fahuo'], () => {
     resolve(require('@/components/shopping/fahuo'));
   })
 }
-const zqfk = resolve=>{
-  require.ensure(['@/components/shopping/ziqufukuan'],()=>{
+const zqfk = resolve => {
+  require.ensure(['@/components/shopping/ziqufukuan'], () => {
     resolve(require('@/components/shopping/ziqufukuan'));
   })
 }
-const sh = resolve=>{
-  require.ensure(['@/components/shopping/shouhuo'],()=>{
+const sh = resolve => {
+  require.ensure(['@/components/shopping/shouhuo'], () => {
     resolve(require('@/components/shopping/shouhuo'));
   })
 }
-const pssj = resolve=>{
-  require.ensure(['@/components/shopping/peisongshangjia'],()=>{
+const pssj = resolve => {
+  require.ensure(['@/components/shopping/peisongshangjia'], () => {
     resolve(require('@/components/shopping/peisongshangjia'));
   })
 }
-const psw = resolve=>{
-  require.ensure(['@/components/shopping/peisongwan'],()=>{
+const psw = resolve => {
+  require.ensure(['@/components/shopping/peisongwan'], () => {
     resolve(require('@/components/shopping/peisongwan'));
   })
 }
-const pjcg = resolve=>{
-  require.ensure(['@/components/shopping/pingjiacg'],()=>{
+const pjcg = resolve => {
+  require.ensure(['@/components/shopping/pingjiacg'], () => {
     resolve(require('@/components/shopping/pingjiacg'));
   })
 }
-const wl = resolve=>{
-  require.ensure(['@/components/shopping/wuliu'],()=>{
+const wl = resolve => {
+  require.ensure(['@/components/shopping/wuliu'], () => {
     resolve(require('@/components/shopping/wuliu'));
   })
 }
 
 //我的
-const My = resolve=>{
-  require.ensure(['@/components/my/myCenter'],()=>{
+const My = resolve => {
+  require.ensure(['@/components/my/myCenter'], () => {
     resolve(require('@/components/my/myCenter'));
   })
 }
-const cs = resolve=>{
-  require.ensure(['@/components/cheshi'],()=>{
+const cs = resolve => {
+  require.ensure(['@/components/cheshi'], () => {
     resolve(require('@/components/cheshi'));
   })
 }
-const Help = resolve=>{
-  require.ensure(['@/components/my/Help/help'],()=>{
+const Help = resolve => {
+  require.ensure(['@/components/my/Help/help'], () => {
     resolve(require('@/components/my/Help/help'));
   })
 }
 
-const  cus = resolve=>{
-  require.ensure(['@/components/my/Help/customer'],()=>{
+const cus = resolve => {
+  require.ensure(['@/components/my/Help/customer'], () => {
     resolve(require('@/components/my/Help/customer'));
   })
 }
-const  det = resolve=>{
-  require.ensure(['@/components/my/Help/details'],()=>{
+const det = resolve => {
+  require.ensure(['@/components/my/Help/details'], () => {
     resolve(require('@/components/my/Help/details'));
   })
 }
 
-const   iss = resolve=>{
-  require.ensure(['@/components/my/Help/issue'],()=>{
+const iss = resolve => {
+  require.ensure(['@/components/my/Help/issue'], () => {
     resolve(require('@/components/my/Help/issue'));
   })
 }
-const  sho = resolve=>{
-  require.ensure(['@/components/my/Site/shouhuo'],()=>{
+const sho = resolve => {
+  require.ensure(['@/components/my/Site/shouhuo'], () => {
     resolve(require('@/components/my/Site/shouhuo'));
   })
 }
-const xj = resolve=>{
-  require.ensure(['@/components/my/Site/xinjian'],()=>{
+const xj = resolve => {
+  require.ensure(['@/components/my/Site/xinjian'], () => {
     resolve(require('@/components/my/Site/xinjian'));
   })
 }
-const bj = resolve=>{
-  require.ensure(['@/components/my/Site/bainji'],()=>{
+const bj = resolve => {
+  require.ensure(['@/components/my/Site/bainji'], () => {
     resolve(require('@/components/my/Site/bainji'));
   })
 }
 
-const set = resolve=>{
-  require.ensure(['@/components/my/set'],()=>{
+const set = resolve => {
+  require.ensure(['@/components/my/set'], () => {
     resolve(require('@/components/my/set'));
   })
 }
-const pim  = resolve=>{
-  require.ensure(['@/components/my/Set/pim'],()=>{
+const pim = resolve => {
+  require.ensure(['@/components/my/Set/pim'], () => {
     resolve(require('@/components/my/Set/pim'));
   })
 }
-const our  = resolve=>{
-  require.ensure(['@/components/my/Set/our'],()=>{
+const our = resolve => {
+  require.ensure(['@/components/my/Set/our'], () => {
     resolve(require('@/components/my/Set/our'));
   })
 }
-const zh = resolve=>{
-  require.ensure(['@/components/my/Set/zhanghao'],()=>{
+const zh = resolve => {
+  require.ensure(['@/components/my/Set/zhanghao'], () => {
     resolve(require('@/components/my/Set/zhanghao'));
   })
 }
-const xgp = resolve=>{
-  require.ensure(['@/components/my/Set/zhanghaomima/xiugaiphone'],()=>{
+const xgp = resolve => {
+  require.ensure(['@/components/my/Set/zhanghaomima/xiugaiphone'], () => {
     resolve(require('@/components/my/Set/zhanghaomima/xiugaiphone'));
   })
 }
-const xgpt = resolve=>{
-  require.ensure(['@/components/my/Set/zhanghaomima/xiugaiphonetwo'],()=>{
+const xgpt = resolve => {
+  require.ensure(['@/components/my/Set/zhanghaomima/xiugaiphonetwo'], () => {
     resolve(require('@/components/my/Set/zhanghaomima/xiugaiphonetwo'));
   })
 }
-const  wjmm = resolve=>{
-  require.ensure(['@/components/my/Set/zhanghaomima/wangjimima'],()=>{
+const wjmm = resolve => {
+  require.ensure(['@/components/my/Set/zhanghaomima/wangjimima'], () => {
     resolve(require('@/components/my/Set/zhanghaomima/wangjimima'));
   })
 }
-const wjmmt = resolve=>{
-  require.ensure(['@/components/my/Set/zhanghaomima/wangjimimatwo'],()=>{
+const wjmmt = resolve => {
+  require.ensure(['@/components/my/Set/zhanghaomima/wangjimimatwo'], () => {
     resolve(require('@/components/my/Set/zhanghaomima/wangjimimatwo'));
   })
 }
-const news = resolve=>{
-  require.ensure(['@/components/my/news'],()=>{
+const news = resolve => {
+  require.ensure(['@/components/my/news'], () => {
     resolve(require('@/components/my/news'));
   })
 }
-const xiaoxi = resolve=>{
-  require.ensure(['@/components/my/xitongxiaoxi'],()=>{
+const xiaoxi = resolve => {
+  require.ensure(['@/components/my/xitongxiaoxi'], () => {
     resolve(require('@/components/my/xitongxiaoxi'));
   })
 }
-const shangpin= resolve=>{
-  require.ensure(['@/components/my/wodegongju/shangpin'],()=>{
+const shangpin = resolve => {
+  require.ensure(['@/components/my/wodegongju/shangpin'], () => {
     resolve(require('@/components/my/wodegongju/shangpin'));
   })
 }
-const ll = resolve=>{
-  require.ensure(['@/components/my/wodegongju/liulan'],()=>{
+const ll = resolve => {
+  require.ensure(['@/components/my/wodegongju/liulan'], () => {
     resolve(require('@/components/my/wodegongju/liulan'));
   })
 }
-const  yhj= resolve=>{
-  require.ensure(['@/components/my/wodegongju/youhuijian'],()=>{
+const yhj = resolve => {
+  require.ensure(['@/components/my/wodegongju/youhuijian'], () => {
     resolve(require('@/components/my/wodegongju/youhuijian'));
   })
 }
 
 //登录注册
-const  regi= resolve=>{
-  require.ensure(['@/components/registration/register'],()=>{
+const regi = resolve => {
+  require.ensure(['@/components/registration/register'], () => {
     resolve(require('@/components/registration/register'));
   })
 }
-const yzm= resolve=>{
-  require.ensure(['@/components/registration/yanzhengma'],()=>{
+const yzm = resolve => {
+  require.ensure(['@/components/registration/yanzhengma'], () => {
     resolve(require('@/components/registration/yanzhengma'));
   })
 }
-const   zcyh= resolve=>{
-  require.ensure(['@/components/registration/zhucheyonghu'],()=>{
+const zcyh = resolve => {
+  require.ensure(['@/components/registration/zhucheyonghu'], () => {
     resolve(require('@/components/registration/zhucheyonghu'));
   })
 }
-const  wjmmm= resolve=>{
-  require.ensure(['@/components/registration/wangjimima'],()=>{
+const wjmmm = resolve => {
+  require.ensure(['@/components/registration/wangjimima'], () => {
     resolve(require('@/components/registration/wangjimima'));
   })
 }
-const pdsjh= resolve=>{
-  require.ensure(['@/components/registration/panduanshoujihao'],()=>{
+const pdsjh = resolve => {
+  require.ensure(['@/components/registration/panduanshoujihao'], () => {
     resolve(require('@/components/registration/panduanshoujihao'));
   })
 }
-const ddd= resolve=>{
-  require.ensure(['@/components/my/dingdan/dingdan'],()=>{
+const ddd = resolve => {
+  require.ensure(['@/components/my/dingdan/dingdan'], () => {
     resolve(require('@/components/my/dingdan/dingdan'));
   })
 }
-const tk= resolve=>{
-  require.ensure(['@/components/shopping/tuikuan'],()=>{
+const tk = resolve => {
+  require.ensure(['@/components/shopping/tuikuan'], () => {
     resolve(require('@/components/shopping/tuikuan'));
   })
 }
-const qrsh= resolve=>{
-  require.ensure(['@/components/shopping/querengshouhuo'],()=>{
+const qrsh = resolve => {
+  require.ensure(['@/components/shopping/querengshouhuo'], () => {
     resolve(require('@/components/shopping/querengshouhuo'));
   })
 }
-const pj= resolve=>{
-  require.ensure(['@/components/shopping/pingjia'],()=>{
+const pj = resolve => {
+  require.ensure(['@/components/shopping/pingjia'], () => {
     resolve(require('@/components/shopping/pingjia'));
   })
 }
-const shcg= resolve=>{
-  require.ensure(['@/components/shopping/shouhuochenggong'],()=>{
+const shcg = resolve => {
+  require.ensure(['@/components/shopping/shouhuochenggong'], () => {
     resolve(require('@/components/shopping/shouhuochenggong'));
   })
 }
-const qrsht= resolve=>{
-  require.ensure(['@/components/shopping/querengshouhuotwo'],()=>{
+const qrsht = resolve => {
+  require.ensure(['@/components/shopping/querengshouhuotwo'], () => {
     resolve(require('@/components/shopping/querengshouhuotwo'));
   })
 }
-const zqsh= resolve=>{
-  require.ensure(['@/components/shopping/ziququrenshouhuo'],()=>{
+const zqsh = resolve => {
+  require.ensure(['@/components/shopping/ziququrenshouhuo'], () => {
     resolve(require('@/components/shopping/ziququrenshouhuo'));
   })
 }
-const zqdd= resolve=>{
-  require.ensure(['@/components/shopping/ziqudengdai'],()=>{
+const zqdd = resolve => {
+  require.ensure(['@/components/shopping/ziqudengdai'], () => {
     resolve(require('@/components/shopping/ziqudengdai'));
   })
 }
-const sqtk= resolve=>{
-  require.ensure(['@/components/shopping/shenqingtuikuan'],()=>{
+const sqtk = resolve => {
+  require.ensure(['@/components/shopping/shenqingtuikuan'], () => {
     resolve(require('@/components/shopping/shenqingtuikuan'));
   })
 }
-const sqsh= resolve=>{
-  require.ensure(['@/components/shopping/shenqingshouho'],()=>{
+const sqsh = resolve => {
+  require.ensure(['@/components/shopping/shenqingshouho'], () => {
     resolve(require('@/components/shopping/shenqingshouho'));
   })
 }
+// 帮助中心
+const dingdan = resolve => {
+  require.ensure(['@/components/my/Help/dingdan'], () => {
+    resolve(require('@/components/my/Help/dingdan'));
+  })
+}
+const peisong = resolve => {
+  require.ensure(['@/components/my/Help/peisong'], () => {
+    resolve(require('@/components/my/Help/peisong'));
+  })
+}
+const shijian = resolve => {
+  require.ensure(['@/components/my/Help/shijian'], () => {
+    resolve(require('@/components/my/Help/shijian'));
+  })
+}
+const tuihuo = resolve => {
+  require.ensure(['@/components/my/Help/tuihuo'], () => {
+    resolve(require('@/components/my/Help/tuihuo'));
+  })
+}
+const wenti = resolve => {
+  require.ensure(['@/components/my/Help/wenti'], () => {
+    resolve(require('@/components/my/Help/wenti'));
+  })
+}
+const shangpinH = resolve => {
+  require.ensure(['@/components/my/Help/shangpin'], () => {
+    resolve(require('@/components/my/Help/shangpin'));
+  })
+}
+const jiahuo = resolve => {
+  require.ensure(['@/components/my/Help/jiahuo'], () => {
+    resolve(require('@/components/my/Help/jiahuo'));
+  })
+}
+// 用户注册协议
+const xieyi = resolve => {
+  require.ensure(['@/components/my/xieyi'], () => {
+    resolve(require('@/components/my/xieyi'));
+  })
+}
+const dphd = resolve => {
+  require.ensure(['@/components/home/market/dphd'], () => {
+    resolve(require('@/components/home/market/dphd'));
+  })
+}
+
+
 Vue.use(Router)
 
-const router =new Router({
+const router = new Router({
   //去掉访问时候的/#这个动态参数
-  mode:'history',
+  mode: 'history',
   routes: [
     //首页
     {
@@ -394,8 +443,8 @@ const router =new Router({
       path: '/qd',
       name: 'qd',
       component: qd,
-      meta:{
-        requiresAuth:true
+      meta: {
+        requiresAuth: true
       }
     },
     {
@@ -407,11 +456,11 @@ const router =new Router({
       path: '/mar',
       name: 'mar',
       component: mar
-    },{
+    }, {
       path: '/pinpaixq',
       name: 'pinpaixq',
       component: pinpaixq
-    },{
+    }, {
       path: '/fujin',
       name: 'fujin',
       component: fujin
@@ -446,11 +495,11 @@ const router =new Router({
       name: 'ssxqy',
       component: ssxqy
     },
-		{
-		  path: '/kf',
-		  name: 'kf',
-		  component: kf
-		},
+    {
+      path: '/kf',
+      name: 'kf',
+      component: kf
+    },
     {
       path: '/rmi',
       name: 'reimai',
@@ -488,8 +537,8 @@ const router =new Router({
       path: '/Shop',
       name: 'Shop',
       component: Shop,
-      meta:{
-        requiresAuth:true
+      meta: {
+        requiresAuth: true
       }
     },
     {
@@ -497,21 +546,21 @@ const router =new Router({
       name: 'js',
       component: js
     },
-		{
-		  path: '/pssj',
-		  name: 'pssj',
-		  component: pssj
-		},
-		{
-		  path: '/psw',
-		  name: 'psw',
-		  component: psw
-		},
-		{
-		  path: '/pjcg',
-		  name: 'pjcg',
-		  component: pjcg
-		},
+    {
+      path: '/pssj',
+      name: 'pssj',
+      component: pssj
+    },
+    {
+      path: '/psw',
+      name: 'psw',
+      component: psw
+    },
+    {
+      path: '/pjcg',
+      name: 'pjcg',
+      component: pjcg
+    },
     {
       path: '/dd',
       name: 'dd',
@@ -527,11 +576,11 @@ const router =new Router({
       name: 'fh',
       component: fh
     },
-		{
-		  path: '/zqfk',
-		  name: 'zqfk',
-		  component: zqfk
-		},
+    {
+      path: '/zqfk',
+      name: 'zqfk',
+      component: zqfk
+    },
     {
       path: '/sh',
       name: 'sh',
@@ -567,16 +616,16 @@ const router =new Router({
       name: 'qrsht',
       component: qrsht
     },
-	{
-	  path: '/zqsh',
-	  name: 'zqsh',
-	  component: zqsh
-	},
-	{
-	  path: '/zqdd',
-	  name: 'zqdd',
-	  component: zqdd
-	},
+    {
+      path: '/zqsh',
+      name: 'zqsh',
+      component: zqsh
+    },
+    {
+      path: '/zqdd',
+      name: 'zqdd',
+      component: zqdd
+    },
     {
       path: '/sqtk',
       name: 'sqtk',
@@ -591,9 +640,9 @@ const router =new Router({
     {
       path: '/My',
       name: 'My',
-      component:My,
-      meta:{
-        requiresAuth:true
+      component: My,
+      meta: {
+        requiresAuth: true
       }
     },
     {
@@ -606,7 +655,7 @@ const router =new Router({
       name: 'Help',
       component: Help
     },
-	{
+    {
       path: '/cus',
       name: 'cus',
       component: cus
@@ -640,48 +689,48 @@ const router =new Router({
       path: '/pim',
       name: 'pim',
       component: pim
-    } ,
-		 {
-		  path: '/our',
-		  name: 'our',
-		  component: our
-		} ,
+    },
+    {
+      path: '/our',
+      name: 'our',
+      component: our
+    },
     {
       path: '/zh',
       name: 'zh',
       component: zh
-    } ,
+    },
     {
       path: '/xgp',
       name: 'xgp',
       component: xgp
-    } ,
+    },
     {
       path: '/xgpt',
       name: 'xgpt',
       component: xgpt
-    } ,
+    },
     {
       path: '/wjmm',
       name: 'wjmm',
       component: wjmm
-    } ,
+    },
     {
       path: '/wjmmt',
       name: 'wjmmt',
       component: wjmmt
-    } ,
+    },
     {
       path: '/news',
       name: 'news',
       component: news
-    }, 
-		{
-		  path: '/xiaoxi',
-		  name: 'xiaoxi',
-		  component: xiaoxi
-		},
-		{
+    },
+    {
+      path: '/xiaoxi',
+      name: 'xiaoxi',
+      component: xiaoxi
+    },
+    {
       path: '/shangpin',
       name: 'shangpin',
       component: shangpin,
@@ -728,22 +777,67 @@ const router =new Router({
       name: 'pdshj',
       component: pdsjh
     },
+    {
+      path: '/dingdan',
+      name: 'dingdan',
+      component: dingdan
+    },
+    {
+      path: '/peisong',
+      name: 'peisong',
+      component: peisong
+    },
+    {
+      path: '/shijian',
+      name: 'shijian',
+      component: shijian
+    },
+    {
+      path: '/tuihuo',
+      name: 'tuihuo',
+      component: tuihuo
+    },
+    {
+      path: '/wenti',
+      name: 'wenti',
+      component: wenti
+    },
+    {
+      path: '/shangpinH',
+      name: 'shangpinH',
+      component: shangpinH
+    },
+    {
+      path: '/jiahuo',
+      name: 'jiahuo',
+      component: jiahuo
+    },
+    {
+      path: '/xieyi',
+      name: 'xieyi',
+      component: xieyi
+    },
+    {
+      path: '/dphd',
+      name: 'dphd',
+      component: dphd
+    }
   ]
 })
-router.beforeEach((to,from,next)=>{
+router.beforeEach((to, from, next) => {
   //获取下token
   let token = store.state.username;
-  if(to.meta.requiresAuth){
+  if (to.meta.requiresAuth) {
     //是否是需要权限的页面
-    if(token){
+    if (token) {
       next()  //token存在，则让它通过
-    }else{
+    } else {
       //token不存在，不然它通过，让他跳转到登录页面
       next({
-        path:'/regi'
+        path: '/regi'
       })
     }
-  }else{
+  } else {
     //不需要权限的页面
     next() //往下走路由就行了
   }

@@ -32,7 +32,7 @@
           <p>主营：{{top.intro}}</p>
           <p>
             地址：{{top.province + top.city + top.area+ top.address}}
-            <span> < 500m</span>
+            <span>< 500m</span>
           </p>
           <img alt :src="top.bigshoplogo" />
         </div>
@@ -152,9 +152,10 @@ export default {
       });
     },
     fh() {
-      this.$router.push({
-        name: "home"
-      });
+      this.$router.go(-1);
+      // this.$router.push({
+      //   name: "home"
+      // });
     },
     sou() {
       this.$router.push({

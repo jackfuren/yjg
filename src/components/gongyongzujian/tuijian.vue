@@ -18,7 +18,7 @@
         <p class="nav-tj-bottom-div-ppp">
           <span>￥</span>
           <span>{{item.price}}</span>
-          <span><500m</span>
+          <span> <{{item.distance}}</span>
         </p>
       </div>
     </div>

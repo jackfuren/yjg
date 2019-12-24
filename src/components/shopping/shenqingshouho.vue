@@ -23,7 +23,7 @@
       </div>
 
       <div class="concat">
-        <div class="concat-a">
+        <div class="concat-a" @click="dpLink(dataList.shop_id)">
           <img alt src="../../assets/dingdan_dianpu.png" />
           <p>{{dataList.sname}}</p>
         </div>
@@ -76,7 +76,7 @@
           <span>2019-05-08 15:32:53</span>
         </p>
         <div class="liann">
-          <div>
+          <div @click="kefu">
             <p>
               <img alt src="../../assets/kehufuwu.png" />联系客服
             </p>
@@ -214,6 +214,24 @@ export default {
         .catch(() => {
           //点击取消按钮后的调用
         });
+    },
+    dpLink(sid) {
+      this.$router.push({
+        name: "dpxq",
+        query: {
+          shop_id: sid
+        }
+      });
+    },
+    kefu() {
+      this.$router.push({
+        name: "kf",
+        query: {
+          sid:  this.dataList.shop_id,
+          name:  this.dataList.sname,
+          token: 90
+        }
+      });
     }
   },
   mounted() {
@@ -538,9 +556,7 @@ export default {
   display: flex;
   margin-top: 0.2rem;
 }
-.xin .liann > div {
-  flex: 1;
-}
+
 .xin .liann > div:nth-child(1) > p {
   width: 1.8rem;
   height: 0.6rem;

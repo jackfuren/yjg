@@ -32,7 +32,10 @@
         v-model="password_confirm"
         placeholder="请确认密码(6-12字母数字组合)"
       />
-
+      <div class="check">
+        <input type="checkbox" @click="check" /> 我已认真阅读并同意
+        <router-link to="/xieyi">《沿街购注册协议》</router-link>
+      </div>
       <div style="width: 5rem;height: 0.5px;background: #EEEEEE;margin: 0 auto"></div>
       <p v-show="show1" class="concat-p" @click="panduan()">注册</p>
       <p v-show="show" class="concat-pp">注册</p>
@@ -85,7 +88,8 @@ export default {
       jia: false,
       show: true,
       show1: false,
-      yzmm: false
+      yzmm: false,
+      tongY: false
     };
   },
   methods: {
@@ -183,27 +187,31 @@ export default {
       }
     },
     panduan() {
-      if (this.password == this.password_confirm) {
-        request({
-          url: "api/users/reg",
-          method: "post",
-          data: {
-            mobile: this.phone,
-            password: this.password,
-            password_confirm: this.password_confirm,
-            code: this.code
-          }
-        }).then(res => {
-          if (res.data.code == 200) {
-            Toast("注册成功");
-            this.$store.dispatch("UserName", res.data.data);
-            this.$router.push({
-              name: "regi"
-            });
-          }
-        });
+      if (this.tongY == true) {
+        if (this.password == this.password_confirm) {
+          request({
+            url: "api/users/reg",
+            method: "post",
+            data: {
+              mobile: this.phone,
+              password: this.password,
+              password_confirm: this.password_confirm,
+              code: this.code
+            }
+          }).then(res => {
+            if (res.data.code == 200) {
+              Toast("注册成功");
+              this.$store.dispatch("UserName", res.data.data);
+              this.$router.push({
+                name: "regi"
+              });
+            }
+          });
+        } else {
+          Toast("两次密码不一致");
+        }
       } else {
-        Toast("两次密码不一致");
+        Toast("请勾选协议");
       }
     },
     yanzheng() {
@@ -215,6 +223,10 @@ export default {
       } else {
         this.yzmm = false;
       }
+    },
+    check() {
+      this.tongY = !this.tongY;
+      console.log(this.tongY);
     }
   },
   updated() {
@@ -444,5 +456,47 @@ input:-webkit-autofill {
   position: absolute;
   bottom: 2.2rem;
   text-align: center;
+}
+.check {
+  display: flex;
+  align-items: center;
+  width: 5rem;
+  margin: 0 auto;
+  font-size: 0.25rem;
+}
+.check a {
+  color: red;
+}
+.check input[type="checkbox"] {
+  width: 0.25rem;
+  height: 0.25rem;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 18px;
+  position: relative;
+  margin-right: 0.1rem;
+}
+.check input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgb(204, 204, 204);
+}
+.check input[type="checkbox"]:checked::before {
+  content: "\2713";
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border: 1px solid #e50232;
+  color: #e50232;
+  font-size: 0.3rem;
+  font-weight: bold;
 }
 </style>

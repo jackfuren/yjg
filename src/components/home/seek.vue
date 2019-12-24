@@ -91,9 +91,7 @@ export default {
           name: "mar"
         });
       } else {
-        this.$router.push({
-          name: "home"
-        });
+        this.$router.go(-1)
       }
     },
     sousuo(i) {

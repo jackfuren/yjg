@@ -3,7 +3,7 @@
     <div class="box-container">
       <div class="nav-top">
         <div class="nav">
-			<img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+          <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt />
           <!-- <van-icon @click="fh()" class="nav-left" color="#FFFFFF" name="arrow-left" size="0.5rem" /> -->
           <p style="color: white">订单详情</p>
           <p class="nav-top-p">卖家已发货</p>
@@ -29,7 +29,7 @@
         <img alt class="dzz-img" src="../../assets/dingdan_xiayibu.png" />
       </div>
       <div class="concat">
-        <div class="concat-a">
+        <div class="concat-a" @click="dpLink(listData.shop_id)">
           <img alt src="../../assets/dingdan_dianpu.png" />
           <p>{{listData.sname}}</p>
         </div>
@@ -86,7 +86,7 @@
           <span>{{listData.paytime}}</span>
         </p>
         <div class="liann">
-          <div>
+          <div @click="kefu">
             <p>
               <img alt src="../../assets/kehufuwu.png" />联系客服
             </p>
@@ -206,6 +206,25 @@ export default {
         .catch(() => {
           //点击取消按钮后的调用
         });
+    },
+    dpLink(sid) {
+      console.log("sssssssssss");
+      this.$router.push({
+        name: "dpxq",
+        query: {
+          shop_id: sid
+        }
+      });
+    },
+    kefu() {
+      this.$router.push({
+        name: "kf",
+        query: {
+          sid: this.listData.shop_id,
+          name: this.listData.sname,
+          token: 90
+        }
+      });
     }
   },
   mounted() {
@@ -259,7 +278,7 @@ export default {
 }
 
 .nav-left {
-	width: 0.55rem;
+  width: 0.55rem;
   position: absolute;
   left: 0.25rem;
   top: 0.2rem;

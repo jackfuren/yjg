@@ -90,7 +90,7 @@
           <p>{{top.name}}</p>
           <p>
             {{top.province + top.city + top.area + top.address}}
-            <span>< 500m</span>
+            <span>< {{top.distance}}</span>
           </p>
           <div class="nav-bottom-div">
             <div v-if="top.quality==''?false:true">
@@ -152,14 +152,27 @@
               <p class="concat-money">
                 ￥
                 <span>{{item.price}}</span>
-                <van-icon color="#EF0600" name="shopping-cart-o" size="0.4rem" />
+                <van-icon
+                  color="#EF0600"
+                  name="shopping-cart-o"
+                  size="0.4rem"
+                  @click="cart(item.id)"
+                />
               </p>
-              <p class="concat-browes">
+              <p class="concat-browes" @click="shoucang(index)">
                 <van-icon
                   color="#777777"
                   name="star-o"
                   size="0.25rem"
+                  style="position: relative;:0top.03rem;margin-left: 0.15rem"
+                  v-if="item.is_collectiongoods==0"
+                />
+                <van-icon
+                  color="#E8A400"
+                  name="star"
+                  size="0.25rem"
                   style="position: relative;top:0.03rem;margin-left: 0.15rem"
+                  v-if="item.is_collectiongoods==1"
                 />
                 {{item.collectiongoods}}
               </p>
@@ -186,14 +199,23 @@
                   name="shopping-cart-o"
                   size="0.4rem"
                   style="float: right"
+                  @click="cart(item.id)"
                 />
               </p>
-              <p class="concat-browes">
+              <p class="concat-browes" @click="shoucang(index)">
                 <van-icon
                   color="#777777"
                   name="star-o"
                   size="0.25rem"
+                  style="position: relative;:0top.03rem;margin-left: 0.15rem"
+                  v-if="item.is_collectiongoods==0"
+                />
+                <van-icon
+                  color="#E8A400"
+                  name="star"
+                  size="0.25rem"
                   style="position: relative;top:0.03rem;margin-left: 0.15rem"
+                  v-if="item.is_collectiongoods==1"
                 />
                 {{item.collectiongoods}}
               </p>
@@ -220,14 +242,23 @@
                   name="shopping-cart-o"
                   size="0.4rem"
                   style="float: right"
+                  @click="cart(item.id)"
                 />
               </p>
-              <p class="concat-browes">
+              <p class="concat-browes" @click="shoucang(index)">
                 <van-icon
                   color="#777777"
                   name="star-o"
                   size="0.25rem"
+                  style="position: relative;:0top.03rem;margin-left: 0.15rem"
+                  v-if="item.is_collectiongoods==0"
+                />
+                <van-icon
+                  color="#E8A400"
+                  name="star"
+                  size="0.25rem"
                   style="position: relative;top:0.03rem;margin-left: 0.15rem"
+                  v-if="item.is_collectiongoods==1"
                 />
                 {{item.collectiongoods}}
               </p>
@@ -244,13 +275,16 @@
           <img src="../../../assets/shangjiaye_jiagedi.png" alt />
         </div>
       </van-tabs>
+
+
+      
       <div style="height: 2rem"></div>
       <!-- 底部-->
       <div class="footer">
         <p @click="shops()">
           <span>商家信息</span>
         </p>
-        <p>
+        <p @click="dphd">
           <span>活动专区</span>
         </p>
         <p>
@@ -373,8 +407,8 @@ export default {
             arrayList: this.x
           }
         });
-      }else{
-        this.$router.go(-1)
+      } else {
+        this.$router.go(-1);
       }
     },
     jubao() {
@@ -393,12 +427,14 @@ export default {
     },
     shops() {
       this.$router.push({
-        name: "shops"
+        name: "shops",
+        query:{
+          shop_id: this.shop_id
+        }
       });
     },
     collect() {
-      this.shou = !this.shou;
-      if (this.shou == 1) {
+      if (this.shou == 0) {
         request({
           url: "api/users/collectionshp",
           method: "post",
@@ -411,6 +447,8 @@ export default {
             //console.log(res)
             if (res.data.code == 200) {
               Toast("收藏成功");
+              this.shou = !this.shou;
+
               this.Shop();
             } else {
               Toast("收藏失败");
@@ -420,7 +458,7 @@ export default {
             Toast("网络连接中断");
           });
       }
-      if (this.shou == 0) {
+      if (this.shou == 1) {
         request({
           url: "api/users/delcshop",
           method: "post",
@@ -433,6 +471,7 @@ export default {
             //console.log(res)
             if (res.data.code == 200) {
               Toast("取消收藏");
+              this.shou = !this.shou;
               this.Shop();
             } else {
               Toast("取消收藏失败");
@@ -455,7 +494,9 @@ export default {
         data: {
           shop_id: this.shop_id,
           user_id: this.$store.state.username.id,
-          type: 2
+          type: 2,
+          lat: window.localStorage.getItem("lat"),
+          lng: window.localStorage.getItem("lng")
         }
       }).then(res => {
         console.log(res);
@@ -472,11 +513,13 @@ export default {
         data: {
           shop_id: this.shop_id,
           user_id: this.$store.state.username.id,
-          type: 1
+          type: 1,
+          lat: window.localStorage.getItem("lat"),
+          lng: window.localStorage.getItem("lng")
         }
       }).then(res => {
-        this.leftBottom = res.data.data.goods;
         console.log(res);
+        this.leftBottom = res.data.data.goods;
       });
     },
     jiage() {
@@ -486,7 +529,9 @@ export default {
         data: {
           shop_id: this.shop_id,
           user_id: this.$store.state.username.id,
-          type: this.array
+          type: this.array,
+          lat: window.localStorage.getItem("lat"),
+          lng: window.localStorage.getItem("lng")
         }
       }).then(res => {
         this.rightBottom = res.data.data.goods;
@@ -524,6 +569,78 @@ export default {
           name: this.top.name
         }
       });
+    },
+    cart(Sid) {
+      console.log(Sid);
+      request({
+        url: "api/goods/addcart",
+        method: "post",
+        data: {
+          user_id: this.$store.state.username.id,
+          goods_id: Sid,
+          num: 1,
+          sku_id: 0
+        }
+      }).then(res => {
+        if (res.data.code == 200) {
+          Toast("加入购物车成功");
+        }
+        if (res.data.code == 0) {
+          Toast("库存不足");
+        }
+      });
+    },
+    shoucang(index) {
+      console.log(index);
+      if (this.bottom[index].is_collectiongoods == 0) {
+        request({
+          url: "api/users/collectiongoods",
+          method: "post",
+          data: {
+            user_id: this.$store.state.username.id,
+            goods_id: this.bottom[index].id
+          }
+        })
+          .then(res => {
+            //consoleog(res)
+            if (res.data.code == 200) {
+              // debugger;
+              Toast("收藏成功");
+              this.Shop();
+            } else {
+              Toast("收藏失败");
+            }
+          })
+          .catch(err => {
+            Toast("网络连接中断");
+          });
+      }
+      if (this.bottom[index].is_collectiongoods == 1) {
+        request({
+          url: "api/users/delcgoods",
+          method: "post",
+          data: {
+            user_id: this.$store.state.username.id,
+            goods_id: this.bottom[index].id
+          }
+        })
+          .then(res => {
+            if (res.data.code == 200) {
+              Toast("取消收藏");
+              this.Shop();
+            } else {
+              Toast("取消收藏失败");
+            }
+          })
+          .catch(err => {
+            Toast("网络连接中断");
+          });
+      }
+    },
+    dphd() {
+      this.$router.push({
+        name: "dphd"
+      });
     }
   },
   components: {
@@ -531,7 +648,9 @@ export default {
     Tabs
   },
   mounted() {
-    this.shop_id = JSON.parse(window.localStorage.getItem("DP")) || this.$route.query.shop_id;
+    this.shop_id =
+      JSON.parse(window.localStorage.getItem("DP")) ||
+      this.$route.query.shop_id;
     console.log(this.$route.query);
     this.token = this.$route.query.token;
     if (this.token == 36) {

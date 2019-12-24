@@ -3,8 +3,9 @@
     <div class="nav">
       <img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt />
       <!-- <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem" /> -->
-      <p class="name">{{name}}</p>
-      <p class="pu" @click="dianpuLink">店铺</p>
+
+      <p class="name" :class="{'nameT':token==91}">{{name}}</p>
+      <p class="pu" @click="dianpuLink" v-if="token!=91">店铺</p>
     </div>
 
     <van-pull-refresh
@@ -78,7 +79,7 @@
             </section>
           </section>
           <section>
-            <section v-if="token==90 ? false : true ">
+            <section v-if="token==90 || token==91? false : true ">
               <div v-if="productShow==true">
                 <p class="time">今天 {{enterTime}}</p>
                 <div class="commodity">
@@ -765,7 +766,9 @@ export default {
     chatHos() {
       if (this.fen == null) {
         this.chatB = this.msag;
-        this.chatB[0].showTime = false;
+        if (this.chatB.length != 0) {
+          this.chatB[0].showTime = false;
+        }
       } else {
         var i = this.msag.length - 1;
         console.log(this.chatB);
@@ -1165,5 +1168,9 @@ export default {
 }
 .showH {
   height: 87vh !important;
+}
+.nameT {
+  position: relative;
+  right:42%;
 }
 </style>
