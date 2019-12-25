@@ -879,6 +879,7 @@ export default {
         }).then(res => {
           console.log(res);
           this.canA = JSON.stringify(res.data.data.parameter);
+       
           if (JSON.stringify(this.canA) != "{}") {
             this.canA = this.canA
               .split("{")[1]

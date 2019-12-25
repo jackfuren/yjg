@@ -232,6 +232,7 @@ export default {
       });
     },
     spLink(gid) {
+      console.log(gid);
       this.$router.push({
         name: "wpxq",
         query: {
