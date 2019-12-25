@@ -68,7 +68,7 @@
 
       <div :key="index" class="concat" v-for="(item ,index) in listData">
         <div style="background: #fff;">
-          <div class="concat-a">
+          <div class="concat-a" @click="dpLink(item.id)">
             <img alt src="../../assets/dingdan_dianpu.png" />
             <p>{{item.name}}</p>
           </div>
@@ -394,7 +394,7 @@ export default {
           cart_id: this.cart_id
         }
       }).then(res => {
-        // console.log(res);
+        console.log(res);
         if (res.data.code == -1) {
           this.msg = res.data.code;
           this.location = true;
@@ -608,11 +608,11 @@ export default {
       if (this.msg == "-1") {
         Toast("您还没有设置地址");
       }
-      console.log(this.tim);
-      if (this.tim == "请选择自取时间") {
+      console.log(this.song);
+      if (this.song == 2 && this.tim == "请选择自取时间") {
         Toast("请选择自取时间");
         this.ti = 0;
-        
+
         return;
       }
 
@@ -702,6 +702,14 @@ export default {
         name: "wpxq",
         query: {
           goods_id: id
+        }
+      });
+    },
+    dpLink(sid) {
+      this.$router.push({
+        name: "dpxq",
+        query: {
+          shop_id: sid
         }
       });
     }

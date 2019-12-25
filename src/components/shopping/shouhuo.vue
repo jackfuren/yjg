@@ -28,11 +28,16 @@
       <img alt class="dzz-img" src="../../assets/dingdan_xiayibu.png" />
     </div>
     <div class="concat">
-      <div class="concat-a">
+      <div class="concat-a" @click="dpLink(listData.shop_id)">
         <img alt src="../../assets/dingdan_dianpu.png" />
         <p>{{listData.sname}}</p>
       </div>
-      <div class="concat-b" v-for="(item ,index) in listData.goods" :key="index">
+      <div
+        class="concat-b"
+        v-for="(item ,index) in listData.goods"
+        :key="index"
+        @click="spLink(item.gid)"
+      >
         <img :src="item.headimg" alt />
         <p class="concat-b-a">{{item.gtitle}}</p>
         <p class="concat-b-b">{{item.specification}}</p>
@@ -183,6 +188,23 @@ export default {
           sid: this.listData.shop_id,
           name: this.listData.sname,
           token: 90
+        }
+      });
+    },
+    dpLink(sid) {
+      this.$router.push({
+        name: "dpxq",
+        query: {
+          shop_id: sid
+        }
+      });
+    },
+    spLink(gid) {
+      this.$router.push({
+        name: "wpxq",
+        query: {
+          goods_id: gid,
+          token: 43
         }
       });
     }

@@ -50,14 +50,7 @@ import request from "../../utils/request"
     },
     methods: {
       fh() {
-        this.$router.push({
-          name: 'wpxq',
-          query:{
-            goods_id:this.id,
-            token:this.token
-          }
-
-        })
+        this.$router.go(-1)
       },
 			pin(){
 				request({

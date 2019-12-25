@@ -52,9 +52,8 @@
           <div class="nav-qs">
             <div
               class="nav-qsp"
-              v-for="(imet,index) in shou"
+              v-for="(imet,index) in wuSat"
               :key="index"
-              v-if="imet.send_type==1"
               @click="wuliu(imet.expresscom,imet.expresssn)"
             >
               <img :src="imet.goods[0].headimg" alt />
@@ -163,7 +162,8 @@ export default {
       stor: 0, //店铺长度
       coupon: 0, //优惠券
       ddd: [],
-      wul: []
+      wul: [],
+      wuSat: []
     };
   },
   methods: {
@@ -179,7 +179,6 @@ export default {
       });
     },
     she() {
-      //console.log(1111)
       this.$router.push({
         name: "set",
         params: {}
@@ -191,8 +190,8 @@ export default {
       });
     },
     wuliu(expresscom, expresssn) {
-      console.log(expresscom);
-      console.log(expresssn);
+      // console.log(expresscom);
+      // console.log(expresssn);
       this.$router.push({
         name: "wl",
         query: {
@@ -286,7 +285,7 @@ export default {
       window.sessionStorage.setItem("reg", 4);
     },
     Name() {
-      console.log(this.$store.state.username.username);
+      // console.log(this.$store.state.username.username);
       if (this.$store.state.username == null) {
         this.name = "点击登录/注册";
       } else {
@@ -305,6 +304,7 @@ export default {
     },
     dingdan() {
       var that = this;
+
       request({
         //我的订单
         url: "api/users/order",
@@ -313,37 +313,21 @@ export default {
           user_id: this.$store.state.username.id
         }
       }).then(res => {
-        console.log(res);
         for (var i in res.data.data) {
+          // console.log(res.data.data[i].status);
           if (res.data.data[i].status == 1) {
             this.kuan.push(res.data.data[i]);
-          }
-          if (res.data.data[i].status == 2) {
+          } else if (res.data.data[i].status == 2) {
             this.fa.push(res.data.data[i]);
-          }
-          if (res.data.data[i].status == 3) {
+          } else if (res.data.data[i].status == 3) {
+            // console.log(this.shou);
             this.shou.push(res.data.data[i]);
-            console.log(this.shou);
-          }
-          if (res.data.data[i].status == 4) {
+          } else if (res.data.data[i].status == 4) {
             this.ping.push(res.data.data[i]);
           }
         }
-        this.request({
-          url: "api/users/logistics",
-          method: "post",
-          data: {
-            user_id: this.$store.state.username.id
-          }
-        }).then(res => {
-          that.wul = JSON.parse(res.data.msg);
-          for (var ind = that.wul.length; ind >= 0; ind--) {
-            for (var i in that.shou) {
-              that.shou[i].wul = that.wul[ind];
-            }
-          }
-          console.log(that.shou);
-        });
+        console.log(this.shou);
+        this.wuSatue();
       });
 
       this.request({
@@ -353,7 +337,7 @@ export default {
           user_id: this.$store.state.username.id
         }
       }).then(res => {
-        console.log(res);
+        // console.log(res);
         for (var n in res.data.data) {
           this.hou.push(res.data.data[n]);
         }
@@ -394,6 +378,31 @@ export default {
         if (res.data.code == 200) {
           this.coupon = res.data.data.length;
         }
+      });
+    },
+    wuSatue() {
+      console.log(this.shou);
+      this.request({
+        url: "api/users/logistics",
+        method: "post",
+        data: {
+          user_id: this.$store.state.username.id
+        }
+      }).then(res => {
+        this.wul = JSON.parse(res.data.msg);
+        for (var ind = this.wul.length; ind >= 0; ind--) {
+          for (var i in this.shou) {
+            this.shou[i].wul = this.wul[ind];
+          }
+        }
+        if (
+          this.shou[i].wul != undefined &&
+          this.shou[i].wul.areaCode != undefined
+        ) {
+          this.wuSat.push(this.shou[i]);
+          console.log(this.shou[i].wul.time);
+        }
+        console.log(this.wuSat);
       });
     }
   },

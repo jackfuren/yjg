@@ -294,13 +294,6 @@ export default {
     jian() {
       this.yuyin = 0;
     },
-    yu() {
-      this.yuyin = 1;
-      // console.log(this.yuyin)
-    },
-    jian() {
-      this.yuyin = 0;
-    },
     init: function() {
       if (typeof WebSocket === "undefined") {
         alert("您的浏览器不支持socket");
@@ -1171,6 +1164,6 @@ export default {
 }
 .nameT {
   position: relative;
-  right:42%;
+  right: 42%;
 }
 </style>

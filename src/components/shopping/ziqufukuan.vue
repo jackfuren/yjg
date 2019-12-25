@@ -32,11 +32,16 @@
         </div>
       </div>
       <div class="concat">
-        <div class="concat-a">
+        <div class="concat-a" @click="dpLink(dataList.shop_id)">
           <img alt src="../../assets/dingdan_dianpu.png" />
           <p>{{dataList.sname}}</p>
         </div>
-        <div class="concat-b" v-for="(item ,i ) in dataList.goods" :key="i">
+        <div
+          class="concat-b"
+          v-for="(item ,i ) in dataList.goods"
+          :key="i"
+          @click="spLink(item.gid)"
+        >
           <img :src="item.headimg" alt />
           <p class="concat-b-a">{{item.gtitle}}</p>
           <p class="concat-b-b">{{item.specification}}</p>
@@ -256,6 +261,23 @@ export default {
       if (this.callback && this.callback instanceof Function) {
         this.callback(...this);
       }
+    },
+    dpLink(sid) {
+      this.$router.push({
+        name: "dpxq",
+        query: {
+          shop_id: sid
+        }
+      });
+    },
+    spLink(gid) {
+      this.$router.push({
+        name: "wpxq",
+        query: {
+          goods_id: gid,
+          token: 43
+        }
+      });
     }
   },
   mounted() {

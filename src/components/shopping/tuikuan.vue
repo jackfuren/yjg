@@ -50,9 +50,7 @@ export default {
   },
   methods: {
     fh() {
-      this.$router.push({
-        name: "My"
-      });
+      this.$router.go(-1);
     },
     Gain() {
       this.request({

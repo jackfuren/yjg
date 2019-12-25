@@ -727,6 +727,7 @@ export default {
         }
       }).then(res => {
         this.no = res.data.msg;
+        console.log(res);
         if (this.no == "成功") {
           this.sku.tree = res.data.data.info;
           this.sku.list = res.data.data.list;
@@ -865,20 +866,6 @@ export default {
     },
     shuaxin() {
       if (this.$store.state.username == null) {
-        request({
-          url: "api/goods/show",
-          method: "post",
-          data: {
-            goods_id: this.goods_id,
-            lat: window.localStorage.getItem("lat"),
-            lng: window.localStorage.getItem("lng")
-          }
-        }).then(res => {
-          this.dataList = res.data.data;
-          this.pr = res.data.data.goods_sttr;
-          this.goods.picture = res.data.data.headimg;
-          this.sku.price = res.data.data.price;
-        });
       } else {
         request({
           url: "api/goods/show", //商品的详情
@@ -890,15 +877,13 @@ export default {
             lng: window.localStorage.getItem("lng")
           }
         }).then(res => {
-          console.log(this.canA);
+          console.log(res);
+          this.canA = JSON.stringify(res.data.data.parameter);
           if (JSON.stringify(this.canA) != "{}") {
-            console.log("ssss");
-            this.canA = JSON.stringify(res.data.data.parameter);
             this.canA = this.canA
               .split("{")[1]
               .split("}")[0]
               .split(",");
-
             for (var i in this.canA) {
               var canArr = {
                 paraName: this.canA[i].split(":")[0].split('"')[1],
@@ -907,12 +892,11 @@ export default {
               this.canList.push(canArr);
             }
           }
-
           this.dataList = res.data.data;
           this.pr = res.data.data.goods_sttr;
           this.shou = res.data.data.is_collectiongoods;
           this.chang = res.data.data.comment.length;
-          this.goods.picture = res.data.data.shoplogo; //规格里的图
+          this.goods.picture = res.data.data.headimg[0]; //规格里的图
           this.sku.price = res.data.data.price;
           this.goods.title = res.data.data.title;
           this.address =
@@ -923,17 +907,23 @@ export default {
     },
 
     dianpu() {
-      window.sessionStorage.setItem("DP", JSON.stringify(this.dataList.sid));
-      window.localStorage.setItem("DP", JSON.stringify(this.dataList.sid));
-      this.$router.push({
-        name: "dpxq",
-        query: {
-          token: this.token,
-          goods_id: this.goods_id,
-          a: this.a,
-          b: this.b
-        }
-      });
+      if (this.$store.state.username == null) {
+        this.$router.push({
+          name: "regi"
+        });
+      } else {
+        window.sessionStorage.setItem("DP", JSON.stringify(this.dataList.sid));
+        window.localStorage.setItem("DP", JSON.stringify(this.dataList.sid));
+        this.$router.push({
+          name: "dpxq",
+          query: {
+            token: this.token,
+            goods_id: this.goods_id,
+            a: this.a,
+            b: this.b
+          }
+        });
+      }
     },
     youhui() {
       request({
@@ -953,14 +943,16 @@ export default {
           this.jiian.sort(compare);
           this.jiann = this.jiian[0];
         }
-        if (this.youu.length == 0) {
-          this.qq = 0;
-          this.fist = "";
-          this.senne = "";
-        } else {
-          this.qq = 1;
-          this.fist = this.youu[0].name;
-          this.senne = this.youu[1].name;
+        if (this.youu.length != 0) {
+          if (this.youu.length == 0) {
+            this.qq = 0;
+            this.fist = "";
+            this.senne = "";
+          } else {
+            this.qq = 1;
+            this.fist = this.youu[0].name;
+            this.senne = this.youu[1].name;
+          }
         }
       });
     },

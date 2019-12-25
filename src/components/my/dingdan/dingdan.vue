@@ -24,9 +24,10 @@
               <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
               <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
               <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
-              <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
+              <span v-show="item.status == 4? true:false" class="div-spantwo">待评价</span>
               <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
               <span v-show="item.status == 6? true:false" class="div-spantwo">交易关闭</span>
+              <span v-show="item.status == 7? true:false" class="div-spantwo">售后处理中</span>
             </div>
             <div
               class="concat-div"
@@ -54,7 +55,7 @@
               <p @click="tixing()" v-show="item.status == 2? true:false">提醒发货</p>
               <p @click="queren(item.oid)" v-show="item.status == 3? true:false">确认收货</p>
               <p v-show="item.status == 3? true:false">查看物流</p>
-              <p @click="pingjia()" v-show="false">评价</p>
+              <p @click="pingjia(item.goods[0])" v-show="item.status == 4">评价</p>
               <p @click="Delete(item.oid)" v-show="item.status == 5? true:false">删除订单</p>
               <p v-show="item.status == 4? true:false">申请售后</p>
               <p @click="Delete(item.oid)" v-show="item.status == 6? true:false">删除订单</p>
@@ -87,7 +88,7 @@
               <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
               <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
               <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
-              <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
+              <span v-show="item.status == 4? true:false" class="div-spantwo">待评价</span>
               <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
               <!-- fukuai(item.oid) -->
             </div>
@@ -143,7 +144,7 @@
               <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
               <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
               <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
-              <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
+              <span v-show="item.status == 4? true:false" class="div-spantwo">待评价</span>
               <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
             </div>
             <!-- @click="fahuo(ite.oid)" -->
@@ -198,7 +199,7 @@
               <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
               <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
               <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
-              <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
+              <span v-show="item.status == 4? true:false" class="div-spantwo">待评价</span>
               <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
             </div>
             <!-- @click="quern(item.oid)" -->
@@ -258,7 +259,7 @@
               <span v-show="item.status == 1? true:false" class="div-spantwo">等待买家付款</span>
               <span v-show="item.status == 2? true:false" class="div-spantwo">买家已付款</span>
               <span v-show="item.status == 3? true:false" class="div-spantwo">卖家已发货</span>
-              <span v-show="item.status == 4? true:false" class="div-spantwo">交易成功</span>
+              <span v-show="item.status == 4? true:false" class="div-spantwo">待评价</span>
               <span v-show="item.status == 5? true:false" class="div-spantwo">交易成功</span>
             </div>
             <div
@@ -463,7 +464,7 @@ export default {
     },
     All(item) {
       //1快递2配送0自取
-      console.log(item.send_type);
+      console.log(item);
       if (item.send_type == 1) {
         //快递
         if (item.status == 1) {
@@ -517,6 +518,14 @@ export default {
               ative: this.active
             }
           });
+        } else if (item.status == 6) {
+          this.$router.push({
+            name: "qrsht",
+            query: {
+              id: item.oid,
+              ative: this.active
+            }
+          });
         } else {
           this.$router.push({
             name: "pssj",
@@ -556,6 +565,7 @@ export default {
             }
           });
         } else if (item.status == 5) {
+          console.log("5");
           this.$router.push({
             name: "zqsh",
             query: {
@@ -563,7 +573,28 @@ export default {
               ative: this.active
             }
           });
+        } else if (item.status == 6) {
+          this.$router.push({
+            name: "qrsht",
+            query: {
+              id: item.oid,
+              ative: this.active
+            }
+          });
+        } else if (item.status == 4) {
+          this.$router.push({
+            name: "sqsh",
+            query: {
+              id: item.oid,
+              ative: this.active
+            }
+          });
         }
+      }
+      if (item.status == 7) {
+        this.$router.push({
+          name: "tk"
+        });
       }
     },
     tixing(index) {
@@ -585,7 +616,7 @@ export default {
       });
     },
     pingjia(ite) {
-      // console.log(ite,this.arrList.goods)
+      console.log(ite);
       event.stopPropagation();
       this.$router.push({
         name: "pj",

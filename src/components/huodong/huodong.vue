@@ -112,7 +112,7 @@ export default {
         { title: "新品", code: 2 },
         { title: "热销", code: 3 },
         { title: "促销", code: 5 },
-        { title: "清仓", code: 1 }
+        { title: "清仓", code: 7 }
       ],
       contents: [],
       code: 1

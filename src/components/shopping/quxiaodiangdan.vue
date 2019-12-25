@@ -3,7 +3,7 @@
     <div class="box-container">
       <div class="nav-top">
         <div class="nav">
-			<img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+          <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt />
           <!-- <van-icon @click="fh()" class="nav-left" color="#FFFFFF" name="arrow-left" size="0.5rem" /> -->
           <p style="color: white">订单详情</p>
           <p class="nav-top-p">交易关闭</p>
@@ -21,11 +21,16 @@
         </div>
       </div>
       <div class="concat">
-        <div class="concat-a">
+        <div class="concat-a" @click="dpLink(dataList.shop_id)">
           <img alt src="../../assets/dingdan_dianpu.png" />
           <p>{{dataList.sname}}</p>
         </div>
-        <div class="concat-b" v-for="(item ,index) in dataList.goods" :key="index">
+        <div
+          class="concat-b"
+          v-for="(item ,index) in dataList.goods"
+          :key="index"
+          @click="spLink(item.gid)"
+        >
           <img :src="item.headimg" alt />
           <p class="concat-b-a">{{item.gtitle}}</p>
           <p class="concat-b-b">{{item.specification}}</p>
@@ -184,6 +189,23 @@ export default {
         .catch(() => {
           //点击取消按钮后的调用
         });
+    },
+    dpLink(sid) {
+      this.$router.push({
+        name: "dpxq",
+        query: {
+          shop_id: sid
+        }
+      });
+    },
+    spLink(gid) {
+      this.$router.push({
+        name: "wpxq",
+        query: {
+          goods_id: gid,
+          token: 43
+        }
+      });
     }
   },
   mounted() {
@@ -236,7 +258,7 @@ export default {
 }
 
 .nav-left {
-	width: 0.55rem;
+  width: 0.55rem;
   position: absolute;
   left: 0.25rem;
   top: 0.2rem;

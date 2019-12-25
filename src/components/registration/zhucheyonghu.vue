@@ -7,7 +7,7 @@
         type="tel"
         oninput="if(value.length>11) value=value.slice(0,11)"
         v-model="phone"
-        @blur.prevent="changeCount()"
+        @input="changeCount()"
         placeholder="请输入手机号码"
       />
       <div style="width: 5rem;height: 0.5px;background: #EEEEEE;margin: 0 auto"></div>
@@ -94,24 +94,26 @@ export default {
   },
   methods: {
     changeCount: function() {
-      request({
-        url: "api/users/reg",
-        method: "post",
-        data: {
-          mobile: this.phone
-        }
-      }).then(res => {
-        //console.log(res)
-        if (res.data.msg == "手机号已经存在") {
-          Toast("该手机号已经注册过");
-          this.zhen = false;
-          this.jia = true;
-          this.disabled = true;
-        } else if (res.data.msg == "请传过来密码") {
-          this.zhen = true;
-          this.jia = false;
-        }
-      });
+      if (this.phone.length >= 11) {
+        request({
+          url: "api/users/reg",
+          method: "post",
+          data: {
+            mobile: this.phone
+          }
+        }).then(res => {
+          //console.log(res)
+          if (res.data.msg == "手机号已经存在") {
+            Toast("该手机号已经注册过");
+            this.zhen = false;
+            this.jia = true;
+            this.disabled = true;
+          } else if (res.data.msg == "请传过来密码") {
+            this.zhen = true;
+            this.jia = false;
+          }
+        });
+      }
     },
     zheng() {
       this.eye = false;
@@ -169,9 +171,7 @@ export default {
           data: {
             mobile: this.phone
           }
-        }).then(res => {
-          //consoleog(res)
-        });
+        }).then(res => {});
       }
     },
     timer() {
@@ -216,7 +216,6 @@ export default {
     },
     yanzheng() {
       var reg = /^[a-zA-Z0-9]{6,12}$/;
-      console.log("sadadsad");
       console.log(!reg.test(this.password));
       if (!reg.test(this.password)) {
         this.yzmm = true;
@@ -226,7 +225,6 @@ export default {
     },
     check() {
       this.tongY = !this.tongY;
-      console.log(this.tongY);
     }
   },
   updated() {
