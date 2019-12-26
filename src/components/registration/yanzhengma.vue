@@ -8,6 +8,7 @@
         oninput="if(value.length>11) value=value.slice(0,11)"
         type="number"
         placeholder="请输入手机号码"
+        @input="yzm"
       />
       <div style="width: 5rem;height: 0.5px;background: #EEEEEE;margin: 0 auto"></div>
       <input type="number" id="input-bottom" v-model="code" placeholder="请输入验证码" />
@@ -110,6 +111,7 @@ export default {
         this.disabled = false;
       }
     },
+
     denglu() {
       request({
         url: "api/users/yzmlogin",
@@ -126,8 +128,7 @@ export default {
           });
         }
         if (res.data.code == 0) {
-          Toast("账号/验证码不正确以及不能为空");
-          //consoleog(this.$store.getters.userName)
+          Toast("账号/验证码不正确或账号未注册");
         }
       });
     }

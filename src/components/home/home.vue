@@ -204,54 +204,69 @@ export default {
       });
     },
     skip(i) {
-      if (i == 0) {
+      if (this.$store.state.username == null) {
         this.$router.push({
-          name: "reimai",
-          query: {
-            lat: this.lat,
-            lng: this.lng
-          }
+          name: "regi"
         });
-      }
-      if (i == 4) {
-        this.$router.push({
-          name: "qd"
-        });
-      }
-      if (i == 1) {
-        this.$router.push({
-          name: "dm"
-        });
-      }
-      if (i == 2) {
-        this.$router.push({
-          name: "tj"
-        });
-      }
-      if (i == 3) {
-        this.$router.push({
-          name: "ph"
-        });
+      } else {
+        if (i == 0) {
+          this.$router.push({
+            name: "reimai",
+            query: {
+              lat: this.lat,
+              lng: this.lng
+            }
+          });
+        }
+        if (i == 4) {
+          this.$router.push({
+            name: "qd"
+          });
+        }
+        if (i == 1) {
+          this.$router.push({
+            name: "dm"
+          });
+        }
+        if (i == 2) {
+          this.$router.push({
+            name: "tj"
+          });
+        }
+        if (i == 3) {
+          this.$router.push({
+            name: "ph"
+          });
+        }
       }
     },
     xianqing(i) {
-      console.log(i);
-      console.log(this.dataList[i].id);
-      console.log(this.dataList[i].price);
-      this.$router.push({
-        name: "wpxq",
-        query: {
-          goods_id: this.dataList[i].id,
-          price: this.dataList[i].price,
-          token: 2
-        }
-      });
+      if (this.$store.state.username == null) {
+        this.$router.push({
+          name: "regi"
+        });
+      } else {
+        this.$router.push({
+          name: "wpxq",
+          query: {
+            goods_id: this.dataList[i].id,
+            price: this.dataList[i].price,
+            token: 2
+          }
+        });
+      }
     },
     market(i) {
-      this.$router.push({
-        name: "mar"
-      });
-      window.sessionStorage.setItem("SQ", JSON.stringify(i));
+      if (this.$store.state.username == null) {
+        this.$router.push({
+          name: "regi"
+        });
+      } else {
+        this.$router.push({
+          name: "mar"
+        });
+        window.sessionStorage.setItem("SQ", JSON.stringify(i));
+      }
     },
     swiper() {
       this.swiper = new Swiper(".swiper-container", {
@@ -275,7 +290,6 @@ export default {
     },
     Site() {
       if (this.token != 56) {
-        console.log("aaaaaaaaaaaaaaaaa");
         this.getLocation();
       }
       if (this.dz == "正在获取") {
@@ -323,7 +337,7 @@ export default {
           window.localStorage.setItem("lat", that.lat);
           window.localStorage.setItem("lng", that.lng);
           window.localStorage.setItem("city", data.addressComponent.city);
-          console.log(data.addressComponent.city)
+          console.log(data.addressComponent.city);
 
           console.log(that.lat, that.lng);
           console.log(that.shuju);

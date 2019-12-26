@@ -276,8 +276,6 @@
         </div>
       </van-tabs>
 
-
-      
       <div style="height: 2rem"></div>
       <!-- 底部-->
       <div class="footer">
@@ -428,7 +426,7 @@ export default {
     shops() {
       this.$router.push({
         name: "shops",
-        query:{
+        query: {
           shop_id: this.shop_id
         }
       });
@@ -639,7 +637,11 @@ export default {
     },
     dphd() {
       this.$router.push({
-        name: "dphd"
+        name: "dphd",
+        query: {
+          id: this.shop_id,
+          title: this.top.name
+        }
       });
     }
   },

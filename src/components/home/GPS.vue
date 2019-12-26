@@ -86,7 +86,7 @@ export default {
       show: false,
       place: "",
       value: "",
-      dz: window.localStorage.getItem("site") || "正在获取",
+      dz: window.localStorage.getItem("site") || "请选择位置",
       a: "重新定位",
       dataList: [],
       jingwei: "",
@@ -167,8 +167,8 @@ export default {
     market(i) {
       this.$router.push({
         name: "mar",
-        query:{
-          token:""
+        query: {
+          token: ""
         }
       });
       window.sessionStorage.setItem("SQ", JSON.stringify(i));
@@ -259,29 +259,30 @@ export default {
     onSearch() {
       const that = this;
       var val = this.value;
-      if (this.value == "") {
+      if (this.value.length == 0) {
         that.searchShow = false;
-      }
-      console.log(this.value);
-      var map = new AMap.Map("container", {
-        resizeEnable: true
-      });
-      AMap.plugin("AMap.Autocomplete", function() {
-        // 实例化Autocomplete
-        var autoOptions = {
-          //city 限定城市，默认全国
-          city: window.localStorage.getItem("city") || "",
-          output: "cac"
-        };
-        console.log(window.localStorage.getItem("city"));
-        var autoComplete = new AMap.Autocomplete(autoOptions);
-        autoComplete.search(val, function(status, result) {
-          that.searchShow = true;
-          console.log(result.tips);
-          that.searchList = result.tips;
-          // 搜索成功时，result即是对应的匹配数据
+      } else {
+        console.log(this.value);
+        var map = new AMap.Map("container", {
+          resizeEnable: true
         });
-      });
+        AMap.plugin("AMap.Autocomplete", function() {
+          // 实例化Autocomplete
+          var autoOptions = {
+            //city 限定城市，默认全国
+            city: window.localStorage.getItem("city") || "",
+            output: "cac"
+          };
+          console.log(window.localStorage.getItem("city"));
+          var autoComplete = new AMap.Autocomplete(autoOptions);
+          autoComplete.search(val, function(status, result) {
+            that.searchShow = true;
+            console.log(result.tips);
+            that.searchList = result.tips;
+            // 搜索成功时，result即是对应的匹配数据
+          });
+        });
+      }
     },
     getLatLngLocation() {
       const that = this;

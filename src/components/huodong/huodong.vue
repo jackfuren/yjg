@@ -41,7 +41,7 @@
                     <img :src="content.headimg" alt />
                   </div>
                   <div class="category_list_items_right">
-                    <p class="category_title">{{content.name}}</p>
+                    <p class="category_title">{{content.title}}</p>
                     <p class="category_adress">{{content.name}}</p>
                     <p class="category_price">
                       <span>
@@ -158,13 +158,19 @@ export default {
       });
     },
     xiangqing(i) {
-      this.$router.push({
-        name: "wpxq",
-        query: {
-          goods_id: i,
-          token: 1
-        }
-      });
+      if (this.$store.state.username == null) {
+        this.$router.push({
+          name: "regi"
+        });
+      } else {
+        this.$router.push({
+          name: "wpxq",
+          query: {
+            goods_id: i,
+            token: 1
+          }
+        });
+      }
     }
   },
   mounted() {

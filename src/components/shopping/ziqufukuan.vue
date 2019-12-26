@@ -97,8 +97,8 @@
               <img alt src="../../assets/dingdan_bodadianhua.png" />拨打电话
             </p>
           </div>
-          <div>
-            <p @click="show = true">取消订单</p>
+          <div @click="show = true">
+          取消订单
           </div>
         </div>
       </div>
@@ -281,9 +281,6 @@ export default {
     }
   },
   mounted() {
-    // this.listData = this.$store.state.dataList
-    // this.money = this.$store.state.money
-    // this.bei = this.$store.state.bei
     this.order_id = this.$route.query.id;
     this.ative = this.$route.query.ative;
     this.Place();
@@ -613,7 +610,7 @@ export default {
   margin-left: 0.1rem;
 }
 
-.xin .liann > div:nth-child(2) > p {
+.xin .liann > div:nth-child(2) {
   width: 1.8rem;
   height: 0.6rem;
   border: 1px solid #777777;
@@ -622,6 +619,8 @@ export default {
   font-size: 0.3rem;
   position: absolute;
   right: 0.4rem;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .xin {

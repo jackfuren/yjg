@@ -10,19 +10,22 @@
             style="margin-top: 0.1rem;width: 0.55rem;"
             alt
           />
-          <img
-            src="../../../assets/img/cai.png"
-            @click="back =!back"
-            style="width:0.4rem;float: right;margin-right: 0.55rem;margin-top: 0.1rem"
-            alt
-          />
-          <van-icon
-            @click="Search()"
-            color="#333333"
-            name="search"
-            size="0.6rem"
-            style=" float:right;margin-right: 0.1rem;margin-top: 0.1rem"
-          />
+          <p>{{title}}</p>
+          <div>
+            <img
+              src="../../../assets/img/cai.png"
+              @click="back =!back"
+              style="width:0.4rem;float: right;margin-right: 0.55rem;margin-top: 0.1rem"
+              alt
+            />
+            <van-icon
+              @click="Search()"
+              color="#333333"
+              name="search"
+              size="0.6rem"
+              style=" float:right;margin-right: 0.1rem;margin-top: 0.1rem"
+            />
+          </div>
         </div>
         <div v-show="back" class="nav-top-back">
           <p @click="xiaoxi">
@@ -75,7 +78,7 @@
       >
         <van-tab title="新品">
           <div class="concat">
-            <div v-for="(item,index) in spList" :key="index">
+            <div v-for="(item,index) in spList" :key="index" @click="spLink(item.id)">
               <img :src="item.headimg" alt />
               <div class="cont">
                 <p>{{item.title}}</p>
@@ -83,7 +86,7 @@
                   <div>
                     ￥
                     <span>{{item.price}}</span>
-                    <s style="font-size:0.2rem;color:#777777;">{{item.price}}</s>
+                    <s style="font-size:0.2rem;color:#777777;">{{item.original_price}}</s>
                   </div>
                 </div>
               </div>
@@ -91,16 +94,65 @@
           </div>
         </van-tab>
         <van-tab title="热销">
-          <div class="concat"></div>
+          <div class="concat">
+            <div v-for="(item,index) in spList" :key="index" @click="spLink(item.id)">
+              <img :src="item.headimg" alt />
+              <div class="cont">
+                <p>{{item.title}}</p>
+                <div class="price">
+                  <div>
+                    ￥
+                    <span>{{item.price}}</span>
+                    <s style="font-size:0.2rem;color:#777777;">{{item.original_price}}</s>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </van-tab>
         <van-tab title="促销">
-          <div class="concat"></div>
+          <div class="concat">
+            <div v-for="(item,index) in spList" :key="index" @click="spLink(item.id)">
+              <img :src="item.headimg" alt />
+              <div class="cont">
+                <p>{{item.title}}</p>
+                <div class="price">
+                  <div>
+                    ￥
+                    <span>{{item.price}}</span>
+                    <s style="font-size:0.2rem;color:#777777;">{{item.original_price}}</s>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </van-tab>
         <van-tab title="清仓">
-          <div class="concat"></div>
+          <div class="concat">
+            <div v-for="(item,index) in spList" :key="index" @click="spLink(item.id)">
+              <img :src="item.headimg" alt />
+              <div class="cont">
+                <p>{{item.title}}</p>
+                <div class="price">
+                  <div>
+                    ￥
+                    <span>{{item.price}}</span>
+                    <s style="font-size:0.2rem;color:#777777;">{{item.original_price}}</s>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </van-tab>
         <van-tab title="品牌">
-          <div class="concat"></div>
+          <div class="concat-p">
+            <div v-for="(item,index) in spList" :key="index" @click="ppLink(item.id)">
+              <img :src="item.pic" alt />
+              <div class="cont-p">
+                <p>{{item.title}}</p>
+              </div>
+            </div>
+          </div>
         </van-tab>
       </van-tabs>
     </div>
@@ -120,7 +172,9 @@ export default {
       back: false,
       active: 0,
       swipe: 5,
-      spList: []
+      spList: [],
+      type: 0,
+      title: this.$route.query.title
     };
   },
   methods: {
@@ -168,23 +222,39 @@ export default {
       });
     },
     onClick(index, name) {
-      console.log(index);
-      console.log(name);
+      this.type = index;
+
+      this.huodong();
     },
     huodong() {
+      this.type = this.type + 1;
+      console.log(this.type);
       request({
-        url: "api/shop/index",
+        url: "api/shop/shopGoodsType",
         method: "post",
         data: {
-          shop_id: 5,
-          user_id: 35,
-          type: 2,
-          lat: window.localStorage.getItem("lat"),
-          lng: window.localStorage.getItem("lng")
+          shopid: this.$route.query.id,
+          type: this.type
         }
       }).then(res => {
-        this.spList = res.data.data.goods;
-        console.log(this.spList);
+        console.log(res);
+        this.spList = res.data.data;
+      });
+    },
+    spLink(gid) {
+      this.$router.push({
+        name: "wpxq",
+        query: {
+          goods_id: gid
+        }
+      });
+    },
+    ppLink(pid) {
+      this.$router.push({
+        name: "pinpaixq",
+        query: {
+          pinpai: pid
+        }
       });
     }
   },
@@ -233,26 +303,18 @@ export default {
   line-height: 1rem;
   text-align: left;
   padding: 0.2rem 0.2rem 0 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.3rem;
 }
-
-.nav-top div {
-  display: inline-block;
-  width: 5rem;
-  height: 0.66rem;
-  background: white;
-  border-radius: 30px;
-  margin-left: 0.2rem;
+.nav-top p {
   position: relative;
-  bottom: 0.05rem;
-  margin-right: 0.4rem;
+  left: 0.5rem;
 }
-
 .nav-top div span {
   color: #777777;
-  position: relative;
   font-size: 0.28rem;
-  bottom: 0.15rem;
-  left: 0.2rem;
 }
 
 .nav-top-back {
@@ -261,19 +323,10 @@ export default {
   height: 4rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  position: absolute;
-  right: 0.4rem;
   z-index: 999;
   padding-top: 0.4rem;
 }
 
-.nav-top-back p {
-  width: 2.5rem;
-  height: 0.76rem;
-  line-height: 0.76rem;
-  font-size: 0.3rem;
-  color: #ffffff;
-}
 .van-tab__pane {
   position: relative;
   top: 0.5rem;
@@ -296,13 +349,15 @@ export default {
 .concat > div img {
   width: 100%;
 }
-.cont {
+.cont,
+.cont-p {
   padding: 0.1rem 0.2rem;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
 }
-.cont > p {
+.cont > p,
+.cont-p > p {
   min-width: 100%;
   font-size: 0.26rem;
   word-break: break-all;
@@ -321,5 +376,17 @@ export default {
 }
 .price span {
   font-size: 0.3rem;
+}
+.concat-p > div {
+  width: 33%;
+  box-shadow: 0px 0px 9px 0px rgba(51, 51, 51, 0.22);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.18rem;
+  box-sizing: border-box;
+}
+.concat-p > div img {
+  width: 100%;
+  height: 1.5rem;
 }
 </style>

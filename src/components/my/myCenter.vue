@@ -389,20 +389,22 @@ export default {
           user_id: this.$store.state.username.id
         }
       }).then(res => {
-        this.wul = JSON.parse(res.data.msg);
-        for (var ind = this.wul.length; ind >= 0; ind--) {
-          for (var i in this.shou) {
-            this.shou[i].wul = this.wul[ind];
+        if (res.data.msg != "[]") {
+          this.wul = JSON.parse(res.data.msg);
+          for (var ind = this.wul.length; ind >= 0; ind--) {
+            for (var i in this.shou) {
+              this.shou[i].wul = this.wul[ind];
+            }
           }
+          if (
+            this.shou[i].wul != undefined &&
+            this.shou[i].wul.areaCode != undefined
+          ) {
+            this.wuSat.push(this.shou[i]);
+            console.log(this.shou[i].wul.time);
+          }
+          console.log(this.wuSat);
         }
-        if (
-          this.shou[i].wul != undefined &&
-          this.shou[i].wul.areaCode != undefined
-        ) {
-          this.wuSat.push(this.shou[i]);
-          console.log(this.shou[i].wul.time);
-        }
-        console.log(this.wuSat);
       });
     }
   },

@@ -612,7 +612,6 @@ export default {
       if (this.song == 2 && this.tim == "请选择自取时间") {
         Toast("请选择自取时间");
         this.ti = 0;
-
         return;
       }
 
@@ -679,6 +678,8 @@ export default {
               window.location.href = res.data;
             });
           }
+        } else if (res.data.code == 0) {
+          Toast("库存不足");
         }
       });
     },

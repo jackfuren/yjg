@@ -172,7 +172,7 @@ export default {
           order_id: this.order_id
         }
       }).then(res => {
-        console.log(res.data.data);
+        console.log(res);
         this.dataList = res.data.data;
         this.goods_id = res.data.data.goods[0].gid;
         this.phone = this.dataList.mobile;

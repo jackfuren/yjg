@@ -878,21 +878,24 @@ export default {
           }
         }).then(res => {
           console.log(res);
-          this.canA = JSON.stringify(res.data.data.parameter);
-       
-          if (JSON.stringify(this.canA) != "{}") {
-            this.canA = this.canA
-              .split("{")[1]
-              .split("}")[0]
-              .split(",");
-            for (var i in this.canA) {
-              var canArr = {
-                paraName: this.canA[i].split(":")[0].split('"')[1],
-                para: this.canA[i].split(":")[1].split('"')[1]
-              };
-              this.canList.push(canArr);
+          if (res.data.data.parameter != null) {
+            this.canA = JSON.stringify(res.data.data.parameter);
+            console.log(this.canA);
+            if (JSON.stringify(this.canA) != "{}") {
+              this.canA = this.canA
+                .split("{")[1]
+                .split("}")[0]
+                .split(",");
+              for (var i in this.canA) {
+                var canArr = {
+                  paraName: this.canA[i].split(":")[0].split('"')[1],
+                  para: this.canA[i].split(":")[1].split('"')[1]
+                };
+                this.canList.push(canArr);
+              }
             }
           }
+
           this.dataList = res.data.data;
           this.pr = res.data.data.goods_sttr;
           this.shou = res.data.data.is_collectiongoods;
@@ -993,9 +996,11 @@ export default {
             user_id: this.$store.state.username.id,
             goods_id: this.goods_id,
             num: 1,
-            sku_id: 0
+            sku_id: 0,
+            is_new:0
           }
         }).then(res => {
+          console.log(res)
           if (res.data.code == 200) {
             Toast("加入购物车成功");
           }
@@ -1046,6 +1051,7 @@ export default {
             is_new: 1
           }
         }).then(res => {
+          console.log(res)
           if (res.data.code == 200) {
             this.$router.push({
               name: "js",

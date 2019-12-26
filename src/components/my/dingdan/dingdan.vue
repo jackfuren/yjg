@@ -9,8 +9,10 @@
       <van-tabs v-model="active" @click="onClickDisabled" swipeable class="tabs">
         <van-tab title="全部" class="tabsCon">
           <div class="concat-there" v-if="dataList.length == 0 ? true : false">
-            <img src="../../../assets/quangbu.png" alt />
-            <p>当前暂无订单</p>
+            <div>
+              <img src="../../../assets/quangbu.png" alt />
+              <p>当前暂无订单</p>
+            </div>
           </div>
           <div class="concat" v-for="(item ,index) in dataList" :key="index">
             <div>
@@ -40,7 +42,7 @@
               <p>{{ite.goods_attr}}</p>
               <p>
                 ￥
-                <span>{{item.money}}</span>
+                <span>{{ite.ogprice}}</span>
               </p>
               <p>x{{ite.num}}</p>
             </div>
@@ -102,7 +104,7 @@
               <p>{{ite.gitle}}</p>
               <p>
                 ￥
-                <span>{{item.money}}</span>
+                <span>{{ite.ogprice}}</span>
               </p>
               <p>x{{ite.num}}</p>
             </div>
@@ -158,7 +160,7 @@
               <p>{{ite.gitle}}</p>
               <p>
                 ￥
-                <span>{{item.money}}</span>
+                <span>{{ite.ogprice}}</span>
               </p>
               <p>x{{ite.num}}</p>
             </div>
@@ -213,7 +215,7 @@
               <p>{{ite.gitle}}</p>
               <p>
                 ￥
-                <span>{{item.money}}</span>
+                <span>{{ite.ogprice}}</span>
               </p>
               <p>x{{ite.num}}</p>
             </div>
@@ -272,7 +274,7 @@
               <p>{{ite.gitle}}</p>
               <p>
                 ￥
-                <span>{{item.money}}</span>
+                <span>{{ite.ogprice}}</span>
               </p>
               <p>x{{ite.num}}</p>
               <p @click="pingjia(ite)" class="pingjia">评价</p>
@@ -463,9 +465,9 @@ export default {
       });
     },
     All(item) {
-      //1快递2配送0自取
+      // 自取2;跑腿1;快递0;
       console.log(item);
-      if (item.send_type == 1) {
+      if (item.send_type == 0) {
         //快递
         if (item.status == 1) {
           this.$router.push({
@@ -508,7 +510,7 @@ export default {
             }
           });
         }
-      } else if (item.send_type == 2) {
+      } else if (item.send_type == 1) {
         //配送
         if (item.status == 1) {
           this.$router.push({
@@ -536,7 +538,7 @@ export default {
             }
           });
         }
-      } else if (item.send_type == 0) {
+      } else if (item.send_type == 2) {
         //自取
         if (item.status == 1) {
           this.$router.push({

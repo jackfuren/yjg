@@ -44,6 +44,7 @@
                 v-model="ite.check"
                 class="boxes-div-one-check"
                 @click="product_checked_click(shop_index,product_index)"
+                :disabled="ite.num>ite.total?true:false"
               ></van-checkbox>
               <div @click="xian(ite.goods_id)" class="boxes-div-two">
                 <img :src="ite.headimg" alt />
@@ -74,15 +75,15 @@
                     class="product_number_button"
                     @click.stop="product_add(shop_index,product_index)"
                   >
-                    <button>+</button>
+                    <button :disabled="ite.num>=ite.total?true:false">+</button>
                   </div>
                 </div>
+                <div v-if="ite.total<6?true:false" class="kucun">库存剩余{{ite.total}}</div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
       <div class="kong" v-show="dataList.length == 0">
         <img src="../../assets/zhu.png" alt />
         <p>你的购物车还没有商品哦</p>
@@ -290,10 +291,17 @@ export default {
     // 店铺下属商品全部选择时
     shop_all_check(shop_index) {
       var shop = this.dataList[shop_index];
+      console.log(shop);
       shop.check = !shop.check;
       for (var i = 0; i < shop.goods.length; i++) {
-        shop.goods[i].check = shop.check;
+        if (shop.goods[i].total == 0) {
+          shop.goods[i].check = false;
+          shop.check = false;
+        } else {
+          shop.goods[i].check = shop.check;
+        }
       }
+
       // 检测购物车内的商品是否全部选中
       for (var i = 0; i < this.dataList.length; i++) {
         if (!this.dataList[i].check) {
@@ -308,13 +316,19 @@ export default {
       console.log(this.dataList);
       var product = this.dataList[shop_index].goods[product_index];
       product.check = !product.check;
+      if (product.num > product.total) {
+        product.check = false;
+        this.dataList[shop_index].check = false;
+      }
 
       // 检测是否该店铺内的商品全选
       for (var i = 0; i < this.dataList[shop_index].goods.length; i++) {
-        if (!this.dataList[shop_index].goods[i].check) {
-          this.dataList[shop_index].check = false;
-          this.checked_all = false;
-          return;
+        for (
+          var ind = 0;
+          ind < this.dataList[shop_index].goods[ind].length;
+          i++
+        ) {
+          //  if(){}
         }
       }
       this.dataList[shop_index].check = true;
@@ -374,13 +388,13 @@ export default {
 
     // 检测购物车内的商品全部
     all_products_checked() {
-      this.checked_all = !this.checked_all;
-      for (var i = 0; i < this.dataList.length; i++) {
-        this.dataList[i].check = this.checked_all;
-        for (var j = 0; j < this.dataList[i].goods.length; j++) {
-          this.dataList[i].goods[j].check = this.checked_all;
-        }
-      }
+      //   this.checked_all = !this.checked_all;
+      //   for (var i = 0; i < this.dataList.length; i++) {
+      //     this.dataList[i].check = this.checked_all;
+      //     for (var j = 0; j < this.dataList[i].goods.length; j++) {
+      //       this.dataList[i].goods[j].check = this.checked_all;
+      //     }
+      //   }
     },
     //物品删除
     removeCart() {
@@ -981,5 +995,11 @@ export default {
   position: relative;
   top: 0.17rem;
   left: 0.15rem;
+}
+.kucun {
+  position: relative;
+  top: 0.1rem;
+  color: red;
+  font-size: 0.2rem;
 }
 </style>
