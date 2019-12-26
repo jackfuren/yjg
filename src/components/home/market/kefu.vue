@@ -169,7 +169,7 @@
           <img @click="jian()" v-if="yuyin==1?true:false" src="../../../assets/jianpan.png" alt />
         </van-col>
         <van-col v-if="text === ''" span="20" class="inputTxt">
-          <div @touchstart="luzhi()" @touchend="jieshu()" class="an" v-if="yuyin==1?true:false">按住说话</div>
+          <div @touchstart="mouseStart()" @touchend="mouseEnd()" class="an" v-if="yuyin==1?true:false">按住说话</div>
           <div id="text" v-if="yuyin==0?true:false">
             <textarea type="text" v-model="text" @focus="huoqu" rows="1"></textarea>
           </div>
@@ -248,7 +248,19 @@ export default {
       listId: "",
       showH: false,
       upload: "",
-      yulanImg: []
+      yulanImg: [],
+			//语音
+			form: {
+			 time: '按住说话(60秒)',
+			 audioUrl: ''
+			},
+			num: 60, // 按住说话时间
+			recorder: null,
+			interval: '',
+			flag:true,
+			audioFileList: [], // 上传语音列表
+			startTime: '', // 语音开始时间
+			endTime: '', // 语音结束
     };
   },
   mounted() {
@@ -344,7 +356,7 @@ export default {
       }
     },
     //录制语音
-    luzhi() {
+    mouseStart() {
       let that = this;
       // that.news_img = !that.news_img
       // that.$nextTick(()=>{
@@ -359,7 +371,7 @@ export default {
       // })
     },
     //录制结束发送语音
-    jieshu() {
+    mouseEnd() {
       let that = this;
       rc.pause();
       //获取pcm录音
@@ -367,19 +379,17 @@ export default {
         encodeTo: ENCODE_TYPE.WAV,
         compressible: true
       });
-      var uuid = this.uuid;
-      if (this.chatList != "") {
-        var end_time = this.chatList[this.chatList.length - 1].addtime;
-      }
+	  console.log(wav)
+      // if (this.chatList != "") {
+      //   var end_time = this.chatList[this.chatList.length - 1].addtime;
+      // }
       var formData = new FormData();
       // formData.append('file',wav);
-      formData.append("topic_id", uuid);
-      formData.append("last_time", end_time);
       formData.append("type", 4);
       formData.append("file", wav, Date.parse(new Date()) + ".wav");
-      let headers = { headers: { "Content-Type": "multipart/form-data" } };
-      axios.defaults.withCredentials = true;
-      this.$request({
+	  console.log(wav, Date.parse(new Date()) + ".wav")
+      // axios.defaults.withCredentials = true;
+     request({
         url: "api/base/base64video",
         method: "post",
         data: {
@@ -389,40 +399,12 @@ export default {
       })
         .then(res => {
           console.log(res);
-          that.news_img = !that.news_img;
-          this.content = "";
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      this.uplode(wav);
-    },
-    //上传音频
-    uplode(wav) {
-      var formData = new FormData();
-      var name = Date.parse(new Date()) + ".wav";
-      console.log(name);
-      formData.append("file", wav, name); // 'file' 这个名字要和后台获取文件的名字一样;
-      //formData.append('user_key', this.returnUserKey())
-      console.log(wav);
-      console.log(formData);
-      request({
-        url: "api/base/base64video",
-        method: "post",
-        data: {
-          file: formData
-        }
-      })
-        .then(res => {
-          console.log(res);
-          if (res.data.code == "0") {
-            Toast("没有说话");
-          }
         })
         .catch(err => {
           console.log(err);
         });
     },
+   
     // 获取历史就聊天记录
     msglog(num) {
       request({
