@@ -2,7 +2,7 @@
   <div class="box">
     <div class="box-container">
       <div id="n"></div>
-      <div class="nav" @click="fh()">
+      <div class="nav" >
         <img src="../../../assets/img/fan.png" @click="fh()" class="nav-left" alt />
         <p>品牌详情</p>
       </div>
@@ -119,6 +119,7 @@ export default {
           name: "com"
         });
       } else {
+        console.log('ssssssssssss')
         this.$router.go(-1);
       }
     },

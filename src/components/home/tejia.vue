@@ -292,7 +292,6 @@ export default {
   background: white;
   position: fixed;
   top: 0.88rem;
-  z-index: 999;
 }
 
 .all div {

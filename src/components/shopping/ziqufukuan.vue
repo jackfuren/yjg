@@ -97,9 +97,7 @@
               <img alt src="../../assets/dingdan_bodadianhua.png" />拨打电话
             </p>
           </div>
-          <div @click="show = true">
-          取消订单
-          </div>
+          <div @click="show = true">取消订单</div>
         </div>
       </div>
       <div style="height: 3rem"></div>
@@ -666,5 +664,6 @@ export default {
   border: 0;
   float: right;
   margin-right: 0.5rem;
+  padding: 0.01rem;
 }
 </style>

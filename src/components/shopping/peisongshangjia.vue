@@ -153,7 +153,6 @@
     <meta name="format-detection" content="telephone=yes" />
   </div>
 </template>
-<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=e785b2d68f5c945dd0b7f293c6db3d3b"></script> 
 <script>
 import Vue from "vue";
 import { Toast } from "vant";
@@ -350,7 +349,6 @@ export default {
   }
 };
 </script>
- <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
 <style scoped>
 #container {
   width: 100%;
@@ -840,6 +838,7 @@ export default {
   border: 0;
   float: right;
   margin-right: 0.5rem;
+  padding: 0.01rem;
 }
 </style>
 

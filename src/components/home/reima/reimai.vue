@@ -361,7 +361,7 @@ export default {
   right: 0.25rem;
   z-index: 999;
   top: 0.6rem;
-  padding: 0.2rem 0 0.4rem;
+  padding: 0.2rem 0 0.1rem;
 }
 
 .nav-top-back p {

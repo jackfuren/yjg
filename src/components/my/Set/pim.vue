@@ -118,6 +118,7 @@ Vue.use(Toast);
             timer:null
           }
         }).then(res => {
+          console.log(res)
           if (res.data.code == 200) {
             this.$store.dispatch('UserName',res.data.data)
 
@@ -128,6 +129,8 @@ Vue.use(Toast);
             },1000);
 
 
+          }else{
+            Toast(res.data.msg)
           }
 
 

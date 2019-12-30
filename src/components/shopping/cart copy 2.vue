@@ -25,7 +25,6 @@
                 v-model="item.check"
                 @click="shop_all_check(shop_index)"
                 style="width: 0.4rem;display: inline-block;position: relative;top: 0.17rem"
-                v-if="item.goods.length==1&&item.goods[0].total==0?false:true"
               ></van-checkbox>
               <div class="dp" @click="dp(item.id)">
                 <img class="pj" src="../../assets/gouwuche_icon.png" alt />
@@ -35,65 +34,52 @@
                 <img class="pjj" src="../../../src/assets/gouwuche_button_xiayibu.png" alt />
               </div>
             </div>
-            <section v-for="(ite ,product_index) in  item.goods " :key="product_index">
-              <div class="boxes-div-one" :key="product_index" v-if="ite.total!=0">
-                <van-checkbox
-                  v-model="ite.check"
-                  class="boxes-div-one-check"
-                  @click="product_checked_click(shop_index,product_index)"
-                  :disabled="ite.num>ite.total?true:false"
-                ></van-checkbox>
-                <div @click="xian(ite.goods_id)" class="boxes-div-two">
-                  <img :src="ite.headimg" alt />
-                </div>
-                <div class="boxes-div-there">
-                  <p @click="xian(ite.goods_id)">{{ite.title}}</p>
-                  <p @click="xian(ite.goods_id)">{{ite.goods_attr}}</p>
-                  <p @click="xian(ite.goods_id)">
-                    ￥
-                    <span style="font-weight: bold">{{ite.price}}</span>
-                  </p>
 
-                  <div class="product_number_content">
-                    <div class="product_number_buttonn">
-                      <button
-                        v-if="ite.num > 1"
-                        @click.stop="product_reduce(shop_index,product_index)"
-                      >-</button>
-                    </div>
-                    <div class="product_number_input">
-                      <input
-                        type="number"
-                        v-model="ite.num"
-                        @input="inFunction(shop_index,product_index)"
-                      />
-                    </div>
-                    <div
-                      class="product_number_button"
-                      @click.stop="product_add(shop_index,product_index)"
-                    >
-                      <button v-if="ite.num>=ite.total?false:true">+</button>
-                    </div>
+            <div
+              class="boxes-div-one"
+              v-for="(ite ,product_index) in  item.goods "
+              :key="product_index"
+            >
+              <van-checkbox
+                v-model="ite.check"
+                class="boxes-div-one-check"
+                @click="product_checked_click(shop_index,product_index)"
+              :disabled="ite.total==0"
+              ></van-checkbox>
+              <div @click="xian(ite.goods_id)" class="boxes-div-two">
+                <img :src="ite.headimg" alt />
+              </div>
+              <div class="boxes-div-there">
+                <p @click="xian(ite.goods_id)">{{ite.title}}</p>
+                <p @click="xian(ite.goods_id)">{{ite.goods_attr}}</p>
+                <p @click="xian(ite.goods_id)">
+                  ￥
+                  <span style="font-weight: bold">{{ite.price}}</span>
+                </p>
+                <div v-if="ite.total<6?true:false" class="kucun">库存剩余{{ite.total}}</div>
+                <div class="product_number_content">
+                  <div class="product_number_buttonn">
+                    <button
+                      v-if="ite.num > 1"
+                      @click.stop="product_reduce(shop_index,product_index)"
+                    >-</button>
                   </div>
-                  <div v-if="ite.total<6?true:false" class="kucunK">库存剩余{{ite.total}}</div>
+                  <div class="product_number_input">
+                    <input
+                      type="number"
+                      v-model="ite.num"
+                      @input="inFunction(shop_index,product_index)"
+                    />
+                  </div>
+                  <div
+                    class="product_number_button"
+                    @click.stop="product_add(shop_index,product_index)"
+                  >
+                    <button v-if="ite.total<=ite.num?false:true">+</button>
+                  </div>
                 </div>
               </div>
-              <div class="boxes-div-one" :key="product_index" v-if="ite.total==0">
-                <div class="shi">失效</div>
-                <div @click="xian(ite.goods_id)" class="boxes-div-two">
-                  <img :src="ite.headimg" alt />
-                </div>
-                <div class="boxes-div-there">
-                  <p @click="xian(ite.goods_id)">{{ite.title}}</p>
-                  <p @click="xian(ite.goods_id)">{{ite.goods_attr}}</p>
-                  <p @click="xian(ite.goods_id)"></p>
-                  <div v-if="ite.total==0?true:false" class="kucun">
-                    <div>商品库存不足</div>
-                    <div @click="shixiao(ite.id)">移除失效宝贝</div>
-                  </div>
-                </div>
-              </div>
-            </section>
+            </div>
           </div>
         </div>
       </section>
@@ -240,10 +226,7 @@ export default {
       this.arrList = [];
       for (var i = 0; i < this.dataList.length; i++) {
         for (var j = 0; j < this.dataList[i].goods.length; j++) {
-          if (
-            this.dataList[i].goods[j].check &&
-            this.dataList[i].goods[j].total != 0
-          ) {
+          if (this.dataList[i].goods[j].check) {
             this.arrList.push(this.dataList[i].goods[j].id);
           }
         }
@@ -308,14 +291,10 @@ export default {
     // 店铺下属商品全部选择时
     shop_all_check(shop_index) {
       var shop = this.dataList[shop_index];
-      console.log(shop);
       shop.check = !shop.check;
       for (var i = 0; i < shop.goods.length; i++) {
-        if (shop.goods[i].total != 0) {
-          shop.goods[i].check = shop.check;
-        }
+        shop.goods[i].check = shop.check;
       }
-
       // 检测购物车内的商品是否全部选中
       for (var i = 0; i < this.dataList.length; i++) {
         if (!this.dataList[i].check) {
@@ -327,23 +306,19 @@ export default {
     },
     // 商品选择时
     product_checked_click(shop_index, product_index) {
-      // console.log(this.dataList);
+      console.log(this.dataList);
       var product = this.dataList[shop_index].goods[product_index];
       product.check = !product.check;
 
       // 检测是否该店铺内的商品全选
       for (var i = 0; i < this.dataList[shop_index].goods.length; i++) {
-        if (
-          this.dataList[shop_index].goods[i].total != 0 &&
-          this.dataList[shop_index].goods[i].check == true
-        ) {
-          console.log(this.dataList[shop_index]);
-          this.dataList[shop_index].check = true;
-        } else {
-          console.log(this.dataList[shop_index]);
+        if (!this.dataList[shop_index].goods[i].check) {
           this.dataList[shop_index].check = false;
+          this.checked_all = false;
+          return;
         }
       }
+      this.dataList[shop_index].check = true;
 
       // 检测购物车内的商品是否全部选中
       for (var i = 0; i < this.dataList.length; i++) {
@@ -408,12 +383,12 @@ export default {
         }
       }
     },
-
     //物品删除
     removeCart() {
       this.arrList = [];
       for (var i = 0; i < this.dataList.length; i++) {
         for (var j = 0; j < this.dataList[i].goods.length; j++) {
+          //console.log(11111)
           if (this.dataList[i].goods[j].check) {
             this.arrList.push(this.dataList[i].goods[j].id);
           }
@@ -427,7 +402,7 @@ export default {
           cart_id: this.arrList.join(",")
         }
       }).then(res => {
-        console.log(this.arrList.join(","));
+        //console.log(res)
         if (res.data.code == 200) {
           this.gian();
           if (this.shouC == true) {
@@ -540,23 +515,6 @@ export default {
           shop_id: id
         }
       });
-    },
-    shixiao(id) {
-      this.request({
-        url: "api/goods/delcart",
-        method: "post",
-        data: {
-          user_id: this.$store.state.username.id,
-          cart_id: id
-        }
-      }).then(res => {
-        if (res.data.code == 200) {
-          this.gian();
-          Toast("已移除失效宝贝");
-        } else {
-          Toast("移除失效宝贝失败");
-        }
-      });
     }
   },
   computed: {
@@ -566,7 +524,7 @@ export default {
       for (var i = 0; i < this.dataList.length; i++) {
         var product = this.dataList[i].goods;
         for (var j = 0; j < product.length; j++) {
-          if (product[j].check == true && product[j].total != 0) {
+          if (product[j].check) {
             selected_products += product[j].num;
           }
         }
@@ -579,7 +537,7 @@ export default {
       for (var i = 0; i < this.dataList.length; i++) {
         var product = this.dataList[i].goods;
         for (var j = 0; j < product.length; j++)
-          if (product[j].check == true && product[j].total != 0) {
+          if (product[j].check) {
             total_price += product[j].num * product[j].price;
           }
       }
@@ -1025,31 +983,10 @@ export default {
   top: 0.17rem;
   left: 0.15rem;
 }
-.kucunK{
-   width: 100%;
-  position: relative;
-  top: 0.2rem;
-  color: red;
-  font-size: 0.2rem;
-}
 .kucun {
-  width: 100%;
-  position: absolute;
-  bottom: 0.2rem;
+  position: relative;
+  top: 0.1rem;
   color: red;
   font-size: 0.2rem;
-  display: flex;
-  justify-content: space-between;
-  padding-right: 0.2rem;
-  box-sizing: border-box;
-}
-.shi {
-  padding: 0.04rem;
-  background-color: rgb(163, 163, 163);
-  position: absolute;
-  top: 0.7rem;
-  left: -0.5rem;
-  color: white;
-  border-radius: 10px;
 }
 </style>

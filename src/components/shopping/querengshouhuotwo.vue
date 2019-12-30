@@ -627,6 +627,7 @@ export default {
   border: 0;
   float: right;
   margin-right: 0.5rem;
+  padding: 0.01rem;
 }
 </style>
 

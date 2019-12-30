@@ -328,7 +328,7 @@ export default {
         AMap.event.addListener(geolocation, "error", onError);
         function onComplete(data) {
           console.log(data);
-          that.shuju = data;
+
           // 经纬度
           that.lat = data.position.lat;
           that.lng = data.position.lng;
@@ -338,16 +338,19 @@ export default {
           window.localStorage.setItem("lng", that.lng);
           window.localStorage.setItem("city", data.addressComponent.city);
           console.log(data.addressComponent.city);
+          that.formattedAddress = data.formattedAddress;
 
           console.log(that.lat, that.lng);
-          console.log(that.shuju);
           console.log(that.dzz);
           if (that.dzz == undefined) {
             that.getLocation();
           }
+          that.shuju = data;
+          console.log(that.shuju.addressComponent);
+
           //  显示位置判断
-          if (that.shuju.addressComponent.building != "") {
-            that.dzz = this.shuju.addressComponent.building; //楼信息列表
+          if (data.addressComponent.building != "") {
+            that.dzz = that.shuju.addressComponent.building; //楼信息列表
           } else if (that.shuju.addressComponent.neighborhood != "") {
             if (
               that.shuju.formattedAddress.split(
@@ -385,12 +388,12 @@ export default {
               )[1];
             }
           }
+
           console.log(that.dzz);
           window.localStorage.setItem("site", that.dzz);
           window.sessionStorage.setItem("site", that.dzz);
           console.log(window.localStorage.getItem("site"));
           that.queP = true;
-          that.formattedAddress = data.formattedAddress;
           that.ding();
         }
 

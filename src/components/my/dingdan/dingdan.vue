@@ -232,7 +232,7 @@
                 @click="wuliu(item.oid)"
                 v-show="item.status == 3  && item.send_type !=0? true:false"
               >查看物流</p>
-              <p class="mlo" v-show="item.send_type == 0? true:false">自取订单</p>
+              <p class="mlo" v-show="item.send_type == 2? true:false">自取订单</p>
               <p class="mlo" v-show="item.send_type == 1? true:false">配送订单</p>
             </div>
           </div>
@@ -988,5 +988,8 @@ export default {
 }
 .tabsCon {
   min-height: 94vh;
+}
+.van-tab__pane{
+    min-height: 94vh;
 }
 </style>

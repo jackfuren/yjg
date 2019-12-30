@@ -47,28 +47,30 @@
             <p>售后</p>
           </div>
         </div>
-        <div class="nav-wl" v-show="shou.length>0 ? true : false">
+        <div class="nav-wl" v-show="wuSat.length>0 ? true : false">
           <p>最近物流</p>
           <div class="nav-qs">
-            <div
-              class="nav-qsp"
-              v-for="(imet,index) in wuSat"
-              :key="index"
-              @click="wuliu(imet.expresscom,imet.expresssn)"
-            >
-              <img :src="imet.goods[0].headimg" alt />
-              <div class="nav-right">
-                <div>
-                  <van-checkbox
-                    checked-color="#EF0600"
-                    disabled
-                    class="dian"
-                    label-position="right"
-                    v-model="item"
-                  ></van-checkbox>
-                  <span class="tit">{{imet.goods[0].gitle}}</span>
+            <div id="wuliuS">
+              <div
+                class="nav-qsp"
+                v-for="(imet,index) in wuSat"
+                :key="index"
+                @click="wuliu(imet.expresscom,imet.expresssn)"
+              >
+                <img :src="imet.goods[0].headimg" alt />
+                <div class="nav-right">
+                  <div>
+                    <van-checkbox
+                      checked-color="#EF0600"
+                      disabled
+                      class="dian"
+                      label-position="right"
+                      v-model="item"
+                    ></van-checkbox>
+                    <span class="tit">{{imet.goods[0].gitle}}</span>
+                  </div>
+                  <p class="dsd">您的快件已经{{imet.wul.status}}</p>
                 </div>
-                <p class="dsd">您的快件已经{{imet.wul.status}}</p>
               </div>
             </div>
           </div>
@@ -391,21 +393,51 @@ export default {
       }).then(res => {
         if (res.data.msg != "[]") {
           this.wul = JSON.parse(res.data.msg);
+          console.log(this.wul);
+          var i = 0;
           for (var ind = this.wul.length; ind >= 0; ind--) {
-            for (var i in this.shou) {
-              this.shou[i].wul = this.wul[ind];
+            console.log(this.shou[0]);
+            this.shou[i].wul = this.wul[ind];
+            console.log(this.shou[i]);
+            if (i < this.shou.length - 1) {
+              i++;
             }
           }
-          if (
-            this.shou[i].wul != undefined &&
-            this.shou[i].wul.areaCode != undefined
-          ) {
-            this.wuSat.push(this.shou[i]);
-            console.log(this.shou[i].wul.time);
+
+          for (var inde in this.shou) {
+            if (
+              this.shou[inde].wul != undefined &&
+              this.shou[inde].wul.areaCode != undefined &&
+              this.shou[inde].expresssn != ""
+            ) {
+              this.wuSat.push(this.shou[inde]);
+            }
           }
+
+          this.wuSat.push(this.wuSat[0]);
           console.log(this.wuSat);
+          this.scrollWu();
         }
       });
+    },
+    scrollWu() {
+      var wuliuS = document.getElementById("wuliuS");
+      var i = 0;
+
+      var lengthS = this.wuSat.length - 1;
+      console.log(lengthS);
+      // setInterval(function() {
+      //   i++;
+      //   wuliuS.style.top = -0.8 * i + "rem";
+      //   if (i > lengthS) {
+      //     wuliuS.style.transition = "none";
+      //     wuliuS.style.top = 0;
+      //     setTimeout(function() {
+      //       i = 0;
+      //       wuliuS.style.transition = "all 0.5s";
+      //     }, 500);
+      //   }
+      // }, 5000);
     }
   },
   mounted() {
@@ -575,9 +607,14 @@ export default {
   height: 0.8rem;
   margin: 0 auto;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: hidden;
+  position: relative;
 }
-
+#wuliuS {
+  position: absolute;
+  top: 0;
+  transition: all 0.5s;
+}
 .nav-qsp {
   height: 0.8rem;
   width: 6rem;
@@ -591,7 +628,8 @@ export default {
 
 .dian {
   float: left;
-  margin-left: 0.3rem;
+  margin-left: 0.25rem;
+  margin-top: 0.05rem;
 }
 
 .dsd {

@@ -633,7 +633,7 @@ export default {
 
 .fz {
   width: 0.6rem;
-
+  padding: 0.01rem;
   height: 0.3rem;
   border-radius: 10px;
   line-height: 0.3rem;

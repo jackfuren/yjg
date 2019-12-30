@@ -227,8 +227,8 @@ export default {
       this.$router.push({
         name: "kf",
         query: {
-          sid:  this.dataList.shop_id,
-          name:  this.dataList.sname,
+          sid: this.dataList.shop_id,
+          name: this.dataList.sname,
           token: 90
         }
       });
@@ -623,5 +623,6 @@ export default {
   border: 0;
   float: right;
   margin-right: 0.5rem;
+  padding: 0.01rem;
 }
 </style>

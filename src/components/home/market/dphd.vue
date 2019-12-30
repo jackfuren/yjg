@@ -253,7 +253,8 @@ export default {
       this.$router.push({
         name: "pinpaixq",
         query: {
-          pinpai: pid
+          pinpai: pid,
+          token: 5
         }
       });
     }
@@ -320,16 +321,26 @@ export default {
 .nav-top-back {
   background-image: url(../../../assets/shangjiaye_xialakuang.png);
   width: 2.9rem;
-  height: 4rem;
+  height: 4.11rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  position: absolute;
+  right: 0.4rem;
   z-index: 999;
   padding-top: 0.4rem;
 }
 
+.nav-top-back p {
+  width: 2.5rem;
+  height: 0.76rem;
+  line-height: 0.76rem;
+  font-size: 0.3rem;
+  color: #ffffff;
+}
+
 .van-tab__pane {
   position: relative;
-  top: 0.5rem;
+  top: 0.2rem;
   padding: 0.15rem;
   text-align: left;
 }
@@ -387,6 +398,5 @@ export default {
 }
 .concat-p > div img {
   width: 100%;
-  height: 1.5rem;
 }
 </style>

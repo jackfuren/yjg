@@ -169,6 +169,7 @@ export default {
   font-size: 0.24px;
   list-style: none;
   border: 0;
+  padding: 0.01rem;
   margin-right: 0.5rem;
 }
 

@@ -184,11 +184,6 @@ const My = resolve => {
     resolve(require('@/components/my/myCenter'));
   })
 }
-const cs = resolve => {
-  require.ensure(['@/components/cheshi'], () => {
-    resolve(require('@/components/cheshi'));
-  })
-}
 const Help = resolve => {
   require.ensure(['@/components/my/Help/help'], () => {
     resolve(require('@/components/my/Help/help'));
@@ -644,11 +639,6 @@ const router = new Router({
       meta: {
         requiresAuth: true
       }
-    },
-    {
-      path: '/cs',
-      name: 'cs',
-      component: cs
     },
     {
       path: '/Help',

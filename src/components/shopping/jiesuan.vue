@@ -343,6 +343,7 @@ export default {
       } else {
         this.song = index;
       }
+      console.log(this.song)
       this.ptmoney();
     },
     openid() {},
@@ -385,7 +386,7 @@ export default {
       this.show1 = false;
     },
     Fast() {
-      // console.log(this.$store.state.username.id);
+      
       request({
         url: "api/order/index",
         method: "post",
@@ -442,6 +443,7 @@ export default {
           // this.isLoading=false
         }
       });
+
     },
     sitee() {
       this.$router.push({
@@ -614,12 +616,13 @@ export default {
         this.ti = 0;
         return;
       }
-
+      console.log(this.tim);
       this.arrList = [];
       for (var i = 0; i < this.listData.length; i++) {
         if (this.youfei[i] == undefined) {
           this.youfei[i] = 0;
         }
+        console.log(this.song)
         this.arrList.push({
           shop_id: this.listData[i].id,
           cart_id: this.listData[i].cart_id,
@@ -642,7 +645,7 @@ export default {
           myshop: JSON.stringify(this.arrList),
           coupon_id: this.pinyou.pid,
           money: this.total_amount,
-          takes_time: this.timm,
+          takes_time: this.tim,
           takes_mobile: this.vaue
         }
       }).then(res => {
