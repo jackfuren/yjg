@@ -417,7 +417,7 @@ Vue.use(Router)
 
 const router = new Router({
   //去掉访问时候的/#这个动态参数
-  mode: 'history',
+  // mode: 'history',
   routes: [
     //首页
     {

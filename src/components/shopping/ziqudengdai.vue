@@ -639,11 +639,12 @@ export default {
   line-height: 0.3rem;
   background: #ef0600;
   color: white;
-  font-size: 0.24px;
+  font-size: 0.28px;
   list-style: none;
   border: 0;
   float: right;
   margin-right: 0.5rem;
+  box-sizing: border-box;
 }
 </style>
 

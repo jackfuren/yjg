@@ -2,7 +2,7 @@
   <div class="box">
     <div class="nav">
       <van-icon @click="fh()" class="nav-left" name="arrow-left" size="0.5rem" />
-      <p>配送服务</p>
+      <p>假货投诉</p>
     </div>
     <div class="concat">
       <div>1.沿街购平台禁止出售假货商品，一旦合适凭证有效，沿街购平台支持全额退款处理且运费由商家承担，同时对商家造假行为作出严厉处罚</div>

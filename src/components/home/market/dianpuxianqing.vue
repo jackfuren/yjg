@@ -285,9 +285,6 @@
         <p @click="dphd">
           <span>活动专区</span>
         </p>
-        <p>
-          <span>会员卡</span>
-        </p>
       </div>
     </div>
   </div>

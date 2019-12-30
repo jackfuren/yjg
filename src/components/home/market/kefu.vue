@@ -169,7 +169,12 @@
           <img @click="jian()" v-if="yuyin==1?true:false" src="../../../assets/jianpan.png" alt />
         </van-col>
         <van-col v-if="text === ''" span="20" class="inputTxt">
-          <div @touchstart="mouseStart()" @touchend="mouseEnd()" class="an" v-if="yuyin==1?true:false">按住说话</div>
+          <div
+            @touchstart="mouseStart()"
+            @touchend="mouseEnd()"
+            class="an"
+            v-if="yuyin==1?true:false"
+          >按住说话</div>
           <div id="text" v-if="yuyin==0?true:false">
             <textarea type="text" v-model="text" @focus="huoqu" rows="1"></textarea>
           </div>
@@ -249,18 +254,18 @@ export default {
       showH: false,
       upload: "",
       yulanImg: [],
-			//语音
-			form: {
-			 time: '按住说话(60秒)',
-			 audioUrl: ''
-			},
-			num: 60, // 按住说话时间
-			recorder: null,
-			interval: '',
-			flag:true,
-			audioFileList: [], // 上传语音列表
-			startTime: '', // 语音开始时间
-			endTime: '', // 语音结束
+      //语音
+      form: {
+        time: "按住说话(60秒)",
+        audioUrl: ""
+      },
+      num: 60, // 按住说话时间
+      recorder: null,
+      interval: "",
+      flag: true,
+      audioFileList: [], // 上传语音列表
+      startTime: "", // 语音开始时间
+      endTime: "" // 语音结束
     };
   },
   mounted() {
@@ -379,32 +384,35 @@ export default {
         encodeTo: ENCODE_TYPE.WAV,
         compressible: true
       });
-	  console.log(wav)
-      // if (this.chatList != "") {
-      //   var end_time = this.chatList[this.chatList.length - 1].addtime;
-      // }
-      var formData = new FormData();
-      // formData.append('file',wav);
-      formData.append("type", 4);
-      formData.append("file", wav, Date.parse(new Date()) + ".wav");
-	  console.log(wav, Date.parse(new Date()) + ".wav")
-      // axios.defaults.withCredentials = true;
-     request({
-        url: "api/base/base64video",
-        method: "post",
-        data: {
-          file: formData
-        },
-        headers: { "Content-Type": "multipart/form-data" }
-      })
-        .then(res => {
-          console.log(res);
+      var dataurl = "";
+      blobToDataURL(wav, function(dataurl) {
+        dataurl = dataurl;
+        console.log(dataurl);
+        request({
+          url: "api/base/base64video",
+          method: "post",
+          data: {
+            file: dataurl
+          },
+          headers: { "Content-Type": "multipart/form-data" }
         })
-        .catch(err => {
-          console.log(err);
-        });
+          .then(res => {
+            console.log(res);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
+
+      function blobToDataURL(wav, callback) {
+        var a = new FileReader();
+        a.onload = function(e) {
+          callback(e.target.result);
+        };
+        a.readAsDataURL(wav);
+      }
     },
-   
+
     // 获取历史就聊天记录
     msglog(num) {
       request({
@@ -429,6 +437,7 @@ export default {
               res.data.data[i].content =
                 "http://svn.yanjiegou.com" + res.data.data[i].content;
             }
+            
             // 时间的修改
             if (
               res.data.data[i].add_time.split(" ")[0] ===
@@ -613,6 +622,7 @@ export default {
     },
     // 上传图片到图片服务器
     up() {
+      console.log(this.upload)
       request({
         url: "api/base/base64imgupload",
         method: "post",
