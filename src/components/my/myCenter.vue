@@ -306,7 +306,6 @@ export default {
     },
     dingdan() {
       var that = this;
-
       request({
         //我的订单
         url: "api/users/order",
@@ -315,10 +314,11 @@ export default {
           user_id: this.$store.state.username.id
         }
       }).then(res => {
+        console.log(res.data.data);
         for (var i in res.data.data) {
-          // console.log(res.data.data[i].status);
           if (res.data.data[i].status == 1) {
             this.kuan.push(res.data.data[i]);
+            console.log(this.kuan)
           } else if (res.data.data[i].status == 2) {
             this.fa.push(res.data.data[i]);
           } else if (res.data.data[i].status == 3) {

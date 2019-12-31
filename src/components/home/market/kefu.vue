@@ -37,6 +37,11 @@
                         <div v-if="item.type === 1" class="masgContent masgContentMyImg">
                           <img :src="item.content" alt @click="yulan(item.yuLanInd)" />
                         </div>
+                        <div v-if="item.type === 2" class="masgContent masgContentMy">
+                          <p @click="play(item.content)">
+                            <span class="fa fa-rss ziAudio"></span>
+                          </p>
+                        </div>
                         <div v-if="item.content===infooUid" @click="link">
                           <div class="comm">
                             <img :src="img" alt />
@@ -69,6 +74,11 @@
                         >{{item.content}}</div>
                         <div v-if="item.type===1" class="masgContent masgContentYouImg">
                           <img :src="item.content" alt @click="yulan(item.yuLanInd)" />
+                        </div>
+                        <div v-if="item.type === 2" class="masgContent masgContentYou">
+                          <p @click="play(item.content)">
+                            <span class="fa fa-rss duiAudio"></span>
+                          </p>
                         </div>
                       </van-col>
                       <van-col span="4">&nbsp;</van-col>
@@ -115,6 +125,11 @@
                         <div v-if="item.type === 1" class="masgContent masgContentMyImg">
                           <img :src="item.content" alt @click="yulan(item.yuLanInd)" />
                         </div>
+                        <div v-if="item.type === 2" class="masgContent masgContentMy">
+                          <p @click="play(item.content)">
+                            <span class="fa fa-rss ziAudio"></span>
+                          </p>
+                        </div>
                         <div v-if="item.content===infooUid" @click="link">
                           <div class="comm">
                             <img :src="img" alt />
@@ -148,6 +163,11 @@
                         <div v-if="item.type===1" class="masgContent masgContentYouImg">
                           <img :src="item.content" alt @click="yulan(item.yuLanInd)" />
                         </div>
+                        <div v-if="item.type === 2" class="masgContent masgContentYou">
+                          <p @click="play(item.content)">
+                            <span class="fa fa-rss duiAudio"></span>
+                          </p>
+                        </div>
                       </van-col>
                       <van-col span="4">&nbsp;</van-col>
                     </van-row>
@@ -160,6 +180,12 @@
       </section>
     </van-pull-refresh>
 
+    <div id="audio" v-if="startA">
+      <img src="../../../assets/ic_record@2x.png" alt v-if="moveA" />
+      <img src="../../../assets/ic_release_to_cancel@2x.png" alt v-if="canA" />
+      <p>{{audioTishi}}</p>
+    </div>
+
     <div class="tabBar">
       <van-row class="shu" type="flex" justify="center">
         <!-- 此处如果需要左侧语音输入按钮，将此处注释解开，把输入框中18改为15，换掉中间图标 -->
@@ -169,12 +195,7 @@
           <img @click="jian()" v-if="yuyin==1?true:false" src="../../../assets/jianpan.png" alt />
         </van-col>
         <van-col v-if="text === ''" span="20" class="inputTxt">
-          <div
-            @touchstart="mouseStart()"
-            @touchend="mouseEnd()"
-            class="an"
-            v-if="yuyin==1?true:false"
-          >按住说话</div>
+          <div id="startKey" @touchstart="mouseStart()" class="an" v-if="yuyin==1?true:false">按住说话</div>
           <div id="text" v-if="yuyin==0?true:false">
             <textarea type="text" v-model="text" @focus="huoqu" rows="1"></textarea>
           </div>
@@ -220,6 +241,7 @@ Vue.use(ImagePreview);
 const appData = require("../../utils/emojis.json");
 import { getNowTime } from "../../utils/getNowTime";
 import request from "../../utils/request";
+
 export default {
   data() {
     return {
@@ -259,13 +281,23 @@ export default {
         time: "按住说话(60秒)",
         audioUrl: ""
       },
-      num: 60, // 按住说话时间
       recorder: null,
       interval: "",
       flag: true,
       audioFileList: [], // 上传语音列表
       startTime: "", // 语音开始时间
-      endTime: "" // 语音结束
+      endTime: "", // 语音结束,
+      audio: "",
+      tiemr: "",
+      audioSrc: "",
+      audioShow: false,
+      startAud: 637,
+      moveAud: 0,
+      endAud: 0,
+      audioTishi: "手指上滑,取消发送",
+      startA: false,
+      moveA: true,
+      canA: false
     };
   },
   mounted() {
@@ -306,7 +338,6 @@ export default {
     },
     yu() {
       this.yuyin = 1;
-      console.log(this.yuyin);
     },
     jian() {
       this.yuyin = 0;
@@ -363,21 +394,63 @@ export default {
     //录制语音
     mouseStart() {
       let that = this;
-      // that.news_img = !that.news_img
-      // that.$nextTick(()=>{
-      rc.start()
-        .then(() => {
-          console.log("start recording");
-        })
-        .catch(error => {
-          Toast("获取麦克风失败");
-          console.log("Recording failed.", error);
-        });
-      // })
+      that.startA = true;
+      var startKey = document.getElementById("startKey");
+      startKey.addEventListener("touchstart", function(event) {
+        event.preventDefault(); //阻止浏览器默认行为
+        that.startAud = event.touches[0].pageY; //获取起点坐标
+        console.log(that.startAud);
+        start();
+        function start() {
+          rc.start()
+            .then(() => {
+              console.log("start recording");
+              start = function() {};
+            })
+            .catch(error => {
+              Toast("获取麦克风失败");
+              console.log("Recording failed.", error);
+            });
+        }
+      });
+
+      startKey.addEventListener("touchmove", function(event) {
+        event.preventDefault(); //阻止浏览器默认行为
+        that.moveAud = event.targetTouches[0].pageY;
+        console.log(that.moveAud); //获取滑动实时坐标
+        if (that.startAud - that.moveAud >= 177) {
+          that.audioTishi = "松开手指,取消发送";
+          that.moveA = false;
+          that.canA = true;
+          rc.pause();
+        } else {
+          that.moveA = true;
+          that.canA = false;
+          that.audioTishi = "手指上滑,取消发送";
+
+          rc.start(); //显示录音 隐藏暂停
+        }
+      });
+      var more = 0;
+      startKey.ontouchend = function(event) {
+        console.log("aaaa");
+        event.preventDefault(); //阻止浏览器默认行为
+        that.endAud = 0;
+        that.endAud = event.changedTouches[0].pageY; //获取终点坐标
+        if (that.startAud - that.endAud < 180) {
+          that.startA = false;
+          console.log("成功");
+          that.mouseEnd();
+        } else {
+          rc.clear();
+          that.startA = false;
+        }
+      };
     },
     //录制结束发送语音
     mouseEnd() {
-      let that = this;
+      console.log("sssssssssddddd");
+      var that = this;
       rc.pause();
       //获取pcm录音
       var wav = rc.getRecord({
@@ -387,7 +460,6 @@ export default {
       var dataurl = "";
       blobToDataURL(wav, function(dataurl) {
         dataurl = dataurl;
-        console.log(dataurl);
         request({
           url: "api/base/base64video",
           method: "post",
@@ -397,7 +469,10 @@ export default {
           headers: { "Content-Type": "multipart/form-data" }
         })
           .then(res => {
-            console.log(res);
+            if (res.data.code == 200) {
+              that.sendmsg(res.data.data.filepath, 2);
+              rc.clear();
+            }
           })
           .catch(err => {
             console.log(err);
@@ -415,6 +490,7 @@ export default {
 
     // 获取历史就聊天记录
     msglog(num) {
+      console.log("ssssssss");
       request({
         url: "api/char/msglog", //历史记录
         method: "post",
@@ -425,6 +501,7 @@ export default {
           uid: "user" + this.$store.state.username.id
         }
       }).then(res => {
+        console.log(res);
         // uid  我得id infouid  对方id
         if (res.status === 200) {
           for (var i in res.data.data) {
@@ -433,11 +510,11 @@ export default {
               res.data.data[i].content
             );
             // 聊天图片拼接地址
-            if (res.data.data[i].type === 1) {
+            if (res.data.data[i].type != 0) {
               res.data.data[i].content =
                 "http://svn.yanjiegou.com" + res.data.data[i].content;
             }
-            
+
             // 时间的修改
             if (
               res.data.data[i].add_time.split(" ")[0] ===
@@ -622,7 +699,7 @@ export default {
     },
     // 上传图片到图片服务器
     up() {
-      console.log(this.upload)
+      console.log(this.upload);
       request({
         url: "api/base/base64imgupload",
         method: "post",
@@ -737,8 +814,6 @@ export default {
     scrollBottom: function() {
       var content = document.getElementById("chatContent");
       content.scrollTop = content.scrollHeight + 600;
-      console.log(content.scrollHeight);
-      console.log(content.scrollTop);
     },
     hos() {
       if (this.msag.length > 0) {
@@ -756,8 +831,6 @@ export default {
         }
       } else {
         var i = this.msag.length - 1;
-        console.log(this.chatB);
-        console.log(this.msag);
         for (var index = i; index >= 0; index--) {
           if (this.msag[index].id == this.fen.id) {
             this.chatS = this.msag.slice(0, index + 1);
@@ -824,8 +897,6 @@ export default {
       }
     },
     yulan(ind) {
-      console.log(ind);
-      console.log(this.yulanImg);
       const instance = ImagePreview({
         images: this.yulanImg,
         asyncClose: true,
@@ -835,6 +906,13 @@ export default {
           instance.close();
         }
       });
+    },
+    play(src) {
+      if (this.audio) {
+        this.audio.pause();
+      }
+      this.audio = new Audio(src);
+      this.audio.play();
     }
   },
   destroyed() {
@@ -1157,5 +1235,33 @@ export default {
 .nameT {
   position: relative;
   right: 42%;
+}
+.ziAudio {
+  color: white;
+  transform: rotate(-135deg);
+  padding: 0 0.1rem;
+}
+.duiAudio {
+  color: rgb(204, 204, 204);
+  transform: rotate(45deg);
+  padding: 0 0.1rem;
+}
+#audio {
+  width: 40%;
+  height: 23vh;
+  position: fixed;
+  left: 30%;
+  top: 48vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  border-radius: 10px;
+  text-align: center;
+  padding: 0.1rem 0;
+  box-sizing: border-box;
+  font-size: 0.28rem;
+  color: white;
+}
+#audio > img {
+  height: 80%;
 }
 </style>

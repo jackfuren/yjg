@@ -11,6 +11,9 @@ Vue.use(ElementUI)
 import Mint from 'mint-ui';
 Vue.use(Mint);
 
+import fontAwesome from '../static/font-awesome/css/font-awesome.css'
+Vue.use(fontAwesome)
+
 import Vant from 'vant';
 import 'vant/lib/index.css';
 import { Icon } from 'vant';
@@ -52,9 +55,9 @@ Vue.use(VueAwesomeSwiper)
 // 移动端调试器
 
 
- import Vconsole from 'vconsole'
- const vConsole = new Vconsole()
- Vue.use(vConsole)
+//  import Vconsole from 'vconsole'
+//  const vConsole = new Vconsole()
+//  Vue.use(vConsole)
 
 
 
@@ -63,6 +66,7 @@ import request from '../src/components/utils/request'
 Vue.prototype.request = request
 Vue.config.productionTip = true
 import '../static/vantRe.css'
+
 
 
 //引入store
