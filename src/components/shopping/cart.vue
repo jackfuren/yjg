@@ -1052,4 +1052,7 @@ export default {
   color: white;
   border-radius: 10px;
 }
+.van-tabbar-item__icon img{
+	height: auto;
+}
 </style>

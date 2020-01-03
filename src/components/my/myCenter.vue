@@ -718,4 +718,8 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.van-tabbar-item__icon img{
+	height: auto;
+}
 </style>

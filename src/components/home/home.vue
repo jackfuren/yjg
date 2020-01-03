@@ -829,6 +829,10 @@ export default {
   bottom: 0;
 }
 
+.van-tabbar-item__icon img{
+	height: auto;
+}
+
 .van-tabbar {
   position: fixed;
   bottom: -0.06rem;

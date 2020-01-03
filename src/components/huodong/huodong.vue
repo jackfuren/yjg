@@ -436,4 +436,8 @@ export default {
 /deep/ .swiper-pagination-bullet-active {
   background: #ef0600;
 }
+
+.van-tabbar-item__icon img{
+	height: auto;
+}
 </style>
