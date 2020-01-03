@@ -423,7 +423,8 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: home
+      component: home,
+      meta: { keepAlive: true }
     },
     {
       path: '/gps',
@@ -812,7 +813,14 @@ const router = new Router({
       name: 'dphd',
       component: dphd
     }
-  ]
+  ],
+  scrollBehavior(to, from, savePosition) {
+    if (savePosition) {
+      return savePosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
 router.beforeEach((to, from, next) => {
   //获取下token

@@ -67,7 +67,11 @@ Vue.prototype.request = request
 Vue.config.productionTip = true
 import '../static/vantRe.css'
 
+router.beforeEach((to, from, next) => {
+  to.meta.keepAlive = true;  // 让 列表页 缓存，即不刷新
+  next();
 
+})
 
 //引入store
 import store from '@/store'

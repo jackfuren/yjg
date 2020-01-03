@@ -836,7 +836,7 @@ export default {
       if (this.fen == null) {
         this.chatB = this.msag;
         if (this.chatB.length != 0) {
-          this.chatB[0].showTime = true;
+          this.chatB[0].showTime = false;
         }
       } else {
         var i = this.msag.length - 1;
@@ -1033,7 +1033,7 @@ export default {
 .commodity dd {
   flex: 5;
 }
-.ti {
+.commodity dd .ti {
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;

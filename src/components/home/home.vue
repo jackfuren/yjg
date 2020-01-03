@@ -526,6 +526,10 @@ export default {
   },
   components: {
     VueScroller
+  },
+  beforeRouteLeave(to, from, next) {
+    to.meta.keepAlive = true; // 让 列表页 缓存，即不刷新
+    next();
   }
 };
 </script>
@@ -577,7 +581,7 @@ export default {
   height: 0.3rem;
   margin: 0 0.05rem 0 0.3rem;
   position: relative;
-  top: -0.05rem;
+  top: -0.02rem;
 }
 .location p {
   max-width: 1.6rem;
@@ -801,7 +805,6 @@ export default {
   font-weight: 500;
   color: rgba(255, 170, 70, 1);
   padding: 0.05rem;
-
   margin-left: 0.1rem;
 }
 
@@ -809,12 +812,12 @@ export default {
   position: absolute;
   bottom: 0rem;
   color: #ef0600;
-  font-size: 0.15rem;
+  font-size: 0.2rem;
   margin-left: 0.15rem;
 }
 
 .details-four p:nth-child(4) span {
-  font-size: 0.26rem;
+  font-size: 0.28rem;
   font-weight: bold;
 }
 

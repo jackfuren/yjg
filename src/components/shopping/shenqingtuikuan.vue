@@ -155,33 +155,37 @@ export default {
       });
     },
     tui() {
-      this.request({
-        url: "api/order/refund",
-        method: "post",
-        data: {
-          user_id: this.$store.state.username.id,
-          goods_id: this.id.gid,
-          og_id: this.id.og_id,
-          order_id: this.order_id,
-          otype: 2,
-          rid: this.num,
-          mobile: this.phone,
-          remarks: this.text,
-          imgs: this.phDat.join(",")
-        }
-      }).then(res => {
-        if (res.data.code == 200) {
-          Toast("提交成功");
-          this.$router.push({
-            name: "tk"
-          });
-        } else if (res.data.code == 0) {
-          Toast("你已经申请过了，请勿重复提交");
-          this.$router.push({
-            name: "tk"
-          });
-        }
-      });
+      if (this.phone == "") {
+        Toast('请填写手机号码')
+      } else {
+        this.request({
+          url: "api/order/refund",
+          method: "post",
+          data: {
+            user_id: this.$store.state.username.id,
+            goods_id: this.id.gid,
+            og_id: this.id.og_id,
+            order_id: this.order_id,
+            otype: 2,
+            rid: this.num,
+            mobile: this.phone,
+            remarks: this.text,
+            imgs: this.phDat.join(",")
+          }
+        }).then(res => {
+          if (res.data.code == 200) {
+            Toast("提交成功");
+            this.$router.push({
+              name: "tk"
+            });
+          } else if (res.data.code == 0) {
+            Toast("你已经申请过了，请勿重复提交");
+            this.$router.push({
+              name: "tk"
+            });
+          }
+        });
+      }
     },
     fh() {
       if (this.g == 5) {
@@ -214,12 +218,12 @@ export default {
     this.order_id = this.$route.query.order_id;
     this.n = this.$route.query.n;
     console.log(this.n);
-    if ((this.n ==235)) {
+    if (this.n == 235) {
       this.id = this.iid;
     } else {
       this.id = this.iid[0];
     }
-    console.log(this.id)
+    console.log(this.id);
 
     this.f = this.$route.query.f;
     this.g = this.$route.query.g;

@@ -42,7 +42,6 @@
             <p>待评价</p>
           </div>
           <div @click="shouhon()" class="nav-con">
-            <p class="shu" v-show="hou.length>0 ? true : false">{{hou.length}}</p>
             <img src="../../assets/wode_shouhou@3x.png" alt />
             <p>售后</p>
           </div>

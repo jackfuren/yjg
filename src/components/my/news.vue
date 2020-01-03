@@ -7,24 +7,28 @@
         <p>消息</p>
       </div>
       <div style="height: 0.88rem"></div>
-      <dl class="xi" @click="xiaoxi()">
-        <dt>
-          <div id="xTou">
-            <img src="../../assets/xitong.png" alt />
-          </div>
-        </dt>
-        <dd>
-          <p>
-            <span style="font-weight: bold;font-size: 0.29rem;">系统消息</span>
-            <span class="time">{{time}}</span>
-          </p>
-          <p
-            style="width: 4.5rem;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
-          >{{dataList.title}}</p>
-          <p></p>
-        </dd>
-      </dl>
-      <div style="width: 100%;height: 0.4rem;background: #F9F9F8;"></div>
+      <section v-if="dataList.length!=0">
+        <dl class="xi" @click="xiaoxi()">
+          <dt>
+            <div id="xTou">
+              <img src="../../assets/xitong.png" alt />
+            </div>
+          </dt>
+          <dd>
+            <p>
+              <span style="font-weight: bold;font-size: 0.29rem;">系统消息</span>
+              <span class="time">{{time}}</span>
+            </p>
+            <div class="news">
+              <p
+                style="width: 4.5rem;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
+              >{{dataList.title}}</p>
+              <p></p>
+            </div>
+          </dd>
+        </dl>
+        <div style="width: 100%;height: 0.4rem;background: #F9F9F8;"></div>
+      </section>
       <dl class="xi" v-for="(item,index) in resList" :key="index" @click="xi(index)">
         <dt>
           <div id="sjTou">
@@ -36,10 +40,12 @@
             <span style="font-weight: bold;font-size: 0.29rem;">{{item.name}}</span>
             <span class="time">{{item.add_time}}</span>
           </p>
-          <p
-            style="width: 4.5rem;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
-          >{{item.msg}}</p>
-          <p v-show="item.no_read!=0"></p>
+          <div class="news">
+            <p
+              style="width: 4.5rem;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
+            >{{item.msg}}</p>
+            <p v-show="item.no_read!=0"></p>
+          </div>
         </dd>
       </dl>
     </div>
@@ -83,12 +89,12 @@ export default {
         this.$router.push({
           name: "My"
         });
-      }else if (this.token == 80) {
+      } else if (this.token == 80) {
         this.$router.push({
           name: "seek"
         });
-      }else{
-        this.$router.go(-1)
+      } else {
+        this.$router.go(-1);
       }
     },
     xiaoxi() {
@@ -98,7 +104,7 @@ export default {
     },
     xi(index) {
       console.log(this.resList[index].uid.split("shop")[1]);
-      console.log(this.resList[index].id)
+      console.log(this.resList[index].id);
 
       this.$router.push({
         name: "kf",
@@ -144,7 +150,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$router.query);
     request({
       url: "api/information/index", //系统消息的接口
       data: {
@@ -153,7 +158,7 @@ export default {
       method: "post"
     }).then(res => {
       console.log(res);
-      if (res.data.code == 200) {
+      if (res.data.code == 200 && res.data.data.length > 0) {
         this.dataList = res.data.data[0];
         this.time = res.data.data[0].add_time;
         //今天
@@ -299,8 +304,8 @@ export default {
   padding: 0 0.1rem;
 }
 .xi dt {
-  flex: 1;
-  margin-right: 0.15rem;
+  margin: 0 0.3rem 0 0.15rem;
+  
 }
 .xi dt img {
   width: 120%;
@@ -309,8 +314,8 @@ export default {
   left: -0.1rem;
 }
 #sjTou {
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -328,21 +333,22 @@ export default {
 }
 .xi dd {
   flex: 4;
-  padding: 0.27rem 0.15rem 0rem 0.15rem;
   position: relative;
 }
 .xi dd p {
   margin-bottom: 0.25rem;
 }
-.xi dd > p:last-child {
-  width: 0.1rem;
-  height: 0.1rem;
+.news {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 0.12rem;
+}
+.news > p:last-child {
+  width: 0.13rem;
+  height: 0.13rem;
   border-radius: 50%;
   background: red;
-  position: absolute;
-  right: 0.2rem;
-  // position: relative;
-  top: 1.1rem;
 }
 .time {
   position: absolute;
