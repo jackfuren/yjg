@@ -4,39 +4,24 @@
       <!-- 头部-->
       <div class="nav">
         <div class="nav-top">
-          <!-- <van-icon
-            @click="fh()"
-            color="#FFFFFF"
-            name="arrow-left"
-            size="0.6rem"
-            style="margin-top: 0.1rem"
-          />-->
           <img
-            src="../../../assets/img/fan.png"
+            src="../../../assets/fanbai.png"
             @click="fh()"
-            style="margin-top: 0.1rem;width: 0.55rem;"
+            style="margin-top: 0.1rem;height: 0.45rem;"
             alt
           />
-          <!-- <van-icon
-            @click="back =!back"
-            color="#FFFFFF"
-            name="wap-nav"
-            style="float: right;margin-right: 0.55rem;margin-top: 0.1rem"
-            size="0.6rem"
-          />-->
           <img
-            src="../../../assets/img/cai.png"
+            src="../../../assets/more.png"
             @click="back =!back"
-            style="width:0.4rem;float: right;margin-right: 0.55rem;margin-top: 0.1rem"
+            style="height: 0.45rem;float: right;margin-right: 0.55rem;margin-top: 0.1rem"
             alt
           />
-          <van-icon
-            @click="Search()"
-            color="#FFFFFF"
-            name="search"
-            size="0.6rem"
-            style=" float:right;margin-right: 0.1rem;margin-top: 0.1rem"
-          />
+		  <img 
+			src="../../../assets/sear.png"
+			style="height: 0.45rem; float:right;margin-right: 0.1rem;margin-top: 0.1rem"
+			 @click="Search()"
+			alt=""
+		  />
         </div>
         <div v-show="back" class="nav-top-back">
           <p @click="xiaoxi">
@@ -152,14 +137,14 @@
               <p class="concat-money">
                 ￥
                 <span>{{item.price}}</span>
-                <van-icon
+                <!-- <van-icon
                   color="#EF0600"
                   name="shopping-cart-o"
                   size="0.4rem"
                   @click="cart(item.id)"
-                />
+                /> -->
               </p>
-              <p class="concat-browes" @click="shoucang(index)">
+              <!-- <p class="concat-browes" @click="shoucang(index)">
                 <van-icon
                   color="#777777"
                   name="star-o"
@@ -175,7 +160,7 @@
                   v-if="item.is_collectiongoods==1"
                 />
                 {{item.collectiongoods}}
-              </p>
+              </p> -->
             </div>
           </div>
         </van-tab>
@@ -194,15 +179,15 @@
               <p class="concat-money">
                 ￥
                 <span>{{item.price}}</span>
-                <van-icon
+                <!-- <van-icon
                   color="#EF0600"
                   name="shopping-cart-o"
                   size="0.4rem"
                   style="float: right"
                   @click="cart(item.id)"
-                />
+                /> -->
               </p>
-              <p class="concat-browes" @click="shoucang(index)">
+              <!-- <p class="concat-browes" @click="shoucang(index)">
                 <van-icon
                   color="#777777"
                   name="star-o"
@@ -218,7 +203,7 @@
                   v-if="item.is_collectiongoods==1"
                 />
                 {{item.collectiongoods}}
-              </p>
+              </p> -->
             </div>
           </div>
         </van-tab>
@@ -237,15 +222,15 @@
               <p class="concat-money">
                 ￥
                 <span>{{item.price}}</span>
-                <van-icon
+                <!-- <van-icon
                   color="#EF0600"
                   name="shopping-cart-o"
                   size="0.4rem"
                   style="float: right"
                   @click="cart(item.id)"
-                />
+                /> -->
               </p>
-              <p class="concat-browes" @click="shoucang(index)">
+              <!-- <p class="concat-browes" @click="shoucang(index)">
                 <van-icon
                   color="#777777"
                   name="star-o"
@@ -261,7 +246,7 @@
                   v-if="item.is_collectiongoods==1"
                 />
                 {{item.collectiongoods}}
-              </p>
+              </p> -->
             </div>
           </div>
         </van-tab>
@@ -276,6 +261,8 @@
         </div>
       </van-tabs>
 
+
+      
       <div style="height: 2rem"></div>
       <!-- 底部-->
       <div class="footer">
@@ -284,6 +271,9 @@
         </p>
         <p @click="dphd">
           <span>活动专区</span>
+        </p>
+        <p>
+          <span>会员卡</span>
         </p>
       </div>
     </div>
@@ -423,7 +413,7 @@ export default {
     shops() {
       this.$router.push({
         name: "shops",
-        query: {
+        query:{
           shop_id: this.shop_id
         }
       });
@@ -634,11 +624,7 @@ export default {
     },
     dphd() {
       this.$router.push({
-        name: "dphd",
-        query: {
-          id: this.shop_id,
-          title: this.top.name
-        }
+        name: "dphd"
       });
     }
   },
@@ -851,7 +837,7 @@ export default {
 
 .concat > div {
   width: 3.47rem;
-  height: 5.2rem;
+  height: 5rem;
   border-radius: 10px;
   background: #ffffff;
   margin: 0.15rem 0.14rem;
@@ -901,7 +887,7 @@ export default {
 .concat-money {
   height: 0.5rem;
   width: 2.7rem;
-  line-height: 0.5rem;
+  line-height: 0.8rem;
   padding: 0 0.2rem;
   color: #ef0600;
   position: absolute;
@@ -909,7 +895,7 @@ export default {
 }
 
 .concat-money span {
-  line-height: 0.5rem;
+  line-height: 0.6rem;
   font-size: 0.28rem;
   color: #ef0600;
   font-weight: bold;

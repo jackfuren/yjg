@@ -3,7 +3,7 @@
     <div class="box-container">
       <div class="nav-top">
         <div class="nav">
-			<img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt="">
+			<img src="../../assets/fanbai.png" @click="fh()" class="nav-left" alt="">
           <!-- <van-icon @click="fh()" class="nav-left" color="#FFFFFF" name="arrow-left" size="0.5rem"/> -->
         </div>
         <p>交易成功</p>

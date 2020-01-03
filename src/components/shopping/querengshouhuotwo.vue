@@ -3,7 +3,7 @@
     <div class="box-container">
       <div class="nav-top">
         <div class="nav">
-          <img src="../../assets/img/fan.png" @click="fh()" class="nav-left" alt />
+          <img src="../../assets/fanbai.png" @click="fh()" class="nav-left" alt />
           <!-- <van-icon @click="fh()" class="nav-left" color="#FFFFFF" name="arrow-left" size="0.5rem" /> -->
           <p style="color: white">订单详情</p>
 
@@ -268,7 +268,7 @@ export default {
 }
 
 .nav-left {
-  width: 0.55rem;
+  height: 0.45rem;
   position: absolute;
   left: 0.25rem;
   top: 0.2rem;
@@ -622,14 +622,11 @@ export default {
   line-height: 0.3rem;
   background: #ef0600;
   color: white;
-  font-size: 0.28px;
+  font-size: 0.24px;
   list-style: none;
   border: 0;
   float: right;
   margin-right: 0.5rem;
-  padding: 0.01rem;
-    box-sizing: border-box;
-
 }
 </style>
 

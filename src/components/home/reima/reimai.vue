@@ -54,8 +54,8 @@
       </div>
       <div class="swiper-pagination swiper_dot" id="pagination"></div>
       <div class="all">
-        <div class="all-div" @click="pinq(index)" v-for="(inte,index) in pin" :key="index">
-          <div class="all-div-div">
+        <div class="all-div"  v-for="(inte,index) in pin" :key="index">
+          <div class="all-div-div" @click="pinq(inte.id)">
             <img :src="inte.pic" alt />
           </div>
           <p>{{inte.title}}</p>
@@ -70,7 +70,7 @@
       <div class="brand">
         <p>精选品牌</p>
         <div class="brand-one" v-for="(item,index) in dataLIst" :key="index">
-          <div class="brand-two">
+          <div class="brand-two" @click="pinq(item.id)"><!--  -->
             <div class="brand-two-div">
               <img :src="item.pic" alt />
             </div>
@@ -185,32 +185,32 @@ export default {
       window.location.href = "#n";
     },
     pinq(index) {
-      console.log(this.pin[index]);
+      console.log(index);
       this.$router.push({
         name: "pinpaixq",
         query: {
-          pinpai: this.pin[index].id,
+          pinpai:index,
           token: 112
         }
       });
     },
-    ping() {
-      this.request({
-        url: "api/brand/lists",
-        method: "post"
-      }).then(res => {
-        //console.log(res)
-        this.dataLIst = res.data.data;
-        //consoleog(res.data.data)
-      });
-    },
+    // ping() {
+    //   this.request({
+    //     url: "api/brand/lists",
+    //     method: "post"
+    //   }).then(res => {
+    //     //console.log(res)
+    //     this.dataLIst = res.data.data;
+    //     consoleog(this.dataLIst)
+    //   });
+    // },
     brand() {
       this.request({
         url: "api/brand/jxlists",
         method: "post"
       }).then(res => {
         this.dataLIst = res.data.data;
-        //consoleog(res.data.data)
+        console.log(this.dataLIst)
       });
     },
     recommend() {
@@ -407,7 +407,7 @@ export default {
 .swiper_dot {
   position: absolute;
   text-align: center;
-  top: 4.4rem;
+  top: 4.55rem;
   left: 3.3rem;
 }
 

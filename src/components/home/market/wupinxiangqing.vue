@@ -1,9 +1,9 @@
 <template>
   <div class="box">
     <div class="box-container" id="1">
-      <img src="../../../assets/img/fan.png" @click="fh()" class="top-left" alt />
+      <img src="../../../assets/xiangqing_fanhui.png" @click="fh()" class="top-left" alt />
       <!-- <van-icon @click="fh()" class="top-left" color="#777777" name="arrow-left" size="0.5rem"/> -->
-      <img src="../../../assets/img/cai.png" @click="rapid =! rapid" class="top-right" alt />
+      <img src="../../../assets/xiangqing_gengduo.png" @click="rapid =! rapid" class="top-right" alt />
       <!-- <van-icon @click="rapid =! rapid" class="top-right" color="#777777" name="wap-nav" size="0.5rem"/> -->
       <div v-show="rapid" class="nav-top-back">
         <p @click="xiaoxi">
@@ -137,9 +137,9 @@
       </div>
       <div class="concat-zhong" id="2">
         <p @click="xuanze()">
-          选择 颜色分类 尺码
+          选择商品规格
           <span>
-            完善尺码
+            请选择
             <van-icon color="#777777" name="arrow" style="position: relative;top: 0.03rem" />
           </span>
         </p>
@@ -396,12 +396,12 @@ export default {
   data() {
     return {
       swiperOption: {
-        spaceBetween: 30,
+        spaceBetween: 30,//间距
         centeredSlides: true,
-        autoplay: {
-          delay: 2500,
-          disableOnInteraction: false
-        },
+        // autoplay: {
+        //   delay: 2500,
+        //   disableOnInteraction: false
+        // },
         pagination: {
           el: ".swiper-pagination",
           clickable: true
@@ -878,24 +878,21 @@ export default {
           }
         }).then(res => {
           console.log(res);
-          if (res.data.data.parameter != null) {
-            this.canA = JSON.stringify(res.data.data.parameter);
-            console.log(this.canA);
-            if (JSON.stringify(this.canA) != "{}") {
-              this.canA = this.canA
-                .split("{")[1]
-                .split("}")[0]
-                .split(",");
-              for (var i in this.canA) {
-                var canArr = {
-                  paraName: this.canA[i].split(":")[0].split('"')[1],
-                  para: this.canA[i].split(":")[1].split('"')[1]
-                };
-                this.canList.push(canArr);
-              }
+          this.canA = JSON.stringify(res.data.data.parameter);
+       
+          if (JSON.stringify(this.canA) != "{}") {
+            this.canA = this.canA
+              .split("{")[1]
+              .split("}")[0]
+              .split(",");
+            for (var i in this.canA) {
+              var canArr = {
+                paraName: this.canA[i].split(":")[0].split('"')[1],
+                para: this.canA[i].split(":")[1].split('"')[1]
+              };
+              this.canList.push(canArr);
             }
           }
-
           this.dataList = res.data.data;
           this.pr = res.data.data.goods_sttr;
           this.shou = res.data.data.is_collectiongoods;
@@ -996,11 +993,9 @@ export default {
             user_id: this.$store.state.username.id,
             goods_id: this.goods_id,
             num: 1,
-            sku_id: 0,
-            is_new:0
+            sku_id: 0
           }
         }).then(res => {
-          console.log(res)
           if (res.data.code == 200) {
             Toast("加入购物车成功");
           }
@@ -1051,7 +1046,6 @@ export default {
             is_new: 1
           }
         }).then(res => {
-          console.log(res)
           if (res.data.code == 200) {
             this.$router.push({
               name: "js",
@@ -1425,7 +1419,7 @@ export default {
   right: 0.5rem;
   z-index: 888;
   top: 0.3rem;
-  width: 0.4rem;
+  width: 0.55rem;
 }
 
 /*轮播图*/
